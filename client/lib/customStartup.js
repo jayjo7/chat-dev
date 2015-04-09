@@ -4,8 +4,8 @@ Meteor.startup(function() {
 
 	 	$('html').attr('class', 'no-js');
 
-	 	$('body').attr('class', 'body');
-
+	 	$('body').attr('class', 'index');
+		$('body').attr('id', 'page-top');
 	 	if ( $(window).width() >= $MQ ) {
 	 	$navigation.detach();
 	 	$navigation.appendTo('header');
