@@ -1,0 +1,42 @@
+<template name="homePage">
+
+
+
+{{# if haveNotification notification isNotTakingOnlineOrder isStoreClosed }}
+
+          <!-- Notification Alerts -->
+<!--<div class="alert alert-info alert-dismissible text-center" style="box-shadow: 2px 2px 2px rgba(1, 1, 0, 0.2);" role="alert"> -->
+<div class="alert alert-info  alert-dismissible text-center" style="box-shadow: 2px 2px 2px rgba(1, 1, 0, 0.2); background-color:#FEFF82; border: dashed thin  #FFB855;" role="alert">
+
+
+  <button type="button" class=" fa fa-close close" data-dismiss="alert" aria-label="Close"></button>
+
+  {{#each notification_message_session}}
+
+  <h4>  <i class="fa  fa-flag"> &nbsp;</i>  {{this}}</h4>
+
+  {{/each}}
+</div>
+
+
+          <!-- End Notification Alerts -->
+{{/if}}
+<!-- menucard Grid Section -->
+<section id="menucard">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h2>MENU</h2>
+        <hr class="star-primary">
+        
+        <!--MenuCard--> 
+        
+        <!--//MenuCard--> 
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</template>

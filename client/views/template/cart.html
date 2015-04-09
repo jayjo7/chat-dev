@@ -1,0 +1,70 @@
+<template name="cart">
+<div id="cd-shadow-layer"></div>
+<!-- Shopping Cart -->
+<div id="cd-cart">
+  <div class="minicart-wrap">
+    <div class="minicart-body cart-toggle">
+<form id="contactInfoForm">
+      <p>&nbsp; </p>
+      <h2 class="xsm text-uppercase text-center"  style="font-family: 'Rock Salt'; padding-top    : 30px">TOGO Order</h2>
+      <ul class="minicart-list">
+
+        {{#each shopCart}}
+        <li>
+          <div class="col-xs-12"  align="left"> {{Name}}</div>
+         <!-- <div><input  class="col-xs-1 text-warning prodqty_{{product}}" size="2" maxlength="2" value={{qty}}/></div>-->
+
+          <div class="col-xs-12">
+
+            <input type="number" maxlength="2" class="text-warning cartProduct" size="2" min="0"  step="1" id="product_in_cart" name="product_{{product}}" value="{{qty}}">
+
+           <span class="amount pull-right" >{{currency price}} </span>
+        </div>
+        </li>  
+        <br><hr style=" border-top: 1px dotted grey;" width="90%">
+        {{else}}
+
+        <li> 
+          <div class="col-xs-10 minicart-total"> <span>No Items in the cart, please add from the menu.</span></div>
+        </li>
+        {{/each}}
+      </ul>
+      <br><br>
+
+    {{#if shopCart.itemCount }}
+
+
+      <div class="minicart-total" style="background-color:lightyellow;">Total ({{shopCart.taxMessage}}) <span class="amount pull-right" >{{currency shopCart.total}}</span> </div>
+
+      
+
+   
+        <div class="minicart-total"> Your Contact Information:<br>
+          <br>
+          <p>
+              <input class="text-warning" id="contactName" name="contactName" placeholder="Name"   required >&nbsp;<sub>*</sub>
+              <br>
+              <br>
+              <input type="email" class="text-warning" id="inputEmail" name="email" placeholder="Email" required >&nbsp;<sub>*</sub>
+              <br>
+              <br>
+              <input type="tel" class="text-warning" id="intputPhoneNumber" name="phoneNumber"  placeholder="Phone - Numbers only" required >&nbsp;<sub>*</sub>
+              <br>
+              <br>
+              <input  type="textarea" maxlength="50" class="text-warning" id="messageToKitchen"  rows="2" name="messageToKitchen"  wrap="hard" placeholder="Message To Kitchen">
+            </p>
+        </div>
+        <span id='contactInfoError' style="color:red" align='center'></span>
+        <br>
+        <br>
+        <button type="submit" class="btn btn btn-success checkout-btn placeOrder">Place Order</button>
+
+
+      {{/if}}
+      </form>
+    </div>  
+  </div>
+</div>
+<!-- END Shoppingcart --> 
+
+</template>
