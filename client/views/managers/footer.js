@@ -28,7 +28,7 @@ Template.footer.helpers({
 		return Settings.findOne({$and : [{Key: "twitter_url"}, {Value : {"$exists" : true, "$ne" : ""}}]});
 
 	},
-		 googleLocationUrl:function(){
+	  googleLocationUrl:function(){
 		
 		return Settings.findOne({$and : [{Key: "google_location_url"}, {Value : {"$exists" : true, "$ne" : ""}}]});
 

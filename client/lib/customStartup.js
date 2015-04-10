@@ -3,7 +3,7 @@ Meteor.startup(function() {
 
 	 	$('html').attr('lang', 'en');
 
-	 	$('body').attr('class', 'index');
+	 	$('body').attr('class', 'index body');
 		$('body').attr('id', 'page-top');
 
 

@@ -10,6 +10,11 @@
 	
 }
 
+body {
+    background-image: url("img/back.jpg");
+    background-color: #fff;
+}
+
 .notification {
 	font-size: 10px;
 	float: right;
