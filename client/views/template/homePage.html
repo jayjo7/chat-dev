@@ -42,15 +42,30 @@
 
             {{ #each menu Value }}
 
+                 
+
                 <div  class="cardd"> 
                 <img class="" src="{{ImageLink}}" alt="">
                   <h3 class="pull-right">{{currency Charge}} </h3>
                   <h4><a href="#">{{Name}}</a> </h4>
                   <p>{{Description}}</p>  
-                  <span>
-                  <button type="button" class="pull-right small btn-success">Order </button>
-                  </span> 
+                  {{#if isItemAvailable fontLine}}  
+                      <span>
+                          <button type="button" class="pull-right small btn-success addcart" title="Add to Cart" >ORDER </button>
+                      </span> 
+
+                  {{else}}
+
+                      <span class="pull-right">
+                          SOLD OUT
+                      </span> 
+                      
+                {{/if}}     
+
+
                 </div>
+
+
 
 
             {{/each}}
