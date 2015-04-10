@@ -6,19 +6,31 @@
     <div class="container">
       <div class="row">
         <div class="footer-col col-md-4">
-          <h3>Location</h3>
-         <p> <a id="location-google" style="color:#FFF" href="https://www.google.com/maps/place/22910+Bothell+Everett+Hwy,+Bothell,+WA+98021/@47.7903058,-122.2194559,17z"  target="_blank">{{address.Value}}</a></p>
+          <h3>Hours</h3>
+          <p>Mon - Fri <br>
+            5:00 - 9:00 PM<br>
+            Sat - Sun <br>
+            11:00 - 10:00 PM</p>
         </div>
-        <div class="footer-col col-md-4">
-          <h3>SOCIAL</h3>
+        <div class="footer-col col-md-4 col-xs-12">
+          <h3>Connect</h3>
           <ul class="list-inline">
-            <li> <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a> </li>
-            <li> <a href="#" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a> </li>
+            <li> <a href="{{facebookUrl.Value}}" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-facebook"></i></a> </li>
+            <li> <a href="{{twitterUrl.Value}}" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-twitter"></i></a> </li>
           </ul>
         </div>
         <div class="footer-col col-md-4">
           <p>
-          <div class="col-lg-8 col-lg-offset-2 text-center"> <a href="#" class="btn btn-lg btn-outline"> <i class="fa fa-phone"></i> Call Us </a> </div>
+          <div class="text-center visible-sm visible-xs"> <a href="tel:+425-909-9090" class="btn btn-lg btn-outline"> <i class="fa fa-phone"></i> Call </a> <br/>
+            <a href="https://www.google.com/maps/dir//21148+Bothell+Everett+Hwy,+Bothell,+WA+98021/@47.8047568,-122.2128629,16z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x54900f1336952c69:0xbba8ca5df76941af!2m2!1d-122.2082388!2d47.8047569" class="btn btn-lg btn-outline"> <i class="fa fa-map-marker"></i> Map </a> <br/>
+            <a href="sms:+425-909-9090" class="btn btn-lg btn-outline"> <i class="fa fa-comment-o fa-flip-horizontal"></i> Txt </a> <br/>
+          </div>
+          <div class="col-lg-12 col-lg-offset-2 text-center hidden-xs hidden-sm">
+            <h3>Location</h3>
+            <p><a id="googleLocation" href="{{googleLocationUrl.Valuel}}"  target="_blank" >
+            {{address.Value}}</a></p>
+            <p> {{phoneNumber.Value}}</p>
+          </div>
           </p>
         </div>
       </div>
@@ -40,6 +52,8 @@
 <div class="scroll-top page-scroll visible-xs visble-sm" style="right:2%;" > <a style="background-color:red; border:0px; padding-top:9px"  class="btn btn-primary" href="#page-top"> <i class="fa fa-shopping-cart"></i> </a>
   <div class="notification">19</div>
 </div>
+
+<!--/End Cart--> 
 
 
 </template>

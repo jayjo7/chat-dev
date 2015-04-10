@@ -10,14 +10,12 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-4 col-lg-offset-2">
-        <p>Started in 2015, Chaatbox is a popular eatery in the Bothell Area serving the South Asian diaspora.</p>
-      </div>
-      <div class="col-lg-4">
-        <p>Each dish is prepared freshly to order using only the finest traditional ingredients that are both healthy and delicious.</p>
-      </div>
-    </div>
+{{# each aboutUs}}
 
+	<p class="lead">{{this}}</p>
+
+{{/each}}
+    </div>
   </div>
 </section>
 

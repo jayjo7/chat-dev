@@ -10,12 +10,13 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-4 col-lg-offset-2">
-        <p>We take orders for Events such as Marriages, Birthdays. Please order 1 week in advance.</p>
-      </div>
-      <div class="col-lg-4">
-        <p>Each dish is prepared freshly to order using only the finest traditional ingredients that are both healthy and delicious.</p>
-      </div>
+
+    	{{# each cateringArray catering}}
+
+	<p class="lead">{{this}}</p>
+
+{{/each}}
+
     </div>
   </div>
 </section>

@@ -1,20 +1,11 @@
 Meteor.startup(function() {
- 	var $MQ= 1200,
-	 	$navigation = $('#main-nav')
 
-	 	$('html').attr('class', 'no-js');
+
+	 	$('html').attr('lang', 'en');
 
 	 	$('body').attr('class', 'index');
 		$('body').attr('id', 'page-top');
-	 	if ( $(window).width() >= $MQ ) {
-	 	$navigation.detach();
-	 	$navigation.appendTo('header');
- 	} 
- else 
- 	{
- 		$navigation.detach();
- 		$navigation.insertAfter('header');
- 	}
+
 
 
 var appUUID = Session.get('appUUID');

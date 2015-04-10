@@ -23,13 +23,45 @@
 {{/if}}
 <!-- menucard Grid Section -->
 <section id="menucard">
-  <div class="container">
+  <div class="container flex-container">
     <div class="row">
       <div class="col-lg-12 text-center">
         <h2>MENU</h2>
         <hr class="star-primary">
         
         <!--MenuCard--> 
+
+    {{#each categoryMenu}}
+
+        {{#if isMenuAvailable Value}}
+
+            <h3 align="center">{{ Value }}</h3>
+
+
+                <div  class="flex-container hidden-sm hidden-xs">
+
+            {{ #each menu Value }}
+
+                <div  class="cardd"> 
+                <img class="" src="{{ImageLink}}" alt="">
+                  <h3 class="pull-right">{{currency Charge}} </h3>
+                  <h4><a href="#">{{Name}}</a> </h4>
+                  <p>{{Description}}</p>  
+                  <span>
+                  <button type="button" class="pull-right small btn-success">Order </button>
+                  </span> 
+                </div>
+
+
+            {{/each}}
+
+                </div>  
+
+
+
+          {{/if}}
+
+        {{/each}}
         
         <!--//MenuCard--> 
         

@@ -18,6 +18,22 @@ Template.footer.helpers({
 
 	},
 
+	  facebookUrl:function(){
+		
+		return Settings.findOne({$and : [{Key: "facebook_url"}, {Value : {"$exists" : true, "$ne" : ""}}]});
+
+	},
+	   twitterUrl:function(){
+		
+		return Settings.findOne({$and : [{Key: "twitter_url"}, {Value : {"$exists" : true, "$ne" : ""}}]});
+
+	},
+		 googleLocationUrl:function(){
+		
+		return Settings.findOne({$and : [{Key: "google_location_url"}, {Value : {"$exists" : true, "$ne" : ""}}]});
+
+	},
+
 	hasFaxNumber: function(faxNumber)
 	{
 		if(faxNumber==undefined || faxNumber == null )
