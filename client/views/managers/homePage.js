@@ -5,7 +5,7 @@ Template.homePage.helpers({
     isHandHeldDevice: function()
     {
 
-        if(Meteor.Device.isTablet() || Meteor.Device.isPhone())
+        if(Meteor.Device.isPhone())
         {
             return true;
         }
