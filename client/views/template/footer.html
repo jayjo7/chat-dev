@@ -15,21 +15,21 @@
         <div class="footer-col col-md-4 col-xs-12">
           <h3>Connect</h3>
           <ul class="list-inline">
-            <li> <a href="{{facebookUrl.Value}}" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-facebook"></i></a> </li>
-            <li> <a href="{{twitterUrl.Value}}" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-twitter"></i></a> </li>
+            <li> <a href="{{getSettings 'facebook_url' }}" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-facebook"></i></a> </li>
+            <li> <a href="{{getSettings 'twitter_url' }}" class="btn-social btn-outline" target="_blank"><i class="fa fa-fw fa-twitter"></i></a> </li>
           </ul>
         </div>
         <div class="footer-col col-md-4">
           <p>
-          <div class="text-center visible-sm visible-xs"> <a href="tel:+425-909-9090" class="btn btn-lg btn-outline"> <i class="fa fa-phone"></i> Call </a> <br/>
-            <a href="https://www.google.com/maps/dir//21148+Bothell+Everett+Hwy,+Bothell,+WA+98021/@47.8047568,-122.2128629,16z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x54900f1336952c69:0xbba8ca5df76941af!2m2!1d-122.2082388!2d47.8047569" class="btn btn-lg btn-outline"> <i class="fa fa-map-marker"></i> Map </a> <br/>
-            <a href="sms:+425-909-9090" class="btn btn-lg btn-outline"> <i class="fa fa-comment-o fa-flip-horizontal"></i> Txt </a> <br/>
+          <div class="text-center visible-sm visible-xs"> <a href="tel:+{{getSettings 'phone_number'}}" class="btn btn-lg btn-outline"> <i class="fa fa-phone"></i> Call </a> <br/>
+            <a href="{{getSettings 'google_location_url'}}" class="btn btn-lg btn-outline"> <i class="fa fa-map-marker"></i> Map </a> <br/>
+            <a href="sms:{{getSettings 'phone_number'}}" class="btn btn-lg btn-outline"> <i class="fa fa-comment-o fa-flip-horizontal"></i> Txt </a> <br/>
           </div>
           <div class="col-lg-12 col-lg-offset-2 text-center hidden-xs hidden-sm">
             <h3>Location</h3>
-            <p><a  href="{{googleLocationUrl.Value}}"  target="_blank" style="color:white">
-            {{address.Value}}</a></p>
-            <p> {{phoneNumber.Value}}</p>
+            <p><a  href="{{getSettings 'google_location_url'}}"  target="_blank" style="color:white">
+            {{getSettings 'address'}}</a></p>
+            <p> {{getSettings 'phone_number'}}</p>
           </div>
           </p>
         </div>

@@ -1,17 +1,6 @@
 <template name="homePage">
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/Swiper/3.0.6/js/swiper.min.js"></script> <!-- Initialize Swiper --> 
-<script>
-    var swiper = new Swiper('.swiper-container', {
-        pagination: 0,
-        slidesPerView: 2,
-        paginationClickable: false,
-        spaceBetween: 100,
-    loop: false,
-    effect: 0,
-        freeMode: false
-    });
-</script> 
+
 
 {{# if haveNotification notification isNotTakingOnlineOrder isStoreClosed }}
 
@@ -69,7 +58,7 @@
                   {{/if}}     
                   </p> 
                 </div>
-              </div>  
+                                </div>  
 
             {{/each}}
                </div>

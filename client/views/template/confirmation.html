@@ -1,48 +1,18 @@
 <template name="confirmation">
+<nav class="navbar navbar-default" style="background-color: white ;border-top:solid 5px red; z-index: 0; min-height:70px;margin-bottom: 0px;" >
+  <div class="container"> 
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand" href="/"><i style="color:red; vertical-align: text-bottom ;" class="glyphicon-fire glyphicon fa-2x"></i> Chowpaatychaat</a></div>
+    
+    <!-- Collect the nav links, forms, and other content for toggling -->
 
+    <!-- /.navbar-collapse --> 
+  </div>
+  <!-- /.container-fluid --> 
+</nav>
 <table align="center" cellpadding="0" cellspacing="0" class="container-for-gmail-android" width="100%">
-
-  <tr>
-    <td align="left" valign="top" width="100%" >
-      <center>
-        <table cellspacing="0" cellpadding="0" width="100%" bgcolor="#31353D" >
-          <tr>
-            <td width="100%" height="80" valign="top" style="text-align: center; vertical-align:middle;">
-            <!--[if gte mso 9]>
-            <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent:1000;height:80px; v-text-anchor:middle;">
-              <v:fill type="tile" src="http://s3.amazonaws.com/swu-filepicker/4E687TRe69Ld95IDWyEg_bg_top_02.jpg" color="#ffffff" />
-              <v:textbox inset="0,0,0,0">
-            <![endif]-->
-              <center>
-                <table cellpadding="0" cellspacing="0" width="100%" class="w320">
-                  <tr>
-                    <td class="pull-left mobile-header-padding-left" style="vertical-align: middle;   padding: 25px;">
-                     <a href="/"> <img height="30" src="/img/dosa-logo2.png" alt="Dosa Express Logo" /></a>
-                      
-                    </td>
-                    <td class="pull-right mobile-header-padding-right" style="color: #4d4d4d; padding: 25px;">
-
-                   <a id="conf-header-twitter" target="_blank" href="https://twitter.com/dosahouse"><img height="25" src="https://g.twimg.com/Twitter_logo_blue.png" alt="twitter" /></a>
-<!-- Social Buttons             
-<a href=""><img width="45" height="45" src="http://placehold.it/45x45" alt="facebook" /></a>
-                      <a href=""><img width="45" height="45" src="http://placehold.it/45x45" alt="rss" /></a>
-                      -->
-                    </td>
-                  </tr>
-                </table>
-              </center>
-              <!--[if gte mso 9]>
-              </v:textbox>
-            </v:rect>
-            <![endif]-->
-            </td>
-          </tr>
-        </table>
-      </center>
-    </td>
-  </tr>
-
-
 
   <tr>
     <td align="center" valign="top" width="100%"  class="content-padding">
@@ -92,7 +62,7 @@
                   <br />  <br /> 
                     <table cellpadding="0" cellspacing="0" width="100%" align="center">
                       <tr>
-                        <td class="progress-bar" align="center">
+                        <td  align="center">
                           <table cellpadding="0" align="center" cellspacing="0" width="100%">
                             <tr>
 
@@ -172,7 +142,7 @@
                               <w:anchorlock/>
                               <center style="color:#ffffff;font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;">Driving Directions</center>
                             </v:roundrect>
-                          <![endif]--><a href="https://www.google.com/maps/place/4%2F100-102+Pacific+Hwy,+Waitara+NSW+2077,+Australia"  target="_blank"  style="background-color:green;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;">Driving Directions</a></div>
+                          <![endif]--><a href={{getSettings 'google_location_url'}}  target="_blank"  style="background-color:green;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;">Driving Directions</a></div>
                         
 
                         </td>
