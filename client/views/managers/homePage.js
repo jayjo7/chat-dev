@@ -2,6 +2,34 @@
 
 Template.homePage.helpers({
 
+    isHandHeldDevice: function()
+    {
+
+        if(Meteor.Device.isTablet() || Meteor.Device.isPhone())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+
+    },
+
+    isLargerDevive:function()
+    {
+        if(Meteor.Device.isTV() || Meteor.Device.isDesktop())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    },
+
     notification_message_session:function()
     {
 
@@ -314,7 +342,7 @@ Template.homePage.events({
         console.log("sessid = " + sessid );
         console.log('currentTarget.title = ' + currentTarget.title);
         Meteor.call('addToCart', 1 ,product, sessid, this.Name, this.Category, this.Charge);
-        evt.currentTarget.className = "pull-right fa fa-check btn btn-success removecart"; 
+        evt.currentTarget.className = "pull-right fa fa-check btn btn-info removecart"; 
         evt.currentTarget.title='Remove from Cart'
 
         var $L = 1200,

@@ -31,53 +31,74 @@
         
         <!--MenuCard--> 
 
+{{#if isHandHeldDevice}}
+
+
     {{#each categoryMenu}}
 
         {{#if isMenuAvailable Value}}
-
-            <h3 align="center">{{ Value }}</h3>
-
-
-                <div  class="flex-container hidden-sm hidden-xs">
-
+                <div  class="container ">
+                  <h3 align="center">{{ Value }}</h3>
+                    <div class="swiper-container">
             {{ #each menu Value }}
-
-                 
-
+                <div class="swiper-wrapper">
                 <div  class="cardd"> 
-                <img class="" src="{{ImageLink}}" alt="">
+                <img class="" src="{{ImageLink}}" alt="" />
                   <h3 class="pull-right">{{currency Charge}} </h3>
                   <h4>{{Name}} </h4>
                   <p>{{Description}} 
                   {{#if isItemAvailable fontLine}}  
                       <span>
-                          <button type="button" class="pull-right fa btn btn-success addcart" title="Add to Cart" >ORDER </button>
+                          <button type="button" class="pull-right fa btn btn-success addcart" title="Add to Cart"  >ORDER </button>
                       </span> 
-
                   {{else}}
-
                       <span class="pull-right">
                           SOLD OUT
                       </span> 
-                      
-                {{/if}}     
+                  {{/if}}     
                   </p> 
-
                 </div>
-
-
-
+              </div>  
 
             {{/each}}
+               </div>
+            </div> 
+        {{/if}}
+    {{/each}}
 
+
+
+
+
+{{else}}
+
+    {{#each categoryMenu}}
+
+        {{#if isMenuAvailable Value}}
+            <h3 align="center">{{ Value }}</h3>
+                <div  class="flex-container ">
+            {{ #each menu Value }}
+                <div  class="cardd"> 
+                <img class="" src="{{ImageLink}}" alt="" />
+                  <h3 class="pull-right">{{currency Charge}} </h3>
+                  <h4>{{Name}} </h4>
+                  <p>{{Description}} 
+                  {{#if isItemAvailable fontLine}}  
+                      <span>
+                          <button type="button" class="pull-right fa btn btn-success addcart" title="Add to Cart"  >ORDER </button>
+                      </span> 
+                  {{else}}
+                      <span class="pull-right">
+                          SOLD OUT
+                      </span> 
+                  {{/if}}     
+                  </p> 
+                </div>
+            {{/each}}
                 </div>  
-
-
-
-          {{/if}}
-
-        {{/each}}
-        
+        {{/if}}
+    {{/each}}
+{{/if}}     
         <!--//MenuCard--> 
         
       </div>
