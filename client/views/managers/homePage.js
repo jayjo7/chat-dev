@@ -185,18 +185,18 @@ Template.homePage.helpers({
 
             if (currentday === 0 ) //Sunday
             {
-                if( 'no'=== store_open_sunday.Value )
+                if( 'no'=== store_open_sunday.Value.trim() )
                 {
-                    return false;
+                    return true;
                 }
 
             }
 
             if (currentday === 6) //Saturday
             {
-                    if('no'=== store_open_saturday.Value )
+                    if('no'=== store_open_saturday.Value.trim() )
                     {
-                        return false;
+                        return true;
                     }
 
             }
@@ -220,6 +220,9 @@ Template.homePage.helpers({
 
 
   isTakingOnlineOrder:function(isNotTakingOnlineOrder, isStoreClosed){
+    console.log('isTakingOnlineOrder:isNotTakingOnlineOrder = ' + isNotTakingOnlineOrder);
+    console.log('isTakingOnlineOrder:isStoreClosed = ' + isStoreClosed);
+
     if(isNotTakingOnlineOrder)
         return false;
     else
@@ -250,10 +253,13 @@ Template.homePage.helpers({
     },
 
     isItemInCart: function(product){
+
         var sessid = Session.get('appUUID');
 
 
         var cartItems = CartItems.findOne({session: sessid, product:product});
+          console.log('isItemInCart:cartItems = ' +cartItems);
+
             if(cartItems)
                     return true;
             else

@@ -1,70 +1,112 @@
 <template name="cart">
-<div id="cd-shadow-layer"></div>
-<!-- Shopping Cart -->
-<div id="cd-cart">
-  <div class="minicart-wrap">
-    <div class="minicart-body cart-toggle">
-<form id="contactInfoForm">
-      <p>&nbsp; </p>
-      <h2 class="xsm text-uppercase text-center"  style="font-family: 'Rock Salt'; padding-top    : 30px">TOGO Order</h2>
-      <ul class="minicart-list">
+<!--Cart Button (Only visible on small and extra-small screen sizes)-->
+<!--<div class="scroll-top page-scroll hidden-sm visible-xs" style="right:2%;" > <a style="background-color:red; border:0px; padding-top:9px"  class="btn btn-primary" href="#page-top"> <i class="fa fa-shopping-cart"></i> </a>
+  <div class="notification">19</div>
+</div>-->
 
-        {{#each shopCart}}
-        <li>
-          <div class="col-xs-12"  align="left"> {{Name}}</div>
-         <!-- <div><input  class="col-xs-1 text-warning prodqty_{{product}}" size="2" maxlength="2" value={{qty}}/></div>-->
+<!--/End Cart--> 
 
-          <div class="col-xs-12">
+<!--BOTCART-->
 
-            <input type="number" maxlength="2" class="text-warning cartProduct" size="2" min="0"  step="1" id="product_in_cart" name="product_{{product}}" value="{{qty}}">
-
-           <span class="amount pull-right" >{{currency price}} </span>
+<div id="shoppingcart" >
+  <div class="bottomcart-fixed" >
+    <div class="checkout"> 
+    <a class="checkout__button" href="#"><!-- Fallback location --> 
+      <span class="checkout__text"> 
+          <span class="checkout__text-inner checkout__initial-text"> 
+            <em class="fa fa-shopping-cart"></em> <span class="hidden-xs"> &nbsp;&nbsp;Checkout </span> </span> 
+            <span class="checkout__text-inner checkout__final-text placeOrder"> 
+                {{currency shopCart.total}}  <i class="fa fa-fw fa-shopping-cart"></i> Place Order
+                
+                </span> 
+      </span> 
+      </a>
+      <div class="notificationbig">shopCart.itemCount/div>
+      <div class="checkout__order">
+        <div class="checkout__order-inner">
+          <div class="col-xs-12"  style=" visibility:visible">
+            <table border="0" cellpadding="0" cellspacing="1" class="checkout__summary">
+              <thead align="left">
+                <tr >
+                  <th>Item</th>
+                  <th>QTY</th>
+                  <th>Price</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody align="left">
+                {{#each shopCart}}
+                  <tr>
+                    <td><label style="font-size:14px">{{Name}}</label></td>
+                    <td align="left"> <input type="number" maxlength="2" class="box cartProduct" size="2" min="0"  step="1" id="product_in_cart" name="product_{{product}}" value="{{qty}}">
+</td>
+                    <td >{{currency price}}</td>
+                    <td><button class="checkout__action removecart"><i class="icon fa fa-trash"></i></button></td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+     <table class="checkout__summary" width="100%" border="0">
+  <tbody >
+    <tr>
+      <td style="text-align:right; padding:8px; ">Name </td>
+      <td style="text-align:left"><input type="text" class="box" id="contactName" name="contactName"  required></td>
+    </tr>
+    <tr>
+      <td style="text-align:right; padding:8px;" >Mobile </td>
+       <td style="text-align:left"><input  type="tel" class="box" id="intputPhoneNumber" name="phoneNumber"  required ></td>
+    </tr>
+    <tr>
+      <td style="text-align:right; padding:8px;"> Email </td>
+      <td style="text-align:left"><input type="email" class="box" id="inputEmail" name="email"  required></td>
+    </tr>
+    <tr>
+      <td style="text-align:right; padding:8px;">Message to Kitchen </td>
+      <td style="text-align:left"> <input type="text" class="box" id="messageToKitchen"  rows="2" name="messageToKitchen"  wrap="hard"></td>
+    </tr>
+        <tr>
+      <td style="text-align:right; padding:8px;">Payment</td>
+      <td style="text-align:left"><input type="radio" > On Pickup <input type="radio"> Now </td>
+      </tr>
+        <tr>
+      <td></td>
+      <td style="text-align:left"><!--<button class="btn small" style="border-radius:20px; background-color:red">Place Order</button>--></td>
+    </tr>
+  </tbody>
+</table>
+          </div>
+          
+          <!-- /checkout__summary -->
+          <button class="checkout__close checkout__cancel"><i class="icon fa fa-fw fa-close"></i>Close</button>
         </div>
-        </li>  
-        <br><hr style=" border-top: 1px dotted grey;" width="90%">
-        {{else}}
-
-        <li> 
-          <div class="col-xs-10 minicart-total"> <span>No Items in the cart, please add from the menu.</span></div>
-        </li>
-        {{/each}}
-      </ul>
-      <br><br>
-
-    {{#if shopCart.itemCount }}
-
-
-      <div class="minicart-total" style="background-color:lightyellow;">Total ({{shopCart.taxMessage}}) <span class="amount pull-right" >{{currency shopCart.total}}</span> </div>
-
-      
-
-   
-        <div class="minicart-total"> Your Contact Information:<br>
-          <br>
-          <p>
-              <input class="text-warning" id="contactName" name="contactName" placeholder="Name"   required >&nbsp;<sub>*</sub>
-              <br>
-              <br>
-              <input type="email" class="text-warning" id="inputEmail" name="email" placeholder="Email" required >&nbsp;<sub>*</sub>
-              <br>
-              <br>
-              <input type="tel" class="text-warning" id="intputPhoneNumber" name="phoneNumber"  placeholder="Phone - Numbers only" required >&nbsp;<sub>*</sub>
-              <br>
-              <br>
-              <input  type="textarea" maxlength="50" class="text-warning" id="messageToKitchen"  rows="2" name="messageToKitchen"  wrap="hard" placeholder="Message To Kitchen">
-            </p>
-        </div>
-        <span id='contactInfoError' style="color:red" align='center'></span>
-        <br>
-        <br>
-        <button type="submit" class="btn btn btn-success checkout-btn placeOrder">Place Order</button>
-
-
-      {{/if}}
-      </form>
-    </div>  
+        <!-- /checkout__order-inner --> 
+      </div>
+      <!-- /checkout__order --> 
+    </div>
+    <!-- /checkout --> 
   </div>
 </div>
-<!-- END Shoppingcart --> 
+</div>
+<script>
+      (function() {
+        var bottomcart = document.getElementById('bottomcart-grid');
+        [].slice.call( document.querySelectorAll( '.checkout' ) ).forEach( function( el ) {
+          var openCtrl = el.querySelector( '.checkout__button' ),
+            closeCtrl = el.querySelector( '.checkout__cancel' );
+
+          openCtrl.addEventListener( 'click', function(ev) {
+            ev.preventDefault();
+            classie.add( el, 'checkout--active' );
+            classie.add( bottomcart, 'bottomcart-grid--highlight' );
+          } );
+
+          closeCtrl.addEventListener( 'click', function() {
+            classie.remove( el, 'checkout--active' );
+            classie.remove( bottomcart, 'bottomcart-grid--highlight' );
+          } );
+        } );
+      })();
+</script> 
+
 
 </template>

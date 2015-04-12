@@ -41,24 +41,43 @@
                   <h3 align="center">{{ Value }}</h3>
                     <div class="swiper-container">
             {{ #each menu Value }}
+
                 <div class="swiper-wrapper">
                 <div  class="cardd"> 
                 <img class="" src="{{ImageLink}}" alt="" />
                   <h3 class="pull-right">{{currency Charge}} </h3>
                   <h4>{{Name}} </h4>
-                  <p>{{Description}} 
+                  <p>{{Description}}
+
+                   <span class="pull-right"> 
+
                   {{#if isItemAvailable fontLine}}  
-                      <span>
-                          <button type="button" class="pull-right fa btn btn-success addcart" title="Add to Cart"  >ORDER </button>
-                      </span> 
+
+                            {{#if isItemInCart UniqueId }}
+
+                                 {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
+                                       <button type="button" class="pull-right fa fa-check btn btn-info removecart" title="Remove from Cart"  >ORDER </button>
+                                    {{else}}
+                                    
+                                      <button type="button" class="pull-right fa  btn btn-inverse" title="Remove from Cart"  >STORE CLOSED </button>
+                                 {{/if}}  
+                            {{else}}     
+
+                                {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
+
+                                        <button type="button" class="pull-right fa btn btn-success addcart" title="Add to Cart"  >ORDER </button>
+                                  {{else}}   
+                                       <button type="button" class="pull-right fa btn btn-inverse" title="Remove from Cart"  >STORE CLOSED </button>
+                                 {{/if}}       
+                               {{/if}}     
                   {{else}}
-                      <span class="pull-right">
                           SOLD OUT
-                      </span> 
-                  {{/if}}     
+                  {{/if}}  
+                  </span> 
+   
                   </p> 
                 </div>
-                                </div>  
+              </div>  
 
             {{/each}}
                </div>
@@ -83,15 +102,31 @@
                   <h3 class="pull-right">{{currency Charge}} </h3>
                   <h4>{{Name}} </h4>
                   <p>{{Description}} 
+                   <span class="pull-right"> 
+
                   {{#if isItemAvailable fontLine}}  
-                      <span>
-                          <button type="button" class="pull-right fa btn btn-success addcart" title="Add to Cart"  >ORDER </button>
-                      </span> 
+
+                            {{#if isItemInCart UniqueId }}
+
+                                 {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
+                                       <button type="button" class="pull-right fa fa-check btn btn-info removecart" title="Remove from Cart"  >ORDER </button>
+                                    {{else}}
+                                    
+                                      <button type="button" class="pull-right fa btn btn-inverse" title="Store Closed"  >STORE CLOSED </button>
+                                 {{/if}}  
+                            {{else}}     
+
+                                {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
+
+                                        <button type="button" class="pull-right fa btn btn-success addcart" title="Add to Cart"  >ORDER </button>
+                                  {{else}}   
+                                       <button type="button" class="pull-right fa btn btn-inverse" title="Store Closed"  >STORE CLOSED </button>
+                                 {{/if}}       
+                               {{/if}}     
                   {{else}}
-                      <span class="pull-right">
                           SOLD OUT
-                      </span> 
-                  {{/if}}     
+                  {{/if}}  
+                  </span>   
                   </p> 
                 </div>
             {{/each}}

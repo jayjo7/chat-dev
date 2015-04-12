@@ -81,6 +81,20 @@ Template.cart.helpers({
 
 
 Template.cart.events({
+        'click .removecart': function(evt,tmpl)
+    {
+        var currentTarget = evt.currentTarget
+        console.log("currentTarget" + currentTarget);
+        console.log("tmpl" + tmpl);
+        console.log("this.product " + this.product);
+        var sessid = Session.get('appUUID');
+        console.log("sessid = " + sessid );
+        console.log('currentTarget.title = ' + currentTarget.title);
+        if(confirm('Are you sure to remove the ' + this.Name + ' from cart !'))
+        {
+            Meteor.call('removeCartItem', this.product, sessid);
+        }
+    },
 
         'click #product_in_cart , focusout  #product_in_cart': function (event, template) {
         event.preventDefault();

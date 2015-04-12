@@ -23,6 +23,7 @@ a:active,
 a.active {
     outline: 0;
     color: #18bc9c;
+	text-decoration:none;
 }
 
 h1,
@@ -90,7 +91,7 @@ header {
 	color: #fff;
 	background: #18bc9c;
 	background-size: cover;
-	background-image: url(/img/22796096d9c63708fb5bdddd27fa10fe.jpg);
+	background-image:url(/img/southchaat.jpg);
 }
 
 header .container {

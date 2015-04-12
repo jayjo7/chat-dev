@@ -54,6 +54,7 @@ sacha:spin@2.0.4
 session@1.1.0
 spacebars@1.0.6
 spacebars-compiler@1.0.6
+swiper:swiper@2.7.5
 templating@1.1.1
 tracker@1.0.7
 u2622:persistent-session@0.3.2

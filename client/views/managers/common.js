@@ -54,3 +54,24 @@ Template.registerHelper('getContentArray', function(key)
 
 				return contentArray;
 });
+
+Template.registerHelper('showCart', function(){
+
+	    	var  sessid = Session.get('appUUID');
+             
+            console.log("shopCart:sessid =  " +sessid);
+
+			var cartItems = CartItems.find({session: sessid});
+		    cartItems.itemCount = cartItems.count();
+		    console.log("showCart:cartItems.itemCount =  " +cartItems.itemCount);
+		    if(cartItems.itemCount > 0)
+		    {
+		    	return true;
+		    }
+		    else
+		    {
+		    	return false;
+		    }
+
+
+})
