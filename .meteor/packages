@@ -10,12 +10,10 @@ u2622:persistent-session
 gwendall:body-events
 momentjs:moment
 underscore
-jquery
 sacha:spin
 iron:router
 meteorhacks:npm
 
 
 npm-container
-mystor:device-detection
-swiper:swiper
+jquery

@@ -6,9 +6,6 @@
 
 <!--/End Cart--> 
 
-<!--BOTCART-->
-<form id="contactInfoForm">
-
 <div id="shoppingcart" >
   <div class="bottomcart-fixed" >
     <div class="checkout"> 
@@ -52,14 +49,16 @@
               </tbody>
             </table>
      <table class="checkout__summary" width="100%" border="0">
+
   <tbody >
+
     <tr>
       <td style="text-align:right; padding:8px; ">Name </td>
-      <td style="text-align:left"><input type="text" class="box" id="contactName" name="contactName"  required>&nbsp;<sub>*</sub></td>
+      <td style="text-align:left"><input type="text" class="box" id="inputContactName" name="contactName"  required>&nbsp;<sub>*</sub></td>
     </tr>
     <tr>
       <td style="text-align:right; padding:8px;" >Mobile </td>
-       <td style="text-align:left"><input  type="tel" class="box" id="intputPhoneNumber" name="phoneNumber"  required >&nbsp;<sub>*</sub></td>
+       <td style="text-align:left"><input  type="tel" class="box" id="inputPhoneNumber" name="phoneNumber"  required >&nbsp;<sub>*</sub></td>
     </tr>
     <tr>
       <td style="text-align:right; padding:8px;"> Email </td>
@@ -67,17 +66,16 @@
     </tr>
     <tr>
       <td style="text-align:right; padding:8px;">Message to Kitchen </td>
-      <td style="text-align:left"> <input type="text" class="box" id="messageToKitchen"  rows="2" name="messageToKitchen"  wrap="hard"></td>
+      <td style="text-align:left"> <input type="text" class="box" id="inputMessageToKitchen"  rows="2" name="messageToKitchen"  wrap="hard"></td>
     </tr>
         <tr>
       <td style="text-align:right; padding:8px;">Payment</td>
       <td style="text-align:left"><input type="radio" > On Pickup <input type="radio"> Now </td>
       </tr>
-        <tr>
-      <td></td>
-      <td style="text-align:left"><!--<button class="btn small" style="border-radius:20px; background-color:red">Place Order</button>--></td>
-    </tr>
+
+     
   </tbody>
+ 
 </table>
           </div>
           
@@ -92,7 +90,7 @@
   </div>
 </div>
 </div>
-</form>
+
 <script>
       (function() {
         var bottomcart = document.getElementById('bottomcart-grid');

@@ -81,7 +81,8 @@ Template.cart.helpers({
 
 
 Template.cart.events({
-        'click .removecart': function(evt,tmpl)
+
+    'click .removecart': function(evt,tmpl)
     {
         var currentTarget = evt.currentTarget
         console.log("currentTarget" + currentTarget);
@@ -145,13 +146,13 @@ Template.cart.events({
             }
   },
 
-    'keyup #intputPhoneNumber': function (event, template) {
+    'keyup #inputPhoneNumber': function (event, template) {
         console.log("In event.type (intputPhoneNumber)= keyup");
 
         var countryCode = Settings.findOne({$and : [{Key: "country_code"}, {Value : {"$exists" : true, "$ne" : ""}}]})
 
                     
-        phone = $('#intputPhoneNumber').val();
+        phone = $('#inputPhoneNumber').val();
 
         console.log("phone = " + phone);
 
@@ -265,7 +266,7 @@ Template.cart.events({
   },
 
 
-	'submit form': function(event){
+	'click .placeOrder': function(event){
 
         event.preventDefault();
         
@@ -280,10 +281,10 @@ Template.cart.events({
 
         var contactInfo = {};
 
-        contactInfo.phoneNumber = event.target.phoneNumber.value;
-        contactInfo.email=event.target.inputEmail.value;
-        contactInfo.messageToKitchen = event.target.messageToKitchen.value;
-        contactInfo.contactName = event.target.contactName.value;
+        contactInfo.phoneNumber = $('#inputPhoneNumber').val();
+        contactInfo.email=$('#inputEmail').val();
+        contactInfo.messageToKitchen = $('#inputMessageToKitchen').val();
+        contactInfo.contactName = $('#inputContactName').val();
         console.log(contactInfo.phoneNumber);
         console.log(contactInfo.email);
         console.log(contactInfo.messageToKitchen);
