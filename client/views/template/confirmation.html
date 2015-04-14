@@ -126,11 +126,11 @@
                             <tr>
                               <td ><br /><span class="header-sm "  style="font-family: 'Rock Salt';">Pickup at</span> <br />
                                 <br />
-                                <span> <strong>DosaHouse</strong><br />
-                                    {{address.Value}}<br />
+                                <span> <strong>{{getSettings 'store_name'}}</strong><br />
+                                    {{getSettings 'address'}}<br />
                                       <br />
                               </span>
-                              Phone:&nbsp;<a href="tel:{{phoneNumber.Value}}" class="phone">{{phoneNumber.Value}}</a></td>
+                              Phone:&nbsp;<a href="tel:{{phoneNumber.Value}}" class="phone">{{getSettings 'phone_number'}}</a></td>
                             </tr>
                             
                           </table>
