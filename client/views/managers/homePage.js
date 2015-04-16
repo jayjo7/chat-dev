@@ -144,9 +144,9 @@ Template.homePage.helpers({
     isNotTakingOnlineOrder: function()
     {
         var store_online_orders= Settings.findOne({$and : [{Key: "store_online_orders"}, {Value : {"$exists" : true, "$ne" : ""}}]});
-        console.log("store_online_orders = " + store_online_orders.Value);
+        console.log("store_online_orders = " + store_online_orders.Value.trim());
 
-        if('no' === store_online_orders.Value)
+        if('no' === store_online_orders.Value.trim())
         {
             return true
         }

@@ -51,6 +51,7 @@ Template.payment.events({
         											// Insert the token into the form so it gets submitted to the server
         											$form.append($('<input type="hidden" name="stripeToken" />').val(token));
         											$('#payment-errors').text('Token = ' + token);
+        											$('.card-number').hide();
 
         											// and re-submit
         											//$form.get(0).submit();

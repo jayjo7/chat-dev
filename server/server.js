@@ -5,8 +5,14 @@ Meteor.methods({
   	//var tax = Settings.findOne( { Key:'tax'});;
     var tax = Settings.findOne({$and : [{Key: "tax"}, {Value : {"$exists" : true, "$ne" : ""}}]});
 
-  	console.log('tax = ' + tax);
+  	return tax;
 
+  },
+
+    getCurrencyCode:function(){
+
+  	//var tax = Settings.findOne( { Key:'tax'});;
+    var tax = Settings.findOne({$and : [{Key: "currency_code"}, {Value : {"$exists" : true, "$ne" : ""}}]});
 
   	return tax;
 
@@ -119,14 +125,15 @@ Meteor.methods({
    	
 	},
 
-	orderItems:function(sessionId, contactInfo, sequence){
+	orderItems:function(sessionId, contactInfo, sequence, cardToken, callback){
 
-			console.log('In OrderItems');
+			console.log(sessionId + ' :In OrderItems');
 
-			       for(var key in sequence)
-        			{
-        				console.log(key + " = " +sequence[key]);
-        			}
+			for(var key in sequence)
+        	{
+        		console.log(sessionId + " :sequence: " +key + " = " +sequence[key]);
+        	}
+
 			var order = {};
 			order.Status=STATE_ONE;
 			order.OrderNumber=sequence.orderNumber;
@@ -134,11 +141,11 @@ Meteor.methods({
 
 			var gmt_offset = Settings.findOne({Key: 'gmt_offset'})
 
-			console.log('gmt_offset = ' + gmt_offset.Value );
+			console.log(sessionId + ' :gmt_offset = ' + gmt_offset.Value );
 
 			var now =moment().utcOffset(Number(gmt_offset.Value)).format('MM/DD/YYYY hh:mm:ss A');
 
-			console.log('now = ' + now);
+			console.log(sessionId + ' :now = ' + now);
 
 			order.TimeOrderReceived = now;
 			order.CustomerName=contactInfo.contactName;
@@ -153,7 +160,7 @@ Meteor.methods({
 
 			var itemsInCart= CartItems.find({session:sessionId});
 
-			console.log('Number of items in cart for session ' + sessionId
+			console.log(sessionId + ' :Number of items in cart for session ' + sessionId
 				+ ', contact  ' + order.CustomerPhone + ' ' +order.CustomerEmail +' = ' + itemsInCart.count());
 
 			var totalItemCount = 0;
@@ -166,7 +173,7 @@ Meteor.methods({
 
 					for(key in cartitems)
 					{
-						console.log(key + "  =  " + cartitems[key]);
+						console.log(sessionId + " :cartitems: " + key + "  =  " + cartitems[key]);
 					}
 
 
@@ -190,8 +197,10 @@ Meteor.methods({
 			order.SubTotal = Number (subTotal.toFixed(2));
 
 
-			tax = Meteor.call('getTax');
+			var tax = Meteor.call('getTax');
             var taxValue = Number(tax.Value);
+
+            console.log(sessionId + ' :tax = ' + taxValue );
 
             if(taxValue > 0)
             {
@@ -208,11 +217,126 @@ Meteor.methods({
 
 			order.sessionId =sessionId;
 
+			if(cardToken)
+			{
+				var currencyCode = Meteor.call('getCurrencyCode');
+				console.log(sessionId + " :currencyCode = " + currencyCode.Value);
+
+				for(var key in cardToken)
+        		{
+        			console.log(sessionId + " :CardToken: " +key + " = " +cardToken[key]);
+        		}
+        		Meteor.npmRequire('stripe');
+        		//var secret = Meteor.settings.private.stripe.testSecretKey;
+				var stripe = Meteor.npmRequire('stripe')("sk_test_X1Qg62lGhGHpGlZdeWrlbPAs");
+                stripe.setApiVersion('2015-04-07');
+        		console.log(sessionId + " :To Payment system: order.Total = "     		+ order.Total);
+        		console.log(sessionId + " :To Payment system: currencyCode.Value = " 	+currencyCode.Value);
+        	    console.log(sessionId + " :To Payment system: cardToken.id   = "        + cardToken.id);
+
+        	    var idempotency_key = sequence._id +":"+sequence.orderNumber;
+        	    console.log(sessionId + " :To Payment system: idempotency_key  = " 		+ idempotency_key);
+
+        	    var toPaymentDescription= "OrderNumber:" + sequence.orderNumber;
+        	    console.log(sessionId + " :To Payment system: toPaymentDescription  = " + toPaymentDescription);
 
 
-            console.log("Done Building the Order Object" + JSON.stringify(order, null, 4));
+				 stripe.charges.create({
+  										amount: order.Total * 100,
+  										currency: currencyCode.Value,
+  										source: cardToken.id, // obtained with Stripe.js
+  										description: toPaymentDescription,
+  										metadata: {'OrderNumber': sequence.orderNumber}
+									}, Meteor.bindEnvironment (function(err, charge) {
+  										if (err && err.type === 'StripeCardError') 
+  										{
+    											// The card has been declined
+  										}
+  										else
+  										{
 
-			var itemsToOrder = Orders.insert(order, function(error, _id)
+  											console.log(sessionId + "charge object from stripe: " + charge);
+  											for(var key in charge)
+  											{
+  												console.log(sessionId + "charge object from stripe: " + key + " = " + charge[key]);
+  											}
+  											PaymentInfo.insert({_id:sequence._id, charge:charge});
+  												 order.Payment='online';
+  												 order.ChargeCode = charge.id;
+
+									            console.log(sessionId + " :Done Building the Order Object" + JSON.stringify(order, null, 4));
+
+												   Orders.insert(order, function(error, _id)
+													{
+
+														if(error)
+														{
+															config.log("touble insert the order to mongodb " + order);
+															throw new Meteor.Error(error);
+
+														}
+														else
+														{
+															Meteor.call('removeAllCartItem',sessionId);
+															try{
+
+																var https = Meteor.npmRequire('request');
+																var options ={
+																	url:'https://script.google.com/macros/s/AKfycbwWp0DVVcDEtGzrAf7H4x5DHfgP70r-3asuXzRg3orsH1NFfrY/exec',
+																	method: 'POST',
+																	body: order,
+																	json: true,
+																	followAllRedirects: true
+
+																}
+															    https.post(options, function (error, response, body){
+																	console.log(sessionId + " :error : " + error);
+																	console.log(sessionId + " :response.statusCode : " + response.statusCode);
+																	console.log(sessionId + " :body : " + body);
+
+																});
+
+																return order;
+																//var result = HTTP.call(	'POST', 
+																//						'https://script.google.com/macros/s/AKfycbzu3126b_QhgPwuwoStDdoF8AVqf2XFfAQ-ars_YmR7SEZgeSc/exec',
+									                           	//						{ data:order, followRedirects:true }
+									                           	//					);
+																//var result = HTTP.call('GET', 'https://script.google.com/macros/s/AKfycbzu3126b_QhgPwuwoStDdoF8AVqf2XFfAQ-ars_YmR7SEZgeSc/exec');
+																//console.log("result = " + result);
+																//for (var key in result)
+																//{
+																//
+																//	console.log("key = " +  key + " : " + result[key]);
+																//}
+															}catch (e)
+															{
+																console.log(sessionId + ": " +e);
+															}
+															//return order.items;
+														}
+													});
+
+
+
+
+  										}
+									})
+
+									);
+
+
+
+
+
+
+
+            }
+            else
+            {
+
+            console.log(sessionId + " :Done Building the Order Object" + JSON.stringify(order, null, 4));
+
+			   Orders.insert(order, function(error, _id)
 				{
 
 					if(error)
@@ -236,9 +360,9 @@ Meteor.methods({
 
 							}
 						    https.post(options, function (error, response, body){
-								console.log("error : " + error);
-								console.log("response.statusCode : " + response.statusCode);
-								console.log("body : " + body);
+								console.log(sessionId + " :error : " + error);
+								console.log(sessionId + " :response.statusCode : " + response.statusCode);
+								console.log(sessionId + " :body : " + body);
 
 							});
 
@@ -256,11 +380,12 @@ Meteor.methods({
 							//}
 						}catch (e)
 						{
-							console.log(e);
+							console.log(sessionId + ": " +e);
 						}
 						//return order.items;
 					}
 				});
+			}
 
 	}
 });

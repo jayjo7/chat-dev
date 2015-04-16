@@ -14,3 +14,5 @@ Content = new  Mongo.Collection('Content');
 Settings = new  Mongo.Collection('Settings');
 
 OrderedItems = new Mongo.Collection('ordereditems');
+
+PaymentInfo = new Mongo.Collection('paymentInfo');
