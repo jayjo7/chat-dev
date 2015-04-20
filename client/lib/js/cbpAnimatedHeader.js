@@ -11,7 +11,7 @@
 var cbpAnimatedHeader = (function() {
 
 	var docElem = document.documentElement,
-		header = document.querySelectorAll( '.bottomcart-fixed' ),
+		header = document.querySelector( '.navbar-fixed-top' ),
 		didScroll = false,
 		changeHeaderOn = 300;
 

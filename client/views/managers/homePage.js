@@ -350,14 +350,6 @@ Template.homePage.events({
         Meteor.call('addToCart', 1 ,product, sessid, this.Name, this.Category, this.Charge);
         evt.currentTarget.className = "pull-right fa fa-check btn btn-info removecart"; 
         evt.currentTarget.title='Remove from Cart'
-
-        var $L = 1200,
-        $main_menutoggle    = $('#dosahousecart');
-
-        $main_menutoggle.addClass('wiggle-me');
-        //$main_menutoggle.attr('style', 'background-color:green;')
-
-
     },
 
         'click .removecart': function(evt,tmpl)

@@ -104,17 +104,17 @@ Meteor.methods({
 
 			        	for(var key in currentId)
 			        	{
-			        		console.log(currentId[key]);
+			        		console.log("getNextSequenceValue: currentId: " + key + " = " + currentId[key]);
 			        	}
 
         			var nextOrderumber= Number (currentId.orderNumber) + 1;
         			Counters.insert({orderNumber:nextOrderumber});
-        			console.log(nextOrderumber);
+        			console.log("getNextSequenceValue: nextOrderumber: " + nextOrderumber);
 
         			var sequence = Counters.findOne({orderNumber:nextOrderumber});
         			for(var key in sequence)
         			{
-        				console.log(key + " = " +sequence[key]);
+        				console.log("getNextSequenceValue: sequence: " + key + " = " +sequence[key]);
         			}
         			return sequence;
 
@@ -230,7 +230,9 @@ Meteor.methods({
         		//var secret = Meteor.settings.private.stripe.testSecretKey;
 				var stripe = Meteor.npmRequire('stripe')("sk_test_X1Qg62lGhGHpGlZdeWrlbPAs");
                 stripe.setApiVersion('2015-04-07');
-        		console.log(sessionId + " :To Payment system: order.Total = "     		+ order.Total);
+                var orderTotalCents = order.Total;
+                orderTotalCents     = orderTotalCents.replace('.','');
+        		console.log(sessionId + " :To Payment system: order.Total = "     		+ orderTotalCents);
         		console.log(sessionId + " :To Payment system: currencyCode.Value = " 	+currencyCode.Value);
         	    console.log(sessionId + " :To Payment system: cardToken.id   = "        + cardToken.id);
 
@@ -242,7 +244,7 @@ Meteor.methods({
 
 
 				 stripe.charges.create({
-  										amount: order.Total * 100,
+  										amount: orderTotalCents,
   										currency: currencyCode.Value,
   										source: cardToken.id, // obtained with Stripe.js
   										description: toPaymentDescription,
