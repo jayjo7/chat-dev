@@ -56,7 +56,7 @@
                             {{#if isItemInCart UniqueId }}
 
                                  {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
-                                       <button type="button" class="pull-right fa fa-check btn btn-info removecart" title="Remove from Cart"  >ORDER </button>
+                                       <button type="button" class="pull-right fa fa-check btn btn-ordered removecart" title="Remove from Cart" style="color:white;font-weight: bold;" >ORDER </button>
                                     {{else}}
                                     
                                       <button type="button" class="pull-right fa  btn btn-inverse" title="Remove from Cart"  >STORE CLOSED </button>
@@ -65,7 +65,7 @@
 
                                 {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
 
-                                        <button type="button" class="pull-right fa btn btn-success addcart" title="Add to Cart"  >ORDER </button>
+                                        <button type="button" class="pull-right fa btn btn-success addcart" title="Add to Cart"  style="color:white;font-weight: bold;" >ORDER </button>
                                   {{else}}   
                                        <button type="button" class="pull-right fa btn btn-inverse" title="Remove from Cart"  >STORE CLOSED </button>
                                  {{/if}}       
@@ -109,7 +109,7 @@
                             {{#if isItemInCart UniqueId }}
 
                                  {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
-                                       <button type="button" class="pull-right fa fa-check btn btn-info removecart" title="Remove from Cart"  >ORDER </button>
+                                       <button type="button" class="pull-right fa fa-check btn btn-ordered removecart" title="Remove from Cart" style="color:white;font-weight: bold;" >ORDER </button>
                                     {{else}}
                                     
                                       <button type="button" class="pull-right fa btn btn-inverse" title="Store Closed"  >STORE CLOSED </button>
@@ -118,7 +118,7 @@
 
                                 {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
 
-                                        <button type="button" class="pull-right fa btn btn-success addcart" title="Add to Cart"  >ORDER </button>
+                                        <button type="button" class="pull-right fa btn btn-success addcart" style="color:white;font-weight: bold;" title="Add to Cart"  >ORDER </button>
                                   {{else}}   
                                        <button type="button" class="pull-right fa btn btn-inverse" title="Store Closed"  >STORE CLOSED </button>
                                  {{/if}}       

@@ -38,7 +38,7 @@
 	justify-content: center;
 	-webkit-flex-direction: column;
 	flex-direction: column;*/
-	position: absolute;
+	position: fixed;
 	top: 10%;
 	left: 15%;
 	display: none;

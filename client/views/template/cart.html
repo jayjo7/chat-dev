@@ -10,21 +10,21 @@
       <table  class="tabbl table-condensed table-responsive">
         <thead>
           <tr>
-            <th style="text-align:center; color:white;">Item</th>
-            <th style="text-align:center; color:white;">Qty</th>
-            <th style="text-align:right; color:white;">Price</th>
+            <th style="text-align:left; color:white;">Item</th>
+            <th style="text-align:left; color:white;">Qty</th>
+            <th style="text-align:left; color:white;">Price</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
          {{#each shopCart}} 
           <tr>
-            <td style="color:white">{{Name}}</td>
-            <td style="color:white">
+            <td style="color:white;text-align:left">{{Name}}</td>
+            <td style="color:white;text-align:left">
               <input name="product_{{product}}" value="{{qty}}" type="number" onClick="this.setSelectionRange(0, this.value.length)" class="qtyy" id="product_in_cart"  size="2" maxlength="2" border="0">
             </td>
-            <td style="color:white" class="pull-right">{{currency price}}</td>
-            <td><button class="checkout__action removecart" ><i class="icon small glyphicon glyphicon-trash"></i></button></td>
+            <td style="color:white;text-align:left">{{currency price}}</td>
+            <td style="text-align:left; color:white;" ><button class="checkout__action removecart" ><i class="icon small glyphicon glyphicon-trash"></i></button></td>
           </tr>
         {{/each}}
         </tbody>
@@ -47,7 +47,7 @@
 
     <tr>
       <td style="text-align:right; padding:8px; color:white; " >Name </td>
-      <td style="text-align:left"><input type="text" class="box textfld" id="inputContactName" name="contactName"  required>&nbsp;<sub style="color:white">*</sub></td>
+      <td style="text-align:left"><input type="text" class="box textfld" id="inputContactName" name="contactName"  required>&nbsp;<sub style="color:white;">*</sub></td>
     </tr>
     <tr>
       <td style="text-align:right; padding:8px; color:white; " >Mobile </td>
@@ -103,6 +103,15 @@
 
       </table>
     </div>
+  </div>
+  <div>
+    <table>
+      <tr>
+        <td>
+        <span id='contactInfoError' style="color:rgba(255,255,0,0.80);" align='center'></span>
+      </td>
+    </tr>
+    </table>
   </div>
   <div align="center" >
     <button type="button" class="btn btn-link" id="idPlaceOrder" style="color:white">Place Order</button>

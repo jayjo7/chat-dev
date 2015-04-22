@@ -348,7 +348,7 @@ Template.homePage.events({
         console.log("sessid = " + sessid );
         console.log('currentTarget.title = ' + currentTarget.title);
         Meteor.call('addToCart', 1 ,product, sessid, this.Name, this.Category, this.Charge);
-        evt.currentTarget.className = "pull-right fa fa-check btn btn-info removecart"; 
+        evt.currentTarget.className = "pull-right fa fa-check btn btn-ordered  removecart"; 
         evt.currentTarget.title='Remove from Cart'
     },
 
