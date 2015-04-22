@@ -231,8 +231,8 @@ Meteor.methods({
 				var stripe = Meteor.npmRequire('stripe')("sk_test_X1Qg62lGhGHpGlZdeWrlbPAs");
                 stripe.setApiVersion('2015-04-07');
                 var orderTotalCents = order.Total;
-                orderTotalCents     = orderTotalCents.replace('.','');
-        		console.log(sessionId + " :To Payment system: order.Total = "     		+ orderTotalCents);
+                orderTotalCents     = orderTotalCents.toString().replace('.','');
+        		console.log(sessionId + " :To Payment system: orderTotalCents = "     		+ orderTotalCents);
         		console.log(sessionId + " :To Payment system: currencyCode.Value = " 	+currencyCode.Value);
         	    console.log(sessionId + " :To Payment system: cardToken.id   = "        + cardToken.id);
 

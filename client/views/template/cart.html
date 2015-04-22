@@ -1,144 +1,138 @@
 <template name="cart">
-<!--Cart Button (Only visible on small and extra-small screen sizes)-->
-<!--<div class="scroll-top page-scroll hidden-sm visible-xs" style="right:2%;" > <a style="background-color:red; border:0px; padding-top:9px"  class="btn btn-primary" href="#page-top"> <i class="fa fa-shopping-cart"></i> </a>
-  <div class="notification">19</div>
-</div>-->
 
-<!--/End Cart--> 
 
-<div id="shoppingcart" >
-  <div class="bottomcart-fixed" >
-    <div class="checkout"> 
-    <a class="checkout__button" href="#"><!-- Fallback location --> 
-      <span class="checkout__text"> 
-          <span class="checkout__text-inner checkout__initial-text"> 
-            <em class="fa fa-shopping-cart"></em>
-            <span class="hidden-xs"> 
-                &nbsp;&nbsp;Checkout
-            </span> 
-          </span> 
-            <span id="idPlaceOrder" class="checkout__text-inner checkout__final-text"> 
-                {{currency shopCart.total}}  <i class="fa fa-fw fa-shopping-cart"></i> Place Order
-            </span> 
-      </span> 
-      </a>
-      <div class="notificationbig">shopCart.itemCount/div>
-      <div class="checkout__order">
-        <div class="checkout__order-inner">
-          <div class="col-xs-12"  style=" visibility:visible">
-            <table border="0" cellpadding="0" cellspacing="1" class="checkout__summary">
-              <thead align="left">
-                <tr >
-                  <th>Item</th>
-                  <th>QTY</th>
-                  <th>Price</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody align="left">
-                {{#each shopCart}}
-                  <tr>
-                    <td><label style="font-size:14px">{{Name}}</label></td>
-                    <td align="left"> <input type="number" maxlength="2" class="box cartProduct" size="2" min="0"  step="1" id="product_in_cart" name="product_{{product}}" value="{{qty}}">
-</td>
-                    <td >{{currency price}}</td>
-                    <td><button class="checkout__action removecart"><i class="icon fa fa-trash"></i></button></td>
-                </tr>
-                {{/each}}
-              </tbody>
-            </table>
-     <table class="checkout__summary" width="100%" border="0">
-
-  <tbody >
-   <div id="paymentInfo" align="right">
-    <tr>
-      <td style="text-align:right; padding:8px; ">Name </td>
-      <td style="text-align:left"><input type="text" class="box" id="inputContactName" name="contactName"  required>&nbsp;<sub>*</sub></td>
-    </tr>
-    <tr>
-      <td style="text-align:right; padding:8px;" >Mobile </td>
-       <td style="text-align:left"><input  type="tel" class="box" id="inputPhoneNumber" name="phoneNumber"  required >&nbsp;<sub>*</sub></td>
-    </tr>
-    <tr>
-      <td style="text-align:right; padding:8px;"> Email </td>
-      <td style="text-align:left"><input type="email" class="box" id="inputEmail" name="email"  required>&nbsp;<sub>*</sub></td>
-    </tr>
-    <tr>
-      <td style="text-align:right; padding:8px;">Message to Kitchen </td>
-      <td style="text-align:left"> <input type="text" class="box" id="inputMessageToKitchen"  maxlength="44" name="messageToKitchen"  wrap="hard"></td>
-    </tr>
-        <tr>
-      <td style="text-align:right; padding:8px;">Payment</td>
-      <td style="text-align:left">
-        <input type="radio" id="inputRadioPickUp"  name ="paymentOption" value="onPickup"> On Pickup 
-        <input type="radio" id="inputRadioNow"     name ="paymentOption" value="now"> Now </td>
+<div align="center" class="checkout-modal" id="checkout-modal" >
+<!--  <div class="ribbon hidden-sm hidden-xs" align="center">
+    <h4>TOGO ORDER</h4>
+  </div>-->
+  <div class="checkout-itemlist" align="center">
+    <div>
+      <table  class="tabbl table-condensed table-responsive">
+        <thead>
+          <tr>
+            <th style="text-align:center; color:white;">Item</th>
+            <th style="text-align:center; color:white;">Qty</th>
+            <th style="text-align:right; color:white;">Price</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+         {{#each shopCart}} 
+          <tr>
+            <td style="color:white">{{Name}}</td>
+            <td style="color:white">
+              <input name="product_{{product}}" value="{{qty}}" type="number" onClick="this.setSelectionRange(0, this.value.length)" class="qtyy" id="product_in_cart"  size="2" maxlength="2" border="0">
+            </td>
+            <td style="color:white" class="pull-right">{{currency price}}</td>
+            <td><button class="checkout__action removecart" ><i class="icon small glyphicon glyphicon-trash"></i></button></td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="checkout-total">
+    <table  class=" table-condensed bgm" width="100%" border="0" align="right" cellpadding="2" cellspacing="2">
+      <tr >
+        <td style="color:white" ></td>
+        <td style="color:white" ></td>
+        <td style="color:white" >Total ( {{shopCart.taxMessage}} )</td>
+        <td style="color:white" > {{currency shopCart.total}} </td>
       </tr>
+    </table>
+  </div>
+  <div class="checkout-container-orderdata" align="center">
+    <div class="checkout-customerdetails">
+      <table  class=" table-condensed" width="100%" border="0" align="right" cellpadding="2" cellspacing="2">
 
-    <div  id="paymentInfoCreditCard" class="creditcard ">    
+    <tr>
+      <td style="text-align:right; padding:8px; color:white; " >Name </td>
+      <td style="text-align:left"><input type="text" class="box textfld" id="inputContactName" name="contactName"  required>&nbsp;<sub style="color:white">*</sub></td>
+    </tr>
+    <tr>
+      <td style="text-align:right; padding:8px; color:white; " >Mobile </td>
+       <td style="text-align:left"><input  type="tel" class="box textfld" id="inputPhoneNumber" name="phoneNumber"  required >&nbsp;<sub style="color:white">*</sub></td>
+    </tr>
+    <tr>
+      <td style="text-align:right; padding:8px; color:white; "> Email </td>
+      <td style="text-align:left"><input type="email" class="box textfld" id="inputEmail" name="email"  required>&nbsp;<sub style="color:white">*</sub></td>
+    </tr>
+    <tr>
+      <td style="text-align:right; padding:8px; color:white; ">Special Instruction</td>
+      <td style="text-align:left"> <input type="text" class="box textfld" id="inputMessageToKitchen"  maxlength="44" name="messageToKitchen"  wrap="hard"></td>
+    </tr>
+      </table>
+    </div>
+    <div class="checkout-paymentdetails">
+      <table  class="table-condensed" width="100%" border="0" align="left" cellpadding="2" cellspacing="2">
+        <tr>
+          <td width="7"><input  type="radio" name="paymentOption" value="onPickup"  id="inputRadioPickUp" checked></td>
+          <td style="color:white;text-align:left;" nowrap>&nbsp;Pay On Pickup</td>
+        </tr>
+        <tr>
+          <td ><input type="radio" name="paymentOption"  value="now" id="inputRadioNow" ></td>
+          <td  style="color:white; text-align:left;" nowrap>&nbsp;Pay Now</td>
+        </tr>
+      </table>
+    </div>
+    <!--Credit Card Details-->
+    <div id="creditcarddetails" class="creditcarddetails" style="background-color: rgba(227,48,29,0.20);display:none;">
+      <table  class=" table-condensed" border="0" align="right" cellpadding="2" cellspacing="2" >
+        <tr  class="">
+          <td colspan="2"><span class="small active" style="color:rgba(255,255,0,0.80);">Your Credit Card is securely handled by our Payment Processor.</span></td>
+        </tr>
         <tr >
-            <td style="text-align:right; padding:8px; ">Card Number</td>
+            <td style="text-align:right; padding:8px; color:white; " nowrap>Card Number</td>
             <td style="text-align:left">
-                <input type="text" class="box" id="inputCardNumber" name="cardNumber"  maxlength="16" size="20" required>&nbsp;<sub>*</sub>
+                <input type="text" onClick="this.setSelectionRange(0, this.value.length)" class="box textfld cclock" id="inputCardNumber" name="cardNumber"  maxlength="16" size="20" required>&nbsp;<sub style="color:white">*</sub>
             </td>
         </tr>
         <tr >
-            <td style="text-align:right; padding:8px; ">Expire Month (MM)</td>
-            <td style="text-align:left"><input type="text" class="box" id="inputCardExpiryMonth" name="cardExpiryMonth"  maxlength="2" size="2" required>&nbsp;<sub>*</sub></td>
+            <td style="text-align:right; padding:8px; color:white;">Expiration</td>
+            <td style="text-align:left">
+              <input type="text" class="box textfld" id="inputCardExpiryMonth" name="cardExpiryMonth"  maxlength="2" size="2" placeholder= "MM" required>
+              <input type="text" class="box textfld" id="inputCardExpiryYear" name="cardExpiryYear"  maxlength="4" size="4" placeholder= "YYYY" required>&nbsp;<sub style="color:white">*</sub>
+           </td>       
         </tr>
+  
         <tr >
-            <td style="text-align:right; padding:8px; ">Expire Year (YYYY)</td>
-            <td style="text-align:left"><input type="text" class="box" id="inputCardExpiryYear" name="cardExpiryYear"  maxlength="4" size="4" required>&nbsp;<sub>*</sub></td>
-        </tr>   
-        <tr >
-            <td style="text-align:right; padding:8px; ">CVC</td>
-            <td style="text-align:left"><input type="text" class="box" id="inputCVC" name="cardCVC"  maxlength="4" size="4" required>&nbsp;<sub>*</sub></td>
+            <td style="text-align:right; padding:8px; color:white;" >CVC</td>
+            <td style="text-align:left"><input type="text" class="box textfld" id="inputCVC" name="cardCVC"  maxlength="4" size="4" required>&nbsp;<sub style="color:white">*</sub></td>
         </tr>              
-    </div>
-    <tr >
-      <td>
-        <span id='contactInfoError' style="color:red" align='center'></span>
-      </td>
-    </tr>
-      </div>
 
-     
-  </tbody>
- 
-</table>
-          </div>
-          
-          <!-- /checkout__summary -->
-          <button id="idCloseModal" class="checkout__close checkout__cancel"><i class="icon fa fa-fw fa-close"></i>Close</button>
-        </div>
-        <!-- /checkout__order-inner --> 
-      </div>
-      <!-- /checkout__order --> 
+
+      </table>
     </div>
-    <!-- /checkout --> 
+  </div>
+  <div align="center" >
+    <button type="button" class="btn btn-link" id="idPlaceOrder" style="color:white">Place Order</button>
+    <button type="button" class="btn btn-link" id="checkout-trigger3" style="color:white">Close</button>
   </div>
 </div>
+
+<div align="center" class="nav navbar-fixed-bottom" style="background-color:gold;padding:10px">
+  <button id="checkout-trigger" class="bttn">Togo Order</button>
 </div>
-
+<script type="application/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 <script>
-      (function() {
-        var bottomcart = document.getElementById('bottomcart-grid');
-        [].slice.call( document.querySelectorAll( '.checkout' ) ).forEach( function( el ) {
-          var openCtrl = el.querySelector( '.checkout__button' ),
-            closeCtrl = el.querySelector( '.checkout__cancel' );
 
-          openCtrl.addEventListener( 'click', function(ev) {
-            ev.preventDefault();
-            classie.add( el, 'checkout--active' );
-            classie.add( bottomcart, 'bottomcart-grid--highlight' );
-          } );
+$(document).ready(function(){
+    $("#checkout-trigger, #checkout-trigger3").click(function(){
+   $("#checkout-modal").slideToggle('fast');
+    });
+  $("#inputRadioNow").click(function(){
+    
+    $("#creditcarddetails").show('slow');
+});
+$("#inputRadioPickUp").click(function(){
+    
+    $("#creditcarddetails").hide('slow');
+});
+});
+</script>
 
-          closeCtrl.addEventListener( 'click', function() {
-            classie.remove( el, 'checkout--active' );
-            classie.remove( bottomcart, 'bottomcart-grid--highlight' );
-          } );
-        } );
-      })();
-</script> 
+
+
 
 
 </template>
