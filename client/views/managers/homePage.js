@@ -306,6 +306,20 @@ Template.homePage.helpers({
     	else
     		return '';
     },
+            soldOutCss:function(fontLine)
+    {
+        if('line-through' === fontLine)
+            return 'soldout disabled';
+        else
+            return '';
+    },
+        isSpecial:function(fontWeight)
+    {
+        if('bold' === fontWeight)
+            return true;
+        else
+            return false;
+    },
         currency: function(num)
     {
         return '$' + Number(num).toFixed(2);
@@ -348,7 +362,7 @@ Template.homePage.events({
         console.log("sessid = " + sessid );
         console.log('currentTarget.title = ' + currentTarget.title);
         Meteor.call('addToCart', 1 ,product, sessid, this.Name, this.Category, this.Charge);
-        evt.currentTarget.className = "pull-right fa fa-check btn btn-ordered  removecart"; 
+        evt.currentTarget.className = "btn btn btn-sm pull-right  btn-ordered removecart"; 
         evt.currentTarget.title='Remove from Cart'
     },
 

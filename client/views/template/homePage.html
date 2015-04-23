@@ -31,109 +31,60 @@
         
         <!--MenuCard--> 
 
-{{#if isHandHeldDevice}}
-
-
-    {{#each categoryMenu}}
-
-        {{#if isMenuAvailable Value}}
-                <div  class="container ">
-                  <h3 align="center">{{ Value }}</h3>
-                    <div class="swiper-container">
-            {{ #each menu Value }}
-
-                <div class="swiper-wrapper">
-                <div  class="cardd"> 
-                <img class="" src="{{ImageLink}}" alt="" />
-                  <h3 class="pull-right">{{currency Charge}} </h3>
-                  <h4>{{Name}} </h4>
-                  <p>{{Description}}
-
-                   <span class="pull-right"> 
-
-                  {{#if isItemAvailable fontLine}}  
-
-                            {{#if isItemInCart UniqueId }}
-
-                                 {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
-                                       <button type="button" class="pull-right fa fa-check btn btn-ordered removecart" title="Remove from Cart" style="color:white;font-weight: bold;" >ORDER </button>
-                                    {{else}}
-                                    
-                                      <button type="button" class="pull-right fa  btn btn-inverse" title="Remove from Cart"  >STORE CLOSED </button>
-                                 {{/if}}  
-                            {{else}}     
-
-                                {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
-
-                                        <button type="button" class="pull-right fa btn btn-success addcart" title="Add to Cart"  style="color:white;font-weight: bold;" >ORDER </button>
-                                  {{else}}   
-                                       <button type="button" class="pull-right fa btn btn-inverse" title="Remove from Cart"  >STORE CLOSED </button>
-                                 {{/if}}       
-                               {{/if}}     
-                  {{else}}
-                          SOLD OUT
-                  {{/if}}  
-                  </span> 
-   
-                  </p> 
-                </div>
-              </div>  
-
-            {{/each}}
-               </div>
-            </div> 
-        {{/if}}
-    {{/each}}
-
-
-
-
-
-{{else}}
-
     {{#each categoryMenu}}
 
         {{#if isMenuAvailable Value}}
             <h3 align="center">{{ Value }}</h3>
-                <div  class="flex-container ">
+                <div class="cardd-container">
             {{ #each menu Value }}
-                <div  class="cardd"> 
-                <img class="" src="{{ImageLink}}" alt="" />
-                  <h3 class="pull-right">{{currency Charge}} </h3>
-                  <h4>{{Name}} </h4>
-                  <p>{{Description}} 
-                   <span class="pull-right"> 
 
-                  {{#if isItemAvailable fontLine}}  
+                <div class="cardd-singlecontainer {{soldOutCss fontLine}}">
+                  <div class="cardd-img"> 
+
+                    {{#if isSpecial fontWeight}}
+                    <span class="cardd-banner"></span> 
+                    {{/if}}
+
+                    <img src="{{getSettings 'image_formatter'}}{{ImageLink}}" alt=""> </div>
+                  <div class="proddbox">
+                    <div class="proddheader">{{Name}}</div>
+                    <div class="proddescription">{{Description}}</div>
+                    <div class="proddbutton">
+                       {{#if isItemAvailable fontLine}}  
 
                             {{#if isItemInCart UniqueId }}
 
                                  {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
-                                       <button type="button" class="pull-right fa fa-check btn btn-ordered removecart" title="Remove from Cart" style="color:white;font-weight: bold;" >ORDER </button>
+                                       <button type="button" class="btn btn btn-sm pull-right  btn-ordered removecart" title="Remove from Cart" style="color:white;font-weight: bold;" ><span class="glyphicon glyphicon-shopping-cart"></span> &nbsp; {{currency Charge}} </button>
                                     {{else}}
                                     
-                                      <button type="button" class="pull-right fa btn btn-inverse" title="Store Closed"  >STORE CLOSED </button>
+                                      <button class="btn btn btn-sm pull-right" title="Not taking Order"> &nbsp; {{currency Charge}}</button>
                                  {{/if}}  
                             {{else}}     
 
                                 {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
 
-                                        <button type="button" class="pull-right fa btn btn-success addcart" style="color:white;font-weight: bold;" title="Add to Cart"  >ORDER </button>
+                                     <button class="btn btn-success btn-sm pull-right addcart" style="color:white;font-weight: bold;" title="Add to Cart"><span class="glyphicon glyphicon-shopping-cart"></span> &nbsp; {{currency Charge}}</button>
                                   {{else}}   
-                                       <button type="button" class="pull-right fa btn btn-inverse" title="Store Closed"  >STORE CLOSED </button>
+                                      <button class="btn btn btn-sm pull-right" title="Not taking Order"> &nbsp; {{currency Charge}}</button>
                                  {{/if}}       
-                               {{/if}}     
-                  {{else}}
-                          SOLD OUT
-                  {{/if}}  
-                  </span>   
-                  </p> 
+                               {{/if}}   
+
+
+                       {{else}}
+                       <button class="btn btn btn-sm pull-right" title="Sold Out"> &nbsp; {{currency Charge}}</button>
+
+                       {{/if}}
+                    </div>
+                  </div>
                 </div>
+
+
             {{/each}}
                 </div>  
         {{/if}}
     {{/each}}
-{{/if}}     
+   
         <!--//MenuCard--> 
         
       </div>

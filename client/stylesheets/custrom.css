@@ -1,9 +1,6 @@
 @charset "UTF-8";
 /* CSS Document */
-body {
-    background-image: url("img/back.jpg");
-    background-color: #fff;
-}
+
 
 .flex-container {
 	display:flex;
