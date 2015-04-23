@@ -364,6 +364,8 @@ Template.homePage.events({
         Meteor.call('addToCart', 1 ,product, sessid, this.Name, this.Category, this.Charge);
         evt.currentTarget.className = "btn btn btn-sm pull-right  btn-ordered removecart"; 
         evt.currentTarget.title='Remove from Cart'
+
+
     },
 
         'click .removecart': function(evt,tmpl)

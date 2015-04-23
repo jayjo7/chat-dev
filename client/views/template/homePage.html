@@ -55,7 +55,7 @@
                             {{#if isItemInCart UniqueId }}
 
                                  {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
-                                       <button type="button" class="btn btn btn-sm pull-right  btn-ordered removecart" title="Remove from Cart" style="color:white;font-weight: bold;" ><span class="glyphicon glyphicon-shopping-cart"></span> &nbsp; {{currency Charge}} </button>
+                                       <button type="button" class="btn btn btn-sm pull-right  btn-ordered removecart" title="Remove from Cart" style="color:white;font-weight: bold;" ><span  id="removeCartSpan" class="glyphicon glyphicon-ok"></span> &nbsp; {{currency Charge}} </button>
                                     {{else}}
                                     
                                       <button class="btn btn btn-sm pull-right" title="Not taking Order"> &nbsp; {{currency Charge}}</button>
@@ -64,7 +64,7 @@
 
                                 {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
 
-                                     <button class="btn btn-success btn-sm pull-right addcart" style="color:white;font-weight: bold;" title="Add to Cart"><span class="glyphicon glyphicon-shopping-cart"></span> &nbsp; {{currency Charge}}</button>
+                                     <button class="btn btn-success btn-sm pull-right addcart" style="color:white;font-weight: bold;" title="Add to Cart"><span class="glyphicon glyphicon-shopping-cart" id="addCartSpan"></span> &nbsp; {{currency Charge}}</button>
                                   {{else}}   
                                       <button class="btn btn btn-sm pull-right" title="Not taking Order"> &nbsp; {{currency Charge}}</button>
                                  {{/if}}       
