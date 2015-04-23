@@ -38,7 +38,7 @@
                 <div class="cardd-container">
             {{ #each menu Value }}
 
-                <div class="cardd-singlecontainer {{soldOutCss fontLine}}">
+                <div class="cardd-singlecontainer {{soldOutCss fontLine fontStyle}}">
                   <div class="cardd-img"> 
 
                     {{#if isSpecial fontWeight}}
@@ -50,6 +50,8 @@
                     <div class="proddheader">{{Name}}</div>
                     <div class="proddescription">{{Description}}</div>
                     <div class="proddbutton">
+                     {{#if isToSell fontStyle}}  
+
                        {{#if isItemAvailable fontLine}}  
 
                             {{#if isItemInCart UniqueId }}
@@ -75,6 +77,11 @@
                        <span class="pull-right" style="font-size: 12px; font-weight: bold" >Sold Out &nbsp;{{currency Charge}} </span>
 
                        {{/if}}
+                     {{else}}  
+                       <span class="pull-right" style="font-size: 12px; font-weight: bold" >{{currency Charge}} </span>
+
+                     {{/if}}
+
                     </div>
                   </div>
                 </div>

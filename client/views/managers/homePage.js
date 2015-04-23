@@ -306,9 +306,9 @@ Template.homePage.helpers({
     	else
     		return '';
     },
-            soldOutCss:function(fontLine)
+            soldOutCss:function(fontLine, fontStyle)
     {
-        if('line-through' === fontLine)
+        if('line-through' === fontLine || 'italic' === fontStyle)
             return 'soldout disabled';
         else
             return '';
@@ -323,6 +323,14 @@ Template.homePage.helpers({
         currency: function(num)
     {
         return '$' + Number(num).toFixed(2);
+    },
+
+        isToSell: function(fontStyle)
+    {
+        if('italic' === fontStyle)
+            return false;
+        else
+            return true;
     },
 
     idOddNumberItems: function(categoryMenu)
