@@ -266,13 +266,6 @@ Template.homePage.helpers({
             return false;
     },
 
-	categoryMenu: function()
-	{
-
-
-		return Settings.find({$and : [{Key: "category_menu"}, {Value : {"$exists" : true, "$ne" : ""}}]});
-
-	},
 	menu:function(categoryMenu)
 	{
 
@@ -280,57 +273,12 @@ Template.homePage.helpers({
 
 	},
 
-		isMenuAvailable:function(categoryMenu)
-	{
-
-		var menuCount = Menu.find({$and : [{Category: categoryMenu}, {Name : {"$exists" : true, "$ne" : ""}}]}).count();
-		if(menuCount > 0)
-			return true;
-		else
-			return false;
-	},
-
-	isItemAvailable:function(fontLine)
-	{
-
-		if('line-through' === fontLine)
-			return  false;
-		else
-			return true;
-	},
-
-	    soldOut:function(fontLine)
-    {
-    	if('line-through' === fontLine)
-    		return 'soldout';
-    	else
-    		return '';
-    },
-            soldOutCss:function(fontLine, fontStyle)
+    soldOutCss:function(fontLine, fontStyle)
     {
         if('line-through' === fontLine || 'italic' === fontStyle)
             return 'soldout disabled';
         else
             return '';
-    },
-        isSpecial:function(fontWeight)
-    {
-        if('bold' === fontWeight)
-            return true;
-        else
-            return false;
-    },
-        currency: function(num)
-    {
-        return '$' + Number(num).toFixed(2);
-    },
-
-        isToSell: function(fontStyle)
-    {
-        if('italic' === fontStyle)
-            return false;
-        else
-            return true;
     },
 
     idOddNumberItems: function(categoryMenu)

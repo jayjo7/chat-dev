@@ -26,6 +26,15 @@ Template.registerHelper('getSettingsArray', function(key)
 				return settingsArray;
 });
 
+Template.registerHelper('getSettingsMulti', function(key)
+{
+	console.log('getSettingsMulti:key = ' + key)
+	var result = Settings.find({$and : [{Key: key}, {Value : {"$exists" : true, "$ne" : ""}}]});
+		console.log('getSettingsMulti:Value = ' + result.Value)
+
+	return result
+});
+
 
 Template.registerHelper('getContent', function(key)
 {
@@ -55,7 +64,8 @@ Template.registerHelper('getContentArray', function(key)
 				return contentArray;
 });
 
-Template.registerHelper('showCart', function(){
+Template.registerHelper('showCart', function()
+{
 
 	    	var  sessid = Session.get('appUUID');
              
@@ -74,4 +84,75 @@ Template.registerHelper('showCart', function(){
 		    }
 
 
-})
+});
+
+Template.registerHelper('isMenuAvailable', function(categoryMenu)
+{
+        console.log('isMenuAvailable:categoryMenu = ' + categoryMenu)
+		var menuCount = Menu.find({$and : [{Category: categoryMenu}, {Name : {"$exists" : true, "$ne" : ""}}]}).count();
+		if(menuCount > 0)
+			return true;
+		else
+			return false;
+
+});
+
+Template.registerHelper('menuMulti', function(categoryMenu)
+{
+
+		return Menu.find({$and : [{Category: categoryMenu}, {Name : {"$exists" : true, "$ne" : ""}}]});
+
+});
+
+Template.registerHelper('menuMulti', function(categoryMenu)
+{
+
+		return Menu.find({$and : [{Category: categoryMenu}, {Name : {"$exists" : true, "$ne" : ""}}]});
+
+});
+
+Template.registerHelper('currency', function(num)
+{
+
+        return '$' + Number(num).toFixed(2);
+
+});
+
+Template.registerHelper('isToSell', function(fontStyle)
+{
+
+         if('italic' === fontStyle)
+            return false;
+        else
+            return true;
+
+});
+
+Template.registerHelper('isItemAvailable', function(fontLine)
+{
+		if('line-through' === fontLine)
+			return  false;
+		else
+			return true;
+
+});
+
+Template.registerHelper('isSpecial', function(fontWeight)
+{
+        if('bold' === fontWeight)
+            return true;
+        else
+            return false;
+
+});
+
+Template.registerHelper('soldOut', function(fontLine)
+{
+    	if('line-through' === fontLine)
+    		return 'soldout';
+    	else
+    		return '';
+
+});
+
+
