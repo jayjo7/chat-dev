@@ -212,24 +212,24 @@
 
                              {{#if haveMessageToKitchen UniqueId}} 
 
-                                <td class="item-col item" style="background-color: #ffffff; border-top: 1px solid #cccccc;">
+                                <td style="background-color: #ffffff; border-top: 1px solid #cccccc;">
                                 <div>
                                     <span style="color: #4d4d4d; font-weight:bold;">Message to Kitchen:</span> 
                                         <br /><br/> {{messageToKitchen UniqueId}}
                                     </div>
                                 </td>
                               {{else}}  
-                                <td class="item-col item">
+                                <td >
                                 </td>
 
                                 {{/if}}
 
-                                <td class="item-col quantity" style="text-align:right; padding-right: 10px; border-top: 1px solid #cccccc;">
+                                <td  style="text-align:right; padding-right: 10px; border-top: 1px solid #cccccc;">
                                   <span class="total-space" >Subtotal</span> <br />
                                   <span class="total-space">Tax</span> <br />
                                   <!-- <span class="total-space">Delivery Fee</span> <br /> -->
                                 <span class="total-space" style="font-weight: bold; color: #4d4d4d">Total</span></td>
-                                <td class="item-col price" style="text-align: right; border-top: 1px solid #cccccc;"><span class="total-space">{{getSubTotal}}</span> <br />
+                                <td  style="text-align: right; border-top: 1px solid #cccccc;"><span class="total-space">{{getSubTotal}}</span> <br />
                                  
                                     <span class="total-space">{{getTax}}</span> <br />
                                   
@@ -242,7 +242,7 @@
 
                              {{#if haveMessageToKitchen UniqueId}} 
 
-                              <td class="item-col item" style="background-color: #ffffff; border-top: 1px solid #cccccc;">
+                              <td  style="background-color: #ffffff; border-top: 1px solid #cccccc;">
                                 <div>
                                     <span style="color: #4d4d4d; font-weight:bold;">Message to Kitchen:</span> 
                                         <br /><br/> {{messageToKitchen UniqueId}}
@@ -250,15 +250,15 @@
                                 </td>
                               {{else}}  
 
-                                <td class="item-col item">
+                                <td >
                                 </td>
 
                                 {{/if}}
 
-                                <td class="item-col quantity" style="text-align:right; padding-right: 10px; border-top: 1px solid #cccccc;">
+                                <td  style="text-align:right; padding-right: 10px; border-top: 1px solid #cccccc;">
                                   <!-- <span class="total-space">Delivery Fee</span> <br /> -->
                                 <span class="total-space" style="font-weight: bold; color: #4d4d4d">Total</span></td>
-                                <td class="item-col price" style="text-align: right; border-top: 1px solid #cccccc;">
+                                <td  style="text-align: right; border-top: 1px solid #cccccc;">
                                   
                                   <!--<span class="total-space">$0.00</span> <br /> -->
                                 <span class="total-space" style="text-align: right; font-weight:bold; color: #4d4d4d">{{getTotal}}</span>
