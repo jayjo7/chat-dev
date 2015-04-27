@@ -252,7 +252,14 @@ Meteor.methods({
 									}, Meteor.bindEnvironment (function(err, charge) {
   										if (err && err.type === 'StripeCardError') 
   										{
-    											// The card has been declined
+    											
+  											console.log(sessionId + "Error object from stripe: " + err);
+  											for(var key in err)
+  											{
+  												console.log(sessionId + "Error object from stripe: " + key + " = " + err[key]);
+  											}
+  											callback(err);
+  											return;
   										}
   										else
   										{
