@@ -1,7 +1,7 @@
-.bttn {
+.bttn-modal {
 	border: none;
 	padding: 0.6em 1.2em;
-	background: red;
+	background: #c0392b;
 	color: #fff;
 	font-family: 'Lato', Calibri, Arial, sans-serif;
 	font-size: 1em;
@@ -15,39 +15,15 @@
 	max-width: 200px;
 	margin-bottom: 5px;
 }
-.bttn:hover {
+.bttn-modal:hover {
 	background: #A5281B;
 }
-.bttn:active {
-	background-color: #A5281B;
+.bttn-modal:active {
+	background-color: red;
 }
-.checkout-modal {
-	margin::20px;
-	width: 75vw;
-	height: 90vh;
-	/*display: -webkit-box;
-	display: -moz-box;
-	display: -ms-flexbox;
-	display: -moz-flex;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-flex-wrap: wrap;
-	flex-wrap: wrap;
-	-webkit-justify-content: center;
-	justify-content: center;
-	-webkit-flex-direction: column;
-	flex-direction: column;*/
-	position: fixed;
-	top: 10%;
-	left: 15%;
-	display: none;
-	background: #e74c3c;
-	color: white;
-	height: auto;
-	z-index: 20000;
-/*	box-shadow: 0px 0px 3px 3px rgba(0,0,0,0.20);*/
-}
-.checkout-container-orderdata {
+.checkout-modal-modal {
+	width: 100vw;
+	height: 100vh;
 	display: -webkit-box;
 	display: -moz-box;
 	display: -ms-flexbox;
@@ -56,20 +32,46 @@
 	display: flex;
 	-webkit-flex-wrap: wrap;
 	flex-wrap: wrap;
-	justify-content: space-around;
+	-webkit-justify-content: space-around;
+	justify-content: space-around  ;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	position: absolute;
+	
+	
+	display: block;
+	background: rgba(243,0,4,1.00);
+	color: white;
+	overflow:auto;	
+	z-index: 20000;
+	font-family: 'Lato', Calibri, Arial, sans-serif;
+/*	box-shadow: 0px 0px 3px 3px rgba(0,0,0,0.20);*/
+}
+.checkout-modal-container-orderdata {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -moz-flex;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	justify-content: center;
 	-webkit-flex-direction: row;
 	flex-direction: row;
+	
 }
-.checkout-itemlist {
-	height: 230px;
+.checkout-modal-itemlist {
+	background-color:rgba(209,0,1,.20);
 	padding: 0px;
 }
 
-.checkout-customerdetails, .checkout-paymentdetails, .creditcarddetails {
+.checkout-modal-customerdetails, .checkout-modal-paymentdetails, .creditcarddetails {
 	padding: 20px;
 }
-.checkout-total {
-	height: 21px;
+.checkout-modal-total {
+	margin-top:15px;
+	height: 5px;
 	font-size: 1.2em;
 	font-weight: 600;
 	letter-spacing: 2px;
@@ -77,20 +79,19 @@
 	background: rgba(234,100,86,1.00);
 	border-bottom: dotted 1px rgba(255,255,255,.40);
 }
-body {
-	font-family: 'Lato', Calibri, Arial, sans-serif;
-}
-/*--Ribbon--*/
-.ribbon {
+
+/*--ribbon-modal--*/
+.ribbon-modal {
+	height:38px;
 	width: 150px;
 	position: relative;
 	background: rgba(234,100,86,1);
 	color: #fff;
 	text-align: center;
-	padding: 0em 0em; /* Adjust to suit */
-	margin: 1em auto 2em; /* Based on 24px vertical rhythm. 48px bottom margin - normally 24 but the ribbon 'graphics' take up 24px themselves so we double it. */
+	padding: 0px 0em; /* Adjust to suit */
+	margin: 1em auto 2em; /* Based on 24px vertical rhythm. 48px bottom margin - normally 24 but the ribbon-modal 'graphics' take up 24px themselves so we double it. */
 }
-.ribbon:before, .ribbon:after {
+.ribbon-modal:before, .ribbon-modal:after {
 	content: "";
 	position: absolute;
 	display: block;
@@ -98,17 +99,17 @@ body {
 	border: 1.5em solid rgba(165,0,0,.20);
 	z-index: -1;
 }
-.ribbon:before {
+.ribbon-modal:before {
 	left: -2em;
 	border-right-width: 1.5em;
 	border-left-color: transparent;
 }
-.ribbon:after {
+.ribbon-modal:after {
 	right: -2em;
 	border-left-width: 1.5em;
 	border-right-color: transparent;
 }
-.ribbon .ribbon-content:before, .ribbon .ribbon-content:after {
+.ribbon-modal .ribbon-modal-content:before, .ribbon-modal .ribbon-modal-content:after {
 	content: "";
 	position: absolute;
 	display: block;
@@ -116,46 +117,33 @@ body {
 	border-color: #804f7c transparent transparent transparent;
 	bottom: -.7em;
 }
-.ribbon .ribbon-content:before {
+.ribbon-modal .ribbon-modal-content:before {
 	left: 0;
 	border-width: 1em 0 0 1em;
 }
-.ribbon .ribbon-content:after {
+.ribbon-modal .ribbon-modal-content:after {
 	right: 0;
 	border-width: 1em 1em 0 0;
 }
 /*--Table--*/
 
-.tabbl {
-	width: 100%;
-	border: 0px;
-	letter-spacing: 1px;
+.checktable-modal{
+	border:1px solid rgba(0,0,0,0.10)
+	}
+.checktable-modal tr:nth-last-child(1) {
+	background-color:rgba(177,0,1,0.70);
 	text-transform: uppercase;
-	font-weight: 100;
+	font-weight:200;
 }
-.tabbl tbody {
-	overflow-y: scroll;
-	height: 200px;
-	width: 100%;
-	position: absolute;
-}
-.tabbl tr {
-	width: 100%;
-	display: inline-table;
-}
-.tabbl td, th {
+.checktable-modal th {
 	width: 25%;
 }
-.tabbl td:nth-child(1), th:nth-child(1) {
+.checktable-modal th:nth-child(1) {
 	width: 45%;
 }
-.tabbl td:nth-child(4), th:nth-child(4) {
-	width: 5%;
-}
-.tabbl th {
-	background-color: maroon;
-}
-.qtyy {
+
+
+.qtyy-modal {
 	border-radius: 5px;
 	outline: none;
 	color: black;
@@ -165,10 +153,10 @@ body {
 	box-shadow: -1px -1px 2px 1px rgba(200,0,3,1.00);
 	text-align: center;
 }
-.qtyy:focus, .textfld:focus {
+.qtyy-modal:focus, .textfld-modal:focus {
 	background-color: rgba(255,215,0,1.50);
 }
-.textfld {
+.textfld-modal {
 	border-radius: 3px;
 	outline: none;
 	color: black;
@@ -178,60 +166,38 @@ body {
 	padding: 2px;
 	box-shadow: -1px -1px 2px 1px rgba(200,0,3,1.00);
 }
-.bgm {
+.bgm-modal {
 	background-color: rgba(238,238,238,0.20);
 	border-radius: 5px;
 }
-.cclock {
+.cclock-modal {
 	text-indent: 20px;
 	width: 13em;
 }
-.cclock + .glyphicon {
+.cclock-modal + .glyphicon {
 	position: relative;
 	left: -175px;
 	color: lightgrey;
 	font-size: .8em;
 }
-@media(min-width:1800px) {
-.checkout-modal {
-	margin:20px;
-	width: 900px;
-	top: 10%;
-	left: 30%;
-	right:30%;
-}
-}
+
 @media(max-width:700px) {
-.checkout-modal {
+.checkout-modal-modal {
 	width: 100%;
 	height: auto;
-	left: 0%;
-	top:0%;
-	padding:0px;
+
 
 }
 
-.checkout-customerdetails, .checkout-paymentdetails, .creditcarddetails {
+.checkout-modal-customerdetails, .checkout-modal-paymentdetails, .creditcarddetails {
 	padding: 2px;
 }
-.textfld {
+.textfld-modal {
 	border-radius: 2px;
 	padding: 1px;
 }
-.tabbl tr {
-	width: 95%;
-	display: inline-table;
-}
-.tabbl td, th {
-	width: 20%;
-}
-.tabbl td:nth-child(1), th:nth-child(1) {
-	width: 40%;
-}
-.tabbl td:nth-child(4), th:nth-child(4) {
-	width: 5%;
-}
-.bttn {
+
+.bttn-modal {
 	outline: none;
 	max-width: 150px;
 }
