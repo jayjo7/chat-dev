@@ -48,10 +48,16 @@ Meteor.methods({
 				//qty +=Number(itemFromCart.qty);
 				//console.log("qty = " + qty);
 
-			
+			var gmt_offset = Settings.findOne({Key: 'gmt_offset'})
+
+			console.log(session + ' addToCart:gmt_offset = ' + gmt_offset.Value );
+
+			var now =moment().utcOffset(Number(gmt_offset.Value)).format('MM/DD/YYYY hh:mm:ss A');
+
+			console.log(session + ' addToCart:now = ' + now);
 
 		
-			CartItems.update({product:product, session:session},{qty:qty, product:product, session:session,Name:Name, Category:Category, Charge:Charge},{upsert:true});
+			CartItems.update({product:product, session:session},{qty:qty, product:product, session:session,Name:Name, Category:Category, Charge:Charge, dateAdded:now},{upsert:true});
 
 			//CartItems.insert({qty:qty, product:product, session:session});
 			console.log('Added the product = ' + product  + ' for session id = ' + session);
@@ -187,7 +193,14 @@ Meteor.methods({
 
 				cartitems.UniqueId = order.UniqueId;
 
-				OrderedItems.update({product:cartitems.product, UniqueId:order.UniqueId},cartitems,{upsert:true});
+				try{
+
+				OrderedItems.update({product:cartitems.product, _id:cartitems._id},cartitems,{upsert:true});
+			}catch (exception)
+			{
+
+
+			}
 
 
    			});
