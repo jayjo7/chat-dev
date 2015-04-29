@@ -230,7 +230,13 @@ Meteor.methods({
         		//var secret = Meteor.settings.private.stripe.testSecretKey;
 				var stripe = Meteor.npmRequire('stripe')("sk_test_X1Qg62lGhGHpGlZdeWrlbPAs");
                 stripe.setApiVersion('2015-04-07');
+                console.log(sessionId + " :To Payment system: order.Total = "    + order.Total);
+
                 var orderTotalCents = order.Total;
+
+                console.log(sessionId + " :To Payment system: orderTotalCents before toFixed(2)= "    + orderTotalCents);
+                var orderTotalCents = Number(orderTotalCents).toFixed(2);
+                console.log(sessionId + " :To Payment system: orderTotalCents before replace= "    + orderTotalCents);
                 orderTotalCents     = orderTotalCents.toString().replace('.','');
         		console.log(sessionId + " :To Payment system: orderTotalCents = "     		+ orderTotalCents);
         		console.log(sessionId + " :To Payment system: currencyCode.Value = " 	+currencyCode.Value);
