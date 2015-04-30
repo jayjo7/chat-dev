@@ -1,19 +1,21 @@
 <template name="digitalMenu">
 
-<div class="DM-body" >
+<div class="tv-body" >
 
-<div class="tv-container">	
+<div class="tv-OverallContainer">	
 
-<div class=" DM-notification">{{newOrderCount}}</div>
-<div class="DM-tvcontainer">
-  <div class="DM-topcontainer">
-    <div align="center" style="background-color: rgba(255,193,0,.20); width:33%;padding:10px; border-top-left-radius:20px; border-bottom-left-radius:20px;">{{getSettings 'dm_left_message'}}</div>
-    <div align="center" style="background-color: rgba(255,193,0,.50); width:33%;padding:10px; font-size:1.5em">{{getSettings 'store_name'}}</div>
-    <div  align="center" style="background-color: rgba(255,193,0,.30); width:33%;padding:10px; border-top-right-radius:20px; border-bottom-right-radius:20px;">{{getSettings 'dm_right_message'}}</div>
+<div class="tv-MainHeader">
+    <div class="tv-MainHeaderLeft" align="left">{{getSettings 'dm_left_message'}}</div>
+    <div class="tv-MainHeaderCenter" align="center">
+
+    	Welcome to <br/>Chowpaaty Chaat
+
+    </div>
+    <div class="tv-MainHeaderRight" align="right">Order Online!<br/> Pick it up here!<br/>
+    www.chowpaatychaat.com</div>
+    <div class="TV-notification">{{newOrderCount}}</div>
   </div>
-</div>
-<hr>
-
+  <hr>
 
 
   <!--MENU--> 
@@ -25,14 +27,16 @@
 
   <!--CATEGORY-->
 		<div class="tv-CategoryBlock">
-            <div class="tv-CategoryHeader" align="center">{{Value}}</div>
+            <div class="tv-CategoryHeader" align="center">
+            	<div class="tv-category-title">{{Value}}</div>
+            </div>
 
 			    		{{#each menuMulti Value }}
 
-			    			{{#if isToSell fontStyle}}  
-			    					<div class="tv-itemBlock">
+ 
+			    					<div class="tv-itemBlock ">
 
-			    						        <div class="tv-item-Title">{{Name}}</div>
+			    						        <div class="tv-item-Title" >{{Name}}</div>
 			    						      {{#if isSpecial fontWeight}}
         										<div class="tv-special">Special</div>
 								             {{/if}}
@@ -40,7 +44,7 @@
       								</div>
 
 
-						    {{/if}}  
+
 
 
 			      		{{/each}}
