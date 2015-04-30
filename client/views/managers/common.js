@@ -155,4 +155,12 @@ Template.registerHelper('soldOut', function(fontLine)
 
 });
 
+Template.registerHelper('newOrderCount', function()
+{
+	var newOrderCount = Orders.find({Status:STATE_ONE}).count();
+	console.log("New Order Count" + newOrderCount);
+	return newOrderCount
+
+});
+
 
