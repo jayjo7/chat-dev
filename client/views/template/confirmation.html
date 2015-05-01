@@ -227,13 +227,16 @@
                                 <td  style="text-align:right; padding-right: 10px; border-top: 1px solid #cccccc;">
                                   <span class="total-space" >Subtotal</span> <br />
                                   <span class="total-space">Tax</span> <br />
-                                  <!-- <span class="total-space">Delivery Fee</span> <br /> -->
+                                  {{#if haveDiscount }}
+                                  <span class="total-space">Discount</span> <br />
+                                  {{/if}}
                                 <span class="total-space" style="font-weight: bold; color: #4d4d4d">Total</span></td>
                                 <td  style="text-align: right; border-top: 1px solid #cccccc;"><span class="total-space">{{getSubTotal}}</span> <br />
                                  
                                     <span class="total-space">{{getTax}}</span> <br />
-                                  
-                                  <!--<span class="total-space">$0.00</span> <br /> -->
+                                 {{#if haveDiscount }}
+                                  <span class="total-space">({{getDiscount}})</span> <br /> 
+                                  {{/if}}
                                 <span class="total-space" style="font-weight:bold; color: #4d4d4d">{{getTotal}}</span>
 
                             </td>

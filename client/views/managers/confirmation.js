@@ -120,44 +120,74 @@ Template.confirmation.helpers({
              
            console.log("orderedCart:uniqueId =  " +uniqueId);
 
-           var tax = Settings.findOne({$and : [{Key: "tax"}, {Value : {"$exists" : true, "$ne" : ""}}]});
+           var tax              = Settings.findOne({$and : [{Key: "tax"}, {Value : {"$exists" : true, "$ne" : ""}}]});
+           var sale_discount    = Settings.findOne({$and : [{Key: "sale_discount"}, {Value : {"$exists" : true, "$ne" : ""}}]});
 
 
+		      var orderedCart         = [];
+		      var orderedItems        = OrderedItems.find({UniqueId: uniqueId});
+		      orderedCart.itemCount   = orderedItems.count();
+		      var total               = 0;
 
-		    var orderedCart = [];
-		    var cartItems = OrderedItems.find({UniqueId: uniqueId});
-		    orderedCart.itemCount = cartItems.count();
-		    var total = 0;
+		      orderedItems.forEach(function(orderedItem){
+		        var item = _.extend(orderedItem,{});
 
-		    cartItems.forEach(function(cartItem){
-		        var item = _.extend(cartItem,{});
+		        orderedItem.price = (Number(orderedItem.Charge) * orderedItem.qty);
+		        total += orderedItem.price;
+		        orderedCart.push(orderedItem);
+		      });
 
-		        cartItem.price = (Number(cartItem.Charge) * cartItem.qty);
-		        total += cartItem.price;
-		        orderedCart.push(cartItem);
-		    });
-		    orderedCart.subtotal = total;
+		      orderedCart.subtotal = total;
 
-            console.log("tax.Value : " + tax.Value);
+          console.log("sale_discount.Value : " + sale_discount.Value);
 
-            var taxValue = Number(tax.Value);
+          var sale_discountValue = Number(sale_discount.Value);
+          console.log("tax.Value : " + tax.Value);
 
-            if(taxValue >= 0)
+          var taxValue = Number(tax.Value);
+
+            if(sale_discountValue > 0 && taxValue > 0)
             {
-                 orderedCart.tax = orderedCart.subtotal * taxValue;
+                orderedCart.discount                = orderedCart.subtotal * sale_discountValue;
+                orderedCart.subtotalAfterDiscount   = orderedCart.subtotal - orderedCart.discount;
+                orderedCart.tax                     = orderedCart.subtotalAfterDiscount  * taxValue;
+                orderedCart.total                   = orderedCart.subtotalAfterDiscount + orderedCart.tax;
+                orderedCart.message                    = "Total (" + sale_discountValue *100 +"% discount & tax)";
+                Session.set('orderedTax', orderedCart['tax']);          
+                Session.set('discount', orderedCart['discount']);          
 
-                 orderedCart.taxMessage= "Including Tax";
-                 orderedCart.total = orderedCart.subtotal + orderedCart.tax;
+            }  
+            else
+            if (sale_discountValue > 0 && taxValue <= 0)
+
+            {
+                orderedCart.discount               = orderedCart.subtotal * sale_discountValue;
+                orderedCart.subtotalAfterDiscount  = orderedCart.subtotal - orderedCart.discount;
+                orderedCart.total                  = orderedCart.subtotalAfterDiscount;
+                orderedCart.message                = "Total (" + sale_discountValue *100 +"% discount)";
+                Session.set('discount', orderedCart['discount']);          
+                Session.set('orderedTax', null);          
+
+
+            }  
+            else
+            if (sale_discountValue <=  0 && taxValue > 0)
+            {
+                 orderedCart.tax            = orderedCart.subtotal * taxValue;
+                 orderedCart.total          = orderedCart.subtotal + orderedCart.tax;
+                 orderedCart.message        = "Total (Including Tax)";
+                 Session.set('discount', null);          
                  Session.set('orderedTax', orderedCart['tax']);          
 
 
-            }
+            }  
             else
             {
                 orderedCart.total = orderedCart.subtotal 
-                Session.set('orderedTax', null);          
+                Session.set('orderedTax', null);  
+                Session.set('discount', null);          
                 orderedCart.taxMessage= "Tax is not included";
-            }
+            }                                         
 
 
 		    //orderedCart.tax = orderedCart.subtotal * .092;
@@ -170,7 +200,7 @@ Template.confirmation.helpers({
 		    }
 
 		    Session.set('orderedSubTotal', orderedCart['subtotal']);
-		   	Session.set('orderedTotal', orderedCart['total']);
+		   	Session.set('orderedTotal',    orderedCart['total']);
 
 
 		    return orderedCart;
@@ -193,7 +223,13 @@ Template.confirmation.helpers({
 
     },
 
-    getSubTotal:function()
+  getDiscount:function()
+
+  {
+    return '$'+Number(Session.get('discount')).toFixed(2);
+  },
+
+  getSubTotal:function()
 
 	{
 		return '$'+Number(Session.get('orderedSubTotal')).toFixed(2);

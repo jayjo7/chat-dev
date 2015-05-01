@@ -155,4 +155,25 @@ Template.registerHelper('soldOut', function(fontLine)
 
 });
 
+Template.registerHelper('haveDiscount', function()
+{
+        var sale_discount   = Settings.findOne({$and : [{Key: "sale_discount"}, {Value : {"$exists" : true, "$ne" : ""}}]});
+        console.log("sale_discount.Value : " + sale_discount.Value);
+
+        var sale_discountValue = Number(sale_discount.Value);
+
+        if(sale_discountValue> 0)
+        {
+        	return true;
+        }
+        else
+        {
+        	return false;
+        }
+
+
+});
+
+
+
 
