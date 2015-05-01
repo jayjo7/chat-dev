@@ -5,6 +5,7 @@ Meteor.startup(function() {
 
 	 	$('body').attr('class', 'index body');
 		$('body').attr('id', 'page-top');
+        $('body').attr('ontouchstart', " ");
 
 
 

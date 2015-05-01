@@ -8,6 +8,14 @@ Meteor.methods({
   	return tax;
 
   },
+    getSaleDiscount:function(){
+
+  	//var tax = Settings.findOne( { Key:'tax'});;
+    var sale_discount = Settings.findOne({$and : [{Key: "sale_discount"}, {Value : {"$exists" : true, "$ne" : ""}}]});
+
+  	return sale_discount;
+
+  },
 
     getCurrencyCode:function(){
 
@@ -173,60 +181,87 @@ Meteor.methods({
 			var subTotal = 0;
 
 			itemsInCart.forEach (function (cartitems)
+			{
+				totalItemCount += Number(cartitems.qty);
 
+				for(key in cartitems)
 				{
-					totalItemCount += Number(cartitems.qty);
-
-					for(key in cartitems)
-					{
-						console.log(sessionId + " :cartitems: " + key + "  =  " + cartitems[key]);
-					}
+					console.log(sessionId + " :cartitems: " + key + "  =  " + cartitems[key]);
+				}
 
 
-					subTotal +=  (Number(cartitems.Charge) * cartitems.qty);
-					itemString = itemString + cartitems.qty + " - " + cartitems.Name +'\n';
-   					items.push(
-   					{ 
+				subTotal +=  (Number(cartitems.Charge) * cartitems.qty);
+				itemString = itemString + cartitems.qty + " - " + cartitems.Name +'\n';
+   				items.push(
+   				{ 
         				"name" : cartitems.Name,
         				"qty"  : cartitems.qty
-					});
+				});
 
 				cartitems.UniqueId = order.UniqueId;
 
 				try{
 
-				OrderedItems.update({product:cartitems.product, _id:cartitems._id},cartitems,{upsert:true});
-			}catch (exception)
-			{
+					OrderedItems.update({product:cartitems.product, _id:cartitems._id},cartitems,{upsert:true});
+				}catch (exception)
+				{
+					console.log(sessionId + ' :exception on OrderedItems Update = ' + exception);
+					throw exception;
 
-
-			}
+				}
 
 
    			});
-			order.itemsObject=items;
-			order.Items= itemString.substring(0, itemString.length-1); // Substring to get rid of the last new character
-			order.TotalItem = totalItemCount;	
-			order.SubTotal = Number (subTotal.toFixed(2));
+
+			console.log(sessionId + " : Done with Calculating " );
 
 
-			var tax = Meteor.call('getTax');
-            var taxValue = Number(tax.Value);
 
+			order.itemsObject 	= items;
+			order.Items 		= itemString.substring(0, itemString.length-1); // Substring to get rid of the last new character
+			order.TotalItem 	= totalItemCount;	
+			order.SubTotal 		= Number (subTotal.toFixed(2));
+
+
+			var tax 			= Meteor.call('getTax');
+			var sale_discount 	= Meteor.call('getSaleDiscount');
+
+            var taxValue 		= Number(tax.Value);
+            var sale_discountValue 	= Number(sale_discount.Value);
             console.log(sessionId + ' :tax = ' + taxValue );
+            console.log(sessionId + ' :discount = ' + sale_discountValue );
 
-            if(taxValue > 0)
+
+
+            if(sale_discountValue > 0 && taxValue > 0)
             {
-            	order.tax = subTotal * taxValue;
+                order.discount               = order.SubTotal * sale_discountValue;
+                order.subtotalAfterDiscount  = order.SubTotal - order.discount;
+                order.tax                    = order.subtotalAfterDiscount  * taxValue;
+                order.Total                  = Number((order.subtotalAfterDiscount + order.tax).toFixed(2));
+            }
+            else
+            if (sale_discountValue > 0 && taxValue <= 0)
+
+            {
+                order.discount               = order.SubTotal * sale_discountValue;
+                order.subtotalAfterDiscount  = order.SubTotal - order.discount;
+                order.Total                  = Number((order.subtotalAfterDiscount).toFixed(2));
 
             }
             else
-
+            if (sale_discountValue <=  0 && taxValue > 0)
             {
-            	order.tax = 0;
-            }	
+                 order.tax 		= order.subtotal * taxValue;
+                 order.total 	= Number((order.subtotal + order.tax).toFixed(2));
 
-			order.Total = Number((subTotal + order.tax).toFixed(2));
+
+            } 
+            else
+            {
+                shopCart.total = Number((shopCart.subtotal ).toFixed(2));
+
+            }
 
 			order.sessionId =sessionId;
 
