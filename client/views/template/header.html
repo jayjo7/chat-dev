@@ -11,13 +11,12 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li class="hidden"> <a href="#page-top"></a> </li>
-        <li class="page-scroll"> <a href="#menucard">MENU</a></li>
-        <li class="page-scroll"> <a href="#about">ABOUT US</a></li>
-        <li class="page-scroll"> <a href="#catering">CATERING</a></li>
-        <li class="page-scroll"> <a href="#callus">CALL US</a></li>
-        <li class="page-scroll"> <a href="#callus">LOCATION</a></li>
-
+        <li class="hidden">      <a href="{{pathFor 'homePage'}}"></a> </li>
+        <li class="page-scroll"> <a href="{{pathFor 'homePage' hash='menucard'}}">MENU</a></li>
+        <li class="page-scroll"> <a href="{{pathFor 'homePage' hash='about'}}">ABOUT US</a></li>
+        <li class="page-scroll"> <a href="{{pathFor 'homePage' hash='catering'}}">CATERING</a></li>
+        <li class="page-scroll"> <a href="{{pathFor 'homePage' hash='callus'}}">CALL US</a></li>
+        <li class="page-scroll"> <a href="{{pathFor 'homePage' hash='callus'}}">LOCATION</a></li>
       </ul>
     </div>
     <!-- /.navbar-collapse --> 
