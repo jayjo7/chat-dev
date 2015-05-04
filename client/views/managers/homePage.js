@@ -162,8 +162,6 @@ Template.homePage.helpers({
         var store_open_time= Settings.findOne({$and : [{Key: "store_open_time"}, {Value : {"$exists" : true, "$ne" : ""}}]});
         var store_close_time= Settings.findOne({$and : [{Key: "store_close_time"}, {Value : {"$exists" : true, "$ne" : ""}}]});
         var gmt_offset= Settings.findOne({$and : [{Key: "gmt_offset"}, {Value : {"$exists" : true, "$ne" : ""}}]});
-        var store_open_saturday= Settings.findOne({$and : [{Key: "store_open_saturday"}, {Value : {"$exists" : true, "$ne" : ""}}]});
-        var store_open_sunday= Settings.findOne({$and : [{Key: "store_open_sunday"}, {Value : {"$exists" : true, "$ne" : ""}}]});
 
         //var store_close_time_24 = store_close_time.Value + 12;
 
@@ -171,8 +169,7 @@ Template.homePage.helpers({
        console.log("store_close_time from sheet = " + store_close_time.Value);
        //console.log("store_close_time_24 = " + store_close_time_24);    
        console.log("gmt_offset = " + gmt_offset.Value);
-       console.log("store_open_saturday = " + store_open_saturday.Value);
-       console.log("store_open_sunday = " + store_open_sunday.Value);
+
 
 
             var momentDate=moment().utcOffset(Number(gmt_offset.Value))
@@ -183,24 +180,43 @@ Template.homePage.helpers({
             console.log("currentTime = " + currentTime);
 
 
-            if (currentday === 0 ) //Sunday
+            if (currentday === 0  || (currentday === 6)) //Sunday
             {
-                if( 'no'=== store_open_sunday.Value.trim() )
+                var store_open_saturday     = Settings.findOne({$and : [{Key: "store_open_saturday"}, {Value : {"$exists" : true, "$ne" : ""}}]});
+                var store_open_sunday       = Settings.findOne({$and : [{Key: "store_open_sunday"}, {Value : {"$exists" : true, "$ne" : ""}}]});
+
+
+                console.log("store_open_saturday    = " + store_open_saturday.Value);
+                console.log("store_open_sunday      = " + store_open_sunday.Value);
+
+                if( 'no'=== store_open_sunday.Value.trim() || 'no'=== store_open_saturday.Value.trim() )
                 {
                     return true;
                 }
+                else
+                {
+                    var store_open_time_weekend = Settings.findOne({$and : [{Key: "store_open_time_weekend"}, {Value : {"$exists" : true, "$ne" : ""}}]});
+                    var store_close_time_weekend= Settings.findOne({$and : [{Key: "store_close_time_weekend"}, {Value : {"$exists" : true, "$ne" : ""}}]});
+                    console.log("store_open_time_weekend    = " + store_open_time_weekend.Value);
+                    console.log("store_close_time_weekend   = " + store_close_time_weekend.Value);
 
-            }
-
-            if (currentday === 6) //Saturday
-            {
-                    if('no'=== store_open_saturday.Value.trim() )
+                    if(currentTime >= store_open_time_weekend.Value  &&  currentTime < store_close_time_weekend.Value)
                     {
+                        console.log("Store Open on Weekend")
+
+                        return  false;
+                    }
+                    else
+                    {
+                        console.log("Store close on Weekend")
+
                         return true;
                     }
 
-            }
 
+                }
+
+            }
 
             if(currentTime >= store_open_time.Value  &&  currentTime < store_close_time.Value)
             {
