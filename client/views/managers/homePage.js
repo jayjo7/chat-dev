@@ -146,7 +146,7 @@ Template.homePage.helpers({
         var store_online_orders= Settings.findOne({$and : [{Key: "store_online_orders"}, {Value : {"$exists" : true, "$ne" : ""}}]});
         console.log("store_online_orders = " + store_online_orders.Value.trim());
 
-        if('no' === store_online_orders.Value.trim())
+        if('NO' === store_online_orders.Value.trim().toUpperCase())
         {
             return true
         }
@@ -189,7 +189,7 @@ Template.homePage.helpers({
                 console.log("store_open_saturday    = " + store_open_saturday.Value);
                 console.log("store_open_sunday      = " + store_open_sunday.Value);
 
-                if( 'no'=== store_open_sunday.Value.trim() || 'no'=== store_open_saturday.Value.trim() )
+                if( 'NO'=== store_open_sunday.Value.trim().toUpperCase() || 'NO'=== store_open_saturday.Value.trim().toUpperCase() )
                 {
                     return true;
                 }
