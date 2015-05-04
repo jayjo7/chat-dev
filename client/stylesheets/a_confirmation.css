@@ -1,5 +1,3 @@
-    @import url(http://fonts.googleapis.com/css?family=Oxygen:400,700);
-    @import url(http://fonts.googleapis.com/css?family=Rock+Salt);
 
    /* Take care of image borders and formatting, client hacks */
     img { max-width: 600px; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;}
