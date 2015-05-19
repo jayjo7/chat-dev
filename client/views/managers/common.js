@@ -11,7 +11,7 @@ Template.registerHelper('getSettingsArray', function(key)
 {
 	console.log('getSettingsArray:key = ' + key)
 
-		var Settings = Content.findOne({$and : [{Key: key}, {Value : {"$exists" : true, "$ne" : ""}}]})
+		var Settings = Settings.findOne({$and : [{Key: key}, {Value : {"$exists" : true, "$ne" : ""}}]})
 
 
 
