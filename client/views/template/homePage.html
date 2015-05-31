@@ -36,7 +36,7 @@
         {{#if isMenuAvailable Value}}
             <h3 align="center">{{ Value }}</h3>
                 <div class="cardd-container">
-            {{ #each menu Value }}
+            {{ #each menu Value}}
 
                 <div class="cardd-singlecontainer {{soldOutCss fontLine fontStyle}}">
                   <div class="cardd-img"> 
@@ -45,7 +45,7 @@
                     <span class="cardd-banner"></span> 
                     {{/if}}
 
-                    <img src="{{getSettings 'image_formatter'}}{{ImageLink}}" alt=""> </div>
+                    <img src="{{imageFormatter}}{{ImageLink}}" alt=""> </div>
                   <div class="proddbox">
                     <div class="proddheader"><span>{{Name}}</span></div>
                     <div class="proddescription">{{Description}}</div>

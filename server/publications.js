@@ -1,49 +1,67 @@
-Meteor.publish('menu', function(){
-	return Menu.find();
-	}
-	);	
+Meteor.publish('menu', function(orgname)
+{
+	return Menu.find({orgname:orgname});
+});	
+
+Meteor.publish('content', function(orgname)
+{
+
+	return Content.find({orgname:orgname});
+
+});	
+
+Meteor.publish('settings', function(orgname)
+{
+
+	return Settings.find({orgname:orgname});
+
+});	
+
+Meteor.publish('appSettings', function(orgname)
+{
+
+	return AppSettings.find({orgname:orgname});
+
+});	
 	
-Meteor.publish('cartItems', function(){
+Meteor.publish('cartItems', function(sessionId,orgname)
+{
 
-	//console.log("Count CartItems " + CartItems.find().count());
+	return  CartItems.find({session:sessionId, orgname:orgname});
 
-	return  CartItems.find();
+});	
 
-	}
-	);	
-
-
-Meteor.publish('ordereditems', function(UniqueId){
-
-	//console.log("In Publish (OrderedItems): UniqueId " + UniqueId );
+Meteor.publish('ordereditems', function(UniqueId, orgname)
+{
  
-	return  OrderedItems.find({UniqueId: UniqueId });
+	return  OrderedItems.find({UniqueId: UniqueId, orgname:orgname });
 
-	}
-	);	
+});	
+
+Meteor.publish('ordereditemsManagement', function( orgname)
+{
+ 
+	return  OrderedItems.find({ orgname:orgname });
+
+});	
 	
-	
-	Meteor.publish('orders', function(){
-	//console.log("Count Order = " + Orders.find().count());
-	return Orders.find();
-	}
-	);	
+Meteor.publish('orders', function(UniqueId,orgname)
+{
 
-   Meteor.publish('content', function(){
-	//console.log("Content = " + Content.find().count());
-	return Content.find();
-	}
-	);	
+	return Orders.find({UniqueId: UniqueId, orgname:orgname});
 
-    Meteor.publish('settings', function(){
-	//console.log("Settings = " + Settings.find().count());
-	return Settings.find();
-	}
-	);	
+});	
 
-   // Meteor.publish('paymentInfo', function(){
-	//console.log("Settings = " + Settings.find().count());
-	//return PaymentInfo.find();
-	//}
-	//);	
-	
+Meteor.publish('orderManagement', function(orgname)
+{
+
+	return Orders.find({ orgname:orgname});
+
+});	
+
+Meteor.publish('ordersMeta', function(UniqueId,orgname)
+{
+
+	return OrdersMeta.find({UniqueId: UniqueId,orgname:orgname });
+
+});	

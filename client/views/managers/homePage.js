@@ -1,58 +1,30 @@
+NOTIFICATION_MESSAGE_KEY = 'notification_message';
+var notificationkey = Session.get(ORG_NAME_SESSION_KEY) + '_' + NOTIFICATION_MESSAGE_KEY;
 
 
 Template.homePage.helpers({
 
-    isHandHeldDevice: function()
-    {
-
-        if(Meteor.Device.isPhone())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-
-    },
-
-    isLargerDevive:function()
-    {
-        if(Meteor.Device.isTV() || Meteor.Device.isDesktop())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    },
 
     notification_message_session:function()
     {
 
-        return Session.get('notification_message');
+        return Session.get(notificationkey);
 
     },
 
     haveNotification: function(notification_general,isNotTakingOnlineOrder, isStoreClosed)
     {
-        console.log("notification_general = " + notification_general);
-        //console.log("notification_general.lenght = " + notification_general.length);
-        console.log("isNotTakingOnlineOrder= " + isNotTakingOnlineOrder);
-        console.log("isStoreClosed = " + isStoreClosed);
+
+
+        var orgname = Session.get(ORG_NAME_SESSION_KEY);
+
 
         if(isNotTakingOnlineOrder)
         {        
-                var settings = Settings.findOne({$and : [{Key: "notification_no_online_orders"}, {Value : {"$exists" : true, "$ne" : ""}}]})
+                var settings = Settings.findOne({$and : [{Key: "notification_no_online_orders"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]})
 
                 var settingsValue = settings['Value'];
-                console.log('notification_no_online_orders: message Notification = ' + settingsValue);
-                console.log('notification_no_online_orders: Notification trimmed= ' + settingsValue.trim());
                 var settingsValueTrimed = settingsValue.trim();
-                console.log('notification_no_online_orders: Notification trimmed size = ' + settingsValue.trim().length);
 
                 var settingsArray=[];
 
@@ -62,8 +34,7 @@ Template.homePage.helpers({
 
                 }
 
-                console.log('settingsArray.length = ' + settingsArray);
-                Session.set('notification_message', settingsArray);
+                Session.set(notificationkey, settingsArray);
 
                 return true;
         }
@@ -71,15 +42,11 @@ Template.homePage.helpers({
         if(isStoreClosed)
         {
 
-                var settings = Settings.findOne({$and : [{Key: "notification_store_closed"}, {Value : {"$exists" : true, "$ne" : ""}}]})
-
-                var settingsValue = settings['Value'];
-                console.log(' notification_store_closed: message Notification = ' + settingsValue);
-                console.log(' notification_store_closed: Notification trimmed= ' + settingsValue.trim());
+                var settings        = Settings.findOne({$and : [{Key: "notification_store_closed"},{orgname:orgname},  {Value : {"$exists" : true, "$ne" : ""}}]})
+                var settingsValue   = settings['Value'];
                 var settingsValueTrimed = settingsValue.trim();
-                console.log(' notification_store_closed: Notification trimmed size = ' + settingsValue.trim().length);
 
-                var settingsArray=[];
+                var settingsArray = [];
 
                 if(settingsValue.trim().length> 0)
                 {
@@ -87,21 +54,20 @@ Template.homePage.helpers({
 
                 }
 
-                console.log('settingsArray.length = ' + settingsArray);
-                Session.set('notification_message', settingsArray);
+                Session.set(notificationkey, settingsArray);
                 return true;
         }
 
         if(typeof notification_general != 'undefined' && notification_general.length> 0)
 
         {
-            Session.set('notification_message', notification_general)
+            Session.set(notificationkey, notification_general)
             return  true;
 
         }
         else
         {
-            Session.set('notification_message', null)
+            Session.set(notificationkey, null)
 
             return false;
         }
@@ -112,17 +78,14 @@ Template.homePage.helpers({
 
     notification: function()
     {
+        var orgname = Session.get(ORG_NAME_SESSION_KEY);
 
-        var settings = Settings.findOne({$and : [{Key: "notification_general"}, {Value : {"$exists" : true, "$ne" : ""}}]})
 
-                var settingsValue = settings['Value'];
-                console.log(' message Notification = ' + settingsValue);
-                console.log(' message Notification trimmed= ' + settingsValue.trim());
+        var settings = Settings.findOne({$and : [{Key: "notification_general"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]})
+
+                var settingsValue       = settings['Value'];
                 var settingsValueTrimed = settingsValue.trim();
-                console.log(' message Notification trimmed size = ' + settingsValue.trim().length);
-
-
-                 var settingsArray=[];
+                var settingsArray       =[];
 
 
                 if(settingsValue.trim().length> 0)
@@ -132,10 +95,6 @@ Template.homePage.helpers({
 
                 }
 
-                console.log('settingsArray.length = ' + settingsArray);
-
-   
-
                 return settingsArray;
             
 
@@ -143,8 +102,9 @@ Template.homePage.helpers({
 
     isNotTakingOnlineOrder: function()
     {
-        var store_online_orders= Settings.findOne({$and : [{Key: "store_online_orders"}, {Value : {"$exists" : true, "$ne" : ""}}]});
-        console.log("store_online_orders = " + store_online_orders.Value.trim());
+        var orgname = Session.get(ORG_NAME_SESSION_KEY);
+
+        var store_online_orders= Settings.findOne({$and : [{Key: "store_online_orders"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
 
         if('NO' === store_online_orders.Value.trim().toUpperCase())
         {
@@ -159,35 +119,22 @@ Template.homePage.helpers({
 
     isStoreClosed: function()
     {
-        var store_open_time= Settings.findOne({$and : [{Key: "store_open_time"}, {Value : {"$exists" : true, "$ne" : ""}}]});
-        var store_close_time= Settings.findOne({$and : [{Key: "store_close_time"}, {Value : {"$exists" : true, "$ne" : ""}}]});
-        var gmt_offset= Settings.findOne({$and : [{Key: "gmt_offset"}, {Value : {"$exists" : true, "$ne" : ""}}]});
 
-        //var store_close_time_24 = store_close_time.Value + 12;
+        var orgname = Session.get(ORG_NAME_SESSION_KEY);
 
-       console.log("store_open_time = " + store_open_time.Value);
-       console.log("store_close_time from sheet = " + store_close_time.Value);
-       //console.log("store_close_time_24 = " + store_close_time_24);    
-       console.log("gmt_offset = " + gmt_offset.Value);
+        var store_open_time= Settings.findOne({$and : [{Key: "store_open_time"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
+        var store_close_time= Settings.findOne({$and : [{Key: "store_close_time"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
 
-
-
-            var momentDate=moment().utcOffset(Number(gmt_offset.Value))
+            var momentDate=moment().utcOffset(Number(gmtOffset(orgname)));
             var currentday =momentDate.day();
             var currentTime =momentDate.hour();
 
-            console.log("currentday = " + currentday);
-            console.log("currentTime = " + currentTime);
 
 
             if (currentday === 0  || (currentday === 6)) //Sunday
             {
-                var store_open_saturday     = Settings.findOne({$and : [{Key: "store_open_saturday"}, {Value : {"$exists" : true, "$ne" : ""}}]});
-                var store_open_sunday       = Settings.findOne({$and : [{Key: "store_open_sunday"}, {Value : {"$exists" : true, "$ne" : ""}}]});
-
-
-                console.log("store_open_saturday    = " + store_open_saturday.Value);
-                console.log("store_open_sunday      = " + store_open_sunday.Value);
+                var store_open_saturday     = Settings.findOne({$and : [{Key: "store_open_saturday"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
+                var store_open_sunday       = Settings.findOne({$and : [{Key: "store_open_sunday"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
 
                 if( 'NO'=== store_open_sunday.Value.trim().toUpperCase() || 'NO'=== store_open_saturday.Value.trim().toUpperCase() )
                 {
@@ -195,20 +142,16 @@ Template.homePage.helpers({
                 }
                 else
                 {
-                    var store_open_time_weekend = Settings.findOne({$and : [{Key: "store_open_time_weekend"}, {Value : {"$exists" : true, "$ne" : ""}}]});
-                    var store_close_time_weekend= Settings.findOne({$and : [{Key: "store_close_time_weekend"}, {Value : {"$exists" : true, "$ne" : ""}}]});
-                    console.log("store_open_time_weekend    = " + store_open_time_weekend.Value);
-                    console.log("store_close_time_weekend   = " + store_close_time_weekend.Value);
+                    var store_open_time_weekend = Settings.findOne({$and : [{Key: "store_open_time_weekend"}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
+                    var store_close_time_weekend= Settings.findOne({$and : [{Key: "store_close_time_weekend"},{orgname:orgname},  {Value : {"$exists" : true, "$ne" : ""}}]});
 
                     if(currentTime >= store_open_time_weekend.Value  &&  currentTime < store_close_time_weekend.Value)
                     {
-                        console.log("Store Open on Weekend")
 
                         return  false;
                     }
                     else
                     {
-                        console.log("Store close on Weekend")
 
                         return true;
                     }
@@ -220,13 +163,11 @@ Template.homePage.helpers({
 
             if(currentTime >= store_open_time.Value  &&  currentTime < store_close_time.Value)
             {
-                console.log("Store Open on Weekdays")
 
                 return  false;
             }
             else
             {
-                console.log("Store close on Weekdays")
 
                 return true;
             }
@@ -235,9 +176,8 @@ Template.homePage.helpers({
 
 
 
-  isTakingOnlineOrder:function(isNotTakingOnlineOrder, isStoreClosed){
-    console.log('isTakingOnlineOrder:isNotTakingOnlineOrder = ' + isNotTakingOnlineOrder);
-    console.log('isTakingOnlineOrder:isStoreClosed = ' + isStoreClosed);
+  isTakingOnlineOrder:function(isNotTakingOnlineOrder, isStoreClosed)
+  {
 
     if(isNotTakingOnlineOrder)
         return false;
@@ -257,24 +197,15 @@ Template.homePage.helpers({
 
   } ,
 
-    isDrink:function(categoryMenu)
+
+
+    isItemInCart: function(product)
     {
-        //console.log('isDrink:categoryMenu = ' +categoryMenu);
-        if('Drinks' === categoryMenu)
-            return true;
-        else
-            return false;
-
-
-    },
-
-    isItemInCart: function(product){
 
         var sessid = Session.get('appUUID');
+        var orgname = Session.get(ORG_NAME_SESSION_KEY);
 
-
-        var cartItems = CartItems.findOne({session: sessid, product:product});
-          console.log('isItemInCart:cartItems = ' +cartItems);
+        var cartItems = CartItems.findOne({session: sessid, product:product, orgname:orgname});
 
             if(cartItems)
                     return true;
@@ -284,8 +215,10 @@ Template.homePage.helpers({
 
 	menu:function(categoryMenu)
 	{
+        var orgname = Session.get(ORG_NAME_SESSION_KEY);
+        console.log('menu: ' + orgname);
 
-		return Menu.find({$and : [{Category: categoryMenu}, {Name : {"$exists" : true, "$ne" : ""}}]});
+		return Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}});
 
 	},
 
@@ -295,25 +228,6 @@ Template.homePage.helpers({
             return 'soldout disabled';
         else
             return '';
-    },
-
-    idOddNumberItems: function(categoryMenu)
-    {
-    			var menuCount = Menu.find({$and : [{Category: categoryMenu}, {Name : {"$exists" : true, "$ne" : ""}}]}).count();
-    			console.log("menuCount = " + menuCount);
-    			if(menuCount === 1)
-    			{
-    				return true;
-    			}
-    			else if(menuCount > 1)
-    			{
-    				console.log("menuCount %2 = " + menuCount % 2 );
-    				if(menuCount %2 === 1)
-    					return true;
-    				else
-    					return false;
-    			}
-
     }
 
 });
@@ -322,36 +236,24 @@ Template.homePage.events({
     'click .addcart': function(evt,tmpl)
     {
 
-
-
-        var currentTarget = evt.currentTarget
-        console.log("currentTarget" + currentTarget);
-        console.log("tmpl" + tmpl);
-        console.log("this.UniqueId " + this.UniqueId );
-        var product = this.UniqueId ;
-        var sessid = Session.get('appUUID');
-        console.log("product = " + product );
-        console.log("sessid = " + sessid );
-        console.log('currentTarget.title = ' + currentTarget.title);
-        Meteor.call('addToCart', 1 ,product, sessid, this.Name, this.Category, this.Charge);
+        var orgname         = Session.get(ORG_NAME_SESSION_KEY);
+        var currentTarget   = evt.currentTarget
+        var product         = this.UniqueId ;
+        var sessid           = Session.get('appUUID');
+        Meteor.call('addToCart', 1 ,product, sessid, this.Name, this.Category, this.Charge, orgname);
         evt.currentTarget.className = "btn btn btn-sm pull-right  btn-ordered removecart"; 
         evt.currentTarget.title='Remove from Cart'
 
 
     },
 
-        'click .removecart': function(evt,tmpl)
+    'click .removecart': function(evt,tmpl)
     {
-        var currentTarget = evt.currentTarget
-        console.log("currentTarget" + currentTarget);
-        console.log("tmpl" + tmpl);
-        console.log("this.UniqueId " + this.UniqueId );
-        var product = this.UniqueId ;
-        var sessid = Session.get('appUUID');
-        console.log("product = " + product );
-        console.log("sessid = " + sessid );
-        console.log('currentTarget.title = ' + currentTarget.title);
-        Meteor.call('removeCartItem', product, sessid);
+        var orgname         = Session.get(ORG_NAME_SESSION_KEY);
+        var currentTarget   = evt.currentTarget
+        var product         = this.UniqueId ;
+        var sessid          = Session.get('appUUID');
+        Meteor.call('removeCartItem', product, sessid, orgname);
         evt.currentTarget.className = "pull-right fa btn btn-success addcart"; 
         evt.currentTarget.title='Add to Cart'
     }

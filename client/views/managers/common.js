@@ -1,25 +1,46 @@
+Template.registerHelper('newOrderCount', function()
+{
+	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+
+	return  Orders.find({orgname:orgname, StatusCode: 1}).count();
+
+});
+
+Template.registerHelper('getOrders', function(StatusCode)
+{
+	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+
+	console.log('getOrders:StatusCode = ' +StatusCode);
+	return  Orders.find({orgname:orgname,StatusCode: StatusCode});
+
+});
+
+
 Template.registerHelper('getSettings', function(key)
 {
-	console.log('getSettings:key = ' + key)
-	var result = Settings.findOne({$and : [{Key: key}, {Value : {"$exists" : true, "$ne" : ""}}]});
-		console.log('getSettings:Value = ' + result.Value)
+	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+
+	//console.log('getSettings:key = ' + key)
+	var result = Settings.findOne({$and : [{Key: key}, {orgname:orgname},{Value : {"$exists" : true, "$ne" : ""}}]});
+		//console.log('getSettings:Value = ' + result.Value)
 
 	return result.Value
 });
 
 Template.registerHelper('getSettingsArray', function(key)
 {
-	console.log('getSettingsArray:key = ' + key)
+	//console.log('getSettingsArray:key = ' + key)
+	var orgname = Session.get(ORG_NAME_SESSION_KEY);
 
-		var Settings = Settings.findOne({$and : [{Key: key}, {Value : {"$exists" : true, "$ne" : ""}}]})
+	var Settings = Content.findOne({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]})
 
 
 
-				console.log('getSettingsArray = ' + Settings);
+				//console.log('getSettingsArray = ' + Settings);
 
 
 				var settingsValue = Settings['Value'];
-				console.log('getSettingsArray:settingsValue= ' + settingsValue);
+				//console.log('getSettingsArray:settingsValue= ' + settingsValue);
 
 				var settingsArray = settingsValue.split('\n\n' );
 
@@ -28,9 +49,11 @@ Template.registerHelper('getSettingsArray', function(key)
 
 Template.registerHelper('getSettingsMulti', function(key)
 {
-	console.log('getSettingsMulti:key = ' + key)
-	var result = Settings.find({$and : [{Key: key}, {Value : {"$exists" : true, "$ne" : ""}}]});
-		console.log('getSettingsMulti:Value = ' + result.Value)
+	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+
+	//console.log('getSettingsMulti:key = ' + key)
+	var result = Settings.find({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}});
+		//console.log('getSettingsMulti:Value = ' + result.Value)
 
 	return result
 });
@@ -38,26 +61,30 @@ Template.registerHelper('getSettingsMulti', function(key)
 
 Template.registerHelper('getContent', function(key)
 {
-	console.log('getContent:key = ' + key)
-	var result = Content.findOne({$and : [{Key: key}, {Value : {"$exists" : true, "$ne" : ""}}]});
-		console.log('getContent:Value = ' + result.Value)
+	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+
+	//console.log('getContent:key = ' + key)
+	var result = Content.findOne({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
+		//console.log('getContent:Value = ' + result.Value)
 
 	return result.Value
 });
 
 Template.registerHelper('getContentArray', function(key)
 {
-	console.log('getContentArray:key = ' + key)
+		var orgname = Session.get(ORG_NAME_SESSION_KEY);
 
-		var content = Content.findOne({$and : [{Key: key}, {Value : {"$exists" : true, "$ne" : ""}}]})
+	//console.log('getContentArray:key = ' + key)
+
+		var content = Content.findOne({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]})
 
 
 
-				console.log('getContentArray = ' + content);
+				//console.log('getContentArray = ' + content);
 
 
 				var contentValue = content['Value'];
-				console.log('getContentArray:ContentValue= ' + contentValue);
+				//console.log('getContentArray:ContentValue= ' + contentValue);
 
 				var contentArray = contentValue.split('\n\n' );
 
@@ -68,12 +95,13 @@ Template.registerHelper('showCart', function()
 {
 
 	    	var  sessid = Session.get('appUUID');
-             
-            console.log("shopCart:sessid =  " +sessid);
+            var orgname = Session.get(ORG_NAME_SESSION_KEY);
 
-			var cartItems = CartItems.find({session: sessid});
+            //console.log("shopCart:sessid =  " +sessid);
+
+			var cartItems = CartItems.find({session: sessid, orgname:orgname});
 		    cartItems.itemCount = cartItems.count();
-		    console.log("showCart:cartItems.itemCount =  " +cartItems.itemCount);
+		    //console.log("showCart:cartItems.itemCount =  " +cartItems.itemCount);
 		    if(cartItems.itemCount > 0)
 		    {
 		    	return true;
@@ -88,8 +116,10 @@ Template.registerHelper('showCart', function()
 
 Template.registerHelper('isMenuAvailable', function(categoryMenu)
 {
-        console.log('isMenuAvailable:categoryMenu = ' + categoryMenu)
-		var menuCount = Menu.find({$and : [{Category: categoryMenu}, {Name : {"$exists" : true, "$ne" : ""}}]}).count();
+	    var orgname = Session.get(ORG_NAME_SESSION_KEY);
+
+        //console.log('isMenuAvailable:categoryMenu = ' + categoryMenu)
+		var menuCount = Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]}).count();
 		if(menuCount > 0)
 			return true;
 		else
@@ -99,17 +129,13 @@ Template.registerHelper('isMenuAvailable', function(categoryMenu)
 
 Template.registerHelper('menuMulti', function(categoryMenu)
 {
+	    var orgname = Session.get(ORG_NAME_SESSION_KEY);
 
-		return Menu.find({$and : [{Category: categoryMenu}, {Name : {"$exists" : true, "$ne" : ""}}]});
 
-});
-
-Template.registerHelper('menuMulti', function(categoryMenu)
-{
-
-		return Menu.find({$and : [{Category: categoryMenu}, {Name : {"$exists" : true, "$ne" : ""}}]});
+		return Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]});
 
 });
+
 
 Template.registerHelper('currency', function(num)
 {
@@ -155,25 +181,92 @@ Template.registerHelper('soldOut', function(fontLine)
 
 });
 
-Template.registerHelper('haveDiscount', function()
-{
-        var sale_discount   = Settings.findOne({$and : [{Key: "sale_discount"}, {Value : {"$exists" : true, "$ne" : ""}}]});
-        console.log("sale_discount.Value : " + sale_discount.Value);
+Template.registerHelper('isPaymentEnabled', function(){
 
-        var sale_discountValue = Number(sale_discount.Value);
+	    var orgname = Session.get(ORG_NAME_SESSION_KEY);
 
-        if(sale_discountValue> 0)
-        {
-        	return true;
-        }
-        else
-        {
-        	return false;
-        }
+	    console.log('Meteor.settings.public[orgname].onlinePayment = ' + Meteor.settings.public[orgname].onlinePayment);
+
+	    if('enabled' === Meteor.settings.public[orgname].onlinePayment)
+	    {
+	    	return true;
+	    }
+	    else
+	    {
+	    	false;
+	    }
 
 
 });
 
+Template.registerHelper('imageFormatter', function(){
 
+	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+
+	return Meteor.settings.public[orgname].imageFormatter;
+
+});
+
+
+validData = function(input)
+{
+	console.log("validData:input = " + input);
+
+	if(input)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+}
+
+isPaymentStripe	 = function(orgname) 
+{
+    if('STRIPE' === Meteor.settings.public[orgname].paymentProcessor.toUpperCase())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+isPaymentSquare	 = function(orgname) 
+{
+    if('SQUARE' === Meteor.settings.public[orgname].paymentProcessor.toUpperCase())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+isPaymentBrainTree	 = function(orgname) 
+{
+    if('BRAINTREE' === Meteor.settings.public[orgname].paymentProcessor.toUpperCase())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+gmtOffset  	= function(orgname)
+{
+    return  Meteor.settings.public[orgname]. gmtOffset;
+}
+
+countryCode =  function(orgname)
+{
+	return  Meteor.settings.public[orgname]. countryCode;
+}
 
 

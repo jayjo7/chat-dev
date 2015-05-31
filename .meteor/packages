@@ -19,3 +19,14 @@ npm-container
 jquery
 mrgalaxy:stripe
 force-ssl
+matb33:collection-hooks
+dandv:http-more
+meteorhacks:async
+cunneen:mailgun
+gfk:mailgun-api
+jparker:crypto-base64
+base64
+abhiaiyer:meteor-twilio
+underscorestring:underscore.string
+nimble:restivus
+okgrow:iron-router-autoscroll

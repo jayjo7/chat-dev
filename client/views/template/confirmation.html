@@ -3,8 +3,8 @@
   <div class="container"> 
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header page-scroll">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-      <a class="navbar-brand" href="/"><span class=""><img src="/img/headerlogo.png" style=" position:absolute; top:4px; left:0px;" /></span></a></div>
+
+      <a class="navbar-brand" href="{{pathFor 'home'}}"><span class=""><img src="/img/headerlogo.png" style=" position:absolute; top:4px; left:0px;" /></span></a></div>
     
     <!-- Collect the nav links, forms, and other content for toggling -->
 
@@ -13,7 +13,11 @@
   <!-- /.container-fluid --> 
 </nav>
 <table align="center" cellpadding="0" cellspacing="0" class="container-for-gmail-android" width="100%">
-
+  {{#if isOrderStatusAlert UniqueId}}
+    <tr>
+        <td class='.danger'> {{getOrderStatusAlert UniqueId}}</td>
+    </tr>  
+  {{/if}}  
   <tr>
     <td align="center" valign="top" width="100%"  class="content-padding">
       <center>
@@ -194,7 +198,7 @@
                       {{qty}}
                     </td>
                     <td class="item-col" style="text-align: right">
-                      {{currency price}}
+                      {{currency totalCharge}}
                     </td>
                   </tr>
 
@@ -208,9 +212,8 @@
 
 
                   <tr>
-                     {{# if haveTax}}
 
-                             {{#if haveMessageToKitchen UniqueId}} 
+                          {{#if haveMessageToKitchen UniqueId}} 
 
                                 <td style="background-color: #ffffff; border-top: 1px solid #cccccc;">
                                 <div>
@@ -222,54 +225,50 @@
                                 <td >
                                 </td>
 
-                                {{/if}}
+                          {{/if}}
 
-                                <td  style="text-align:right; padding-right: 10px; border-top: 1px solid #cccccc;">
-                                  <span class="total-space" >Subtotal</span> <br />
-                                  <span class="total-space">Tax</span> <br />
-                                  {{#if haveDiscount }}
-                                  <span class="total-space">Discount</span> <br />
-                                  {{/if}}
-                                <span class="total-space" style="font-weight: bold; color: #4d4d4d">Total</span></td>
-                                <td  style="text-align: right; border-top: 1px solid #cccccc;"><span class="total-space">{{getSubTotal}}</span> <br />
-                                 
-                                    <span class="total-space">{{getTax}}</span> <br />
-                                 {{#if haveDiscount }}
-                                  <span class="total-space">({{getDiscount}})</span> <br /> 
-                                  {{/if}}
-                                <span class="total-space" style="font-weight:bold; color: #4d4d4d">{{getTotal}}</span>
+                              <td  style="text-align:right; padding-right: 10px; border-top: 1px solid #cccccc;">
 
+                                  {{#if showSubTotal UniqueId}}
+                                    <span class="total-space" >Subtotal</span> <br />
+                                  {{/if}}
+                                  {{#if haveTax UniqueId}}
+                                    <span class="total-space">Tax</span> <br />
+                                  {{/if}}
+                                  {{#if haveDiscount UniqueId}}
+                                      <span class="total-space">Discount</span> <br />
+                                  {{/if}}
+                                  <span class="total-space" style="font-weight: bold; color: #4d4d4d">Total</span>
+                              </td>
+
+
+                                <td  style="text-align: right; border-top: 1px solid #cccccc;">
+                                  {{#if showSubTotal UniqueId}}
+                                    <span class="total-space">{{getSubTotal UniqueId}}</span> <br />
+                                  {{/if}}
+                                  {{#if haveTax UniqueId}}
+                                    <span class="total-space">{{getTax UniqueId }}</span> <br />
+                                  {{/if}}
+                                 {{#if haveDiscount UniqueId}}
+                                  <span class="total-space">({{getDiscount UniqueId }})</span> <br /> 
+                                  {{/if}}
+                                <span class="total-space" style="font-weight:bold; color: #4d4d4d">{{getTotal UniqueId}}</span>
                             </td>
 
-                       {{else}}   
-
-                             {{#if haveMessageToKitchen UniqueId}} 
-
-                              <td  style="background-color: #ffffff; border-top: 1px solid #cccccc;">
-                                <div>
-                                    <span style="color: #4d4d4d; font-weight:bold;">Message to Kitchen:</span> 
-                                        <br /><br/> {{messageToKitchen UniqueId}}
-                                    </div>
-                                </td>
-                              {{else}}  
-
-                                <td >
-                                </td>
-
-                                {{/if}}
-
-                                <td  style="text-align:right; padding-right: 10px; border-top: 1px solid #cccccc;">
-                                  <!-- <span class="total-space">Delivery Fee</span> <br /> -->
-                                <span class="total-space" style="font-weight: bold; color: #4d4d4d">Total</span></td>
-                                <td  style="text-align: right; border-top: 1px solid #cccccc;">
-                                  
-                                  <!--<span class="total-space">$0.00</span> <br /> -->
-                                <span class="total-space" style="text-align: right; font-weight:bold; color: #4d4d4d">{{getTotal}}</span>
-
-                            </td>                       
-
-                      {{/if}}      
                   </tr>  
+                  <tr>
+                            <td>
+                            </td>
+
+                            <td style="text-align: right;">
+                              <span style="color: #4d4d4d; font-weight:bold;">Payment:</span>
+                            </td>
+
+                            <td style="text-align: right;">
+                              <span style="color: #4d4d4d; font-weight:bold;">{{getPaymentOption UniqueId}}</span>
+
+                            </td>
+                  </tr>
                 </table>
               </td>
             </tr>
