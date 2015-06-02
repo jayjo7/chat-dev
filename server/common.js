@@ -91,6 +91,17 @@ isSmsClient             = function(orgname)
                               return false;
                             }
                           };
+ isSmsCustomer             = function(orgname)
+                          {
+                            if('ENABLED' === Meteor.settings.private[orgname].smsCustomer.toUpperCase())
+                            {
+                              return true;
+                            }
+                            else
+                            {
+                              return false;
+                            }
+                          };                         
 
 //clientPhoneNumberText    = function(orgname)
 //                           { 
@@ -206,7 +217,19 @@ isEmailWebmaster        = function(orgname)
                             {
                               return false;
                             }
-                          };                      
+                          };    
+
+isEmailCustomer       = function(orgname)
+                          {
+                            if('ENABLED' === Meteor.settings.private[orgname].emailCustomer.toUpperCase())
+                            {
+                              return true;
+                            }
+                            else
+                            {
+                              return false;
+                            }
+                          };                                               
 
 
 isOrderSystemEnabled    = function(orgname)

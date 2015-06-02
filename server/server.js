@@ -455,7 +455,7 @@ OrdersMeta.after.insert(function (userId, doc) {
  		if(isEmailMailgun(doc.orgname))
  		{
 		 		//Customer Email
-			 	if(doc.CustomerEmail)
+			 	if(doc.CustomerEmail && isEmailCustomer(doc.orgname))
 			 	{
 
 			 		try{
@@ -486,7 +486,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 			 	}
 			 	else
 			 	{
-			 		console.log(doc.sessionId + ': customer opt not receive email')
+			 		console.log(doc.sessionId + ': customer opt not receive email or customer emailing is not enabled.')
 			 		emailCustomer.status 	=	STATUS_NOT_ENABLED;
 
 			 	}
@@ -582,7 +582,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 	{
 		if (isSmsTwilio(doc.orgname))
 		{
-				if(doc.CustomerPhone)
+				if(doc.CustomerPhone && isSmsCustomer(doc.orgname))
 				{
 					try{
 					 	var response = Meteor.call('smsOrderReceived', doc, doc.CustomerPhone);
