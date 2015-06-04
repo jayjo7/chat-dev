@@ -12,7 +12,7 @@ Meteor.methods({
         var response = {};
         var CLIENT_NAME;
         var body ;
-        var ORDER_STATUS_URL      = Meteor.absoluteUrl('os', {replaceLocalhost:true})+ "/";
+        var ORDER_STATUS_URL;
         console.log(order.sessionId + ': smsOrderReceived: ORDER_STATUS_URL = ' +ORDER_STATUS_URL);   
 
         switch (whoReceiving)
@@ -21,7 +21,7 @@ Meteor.methods({
           case CLIENT:
 
           case WEBMASTER:
-
+                ORDER_STATUS_URL      = Meteor.absoluteUrl('osm', {replaceLocalhost:true})+ "/";
                 body      = 'New Order[' + order.OrderNumber + '] \n';
                 body     += order.Items + '\n';
                 body     += ORDER_STATUS_URL + order.UniqueId;
@@ -30,7 +30,7 @@ Meteor.methods({
 
           default:
             
-
+                ORDER_STATUS_URL      = Meteor.absoluteUrl('os', {replaceLocalhost:true})+ "/";
                 CLIENT_NAME           = Meteor.call('getSetting','store_name', order.orgname);
                 console.log(order.sessionId + ': smsOrderReceived: CLIENT_NAME = ' +CLIENT_NAME); 
                 
