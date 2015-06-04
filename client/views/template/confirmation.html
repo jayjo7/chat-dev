@@ -85,7 +85,15 @@
 
                                <!-- STEP TWO -->
                                       <td class="step ">
-                                        <img src="/img/2-off.png" alt="In Kitchen" /><br />
+                                        {{#if omEnabled}}
+                                            <a href="#" id='moveOrderStatus'>
+                                              <img src="/img/2-off.png" alt="In Kitchen" />
+                                            </a>
+                                        {{else}}
+                                             <img src="/img/2-off.png" alt="In Kitchen" />
+                                        {{/if}}
+
+                                        <br />
                                 <b>&nbsp;</b><br />In Kitchen</td>
                                 {{/if}}
 

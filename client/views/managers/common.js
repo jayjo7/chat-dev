@@ -1,3 +1,14 @@
+Template.registerHelper('prune', function(string, length, pruneString)
+{
+	console.log('string = ' + string);
+	console.log('length = ' + length);
+	console.log('pruneString = ' + pruneString);
+
+	return string;
+	//return  prune(string, length, pruneString);
+
+});
+
 Template.registerHelper('newOrderCount', function()
 {
 	var orgname = Session.get(ORG_NAME_SESSION_KEY);

@@ -92,8 +92,24 @@ Meteor.methods({
    	
 	},
 
-	updateOrderStatus: function(sessionId, orgname, OrderNumber, UniqueId, toStatusCode)
+	updateOrderStatus: function(sessionId, orgname, UniqueId, OrderNumber, toStatusCode)
 	{
+		console.log(sessionId + ': OrderNumber  = ' + OrderNumber);
+		console.log(sessionId + ': toStatusCode = ' + toStatusCode);
+		if(! OrderNumber || ! toStatusCode)
+		{
+			console.log(sessionId + ': OrderNumber or toStatusCode is not avail, fetching from database for given UniqueId = ' + UniqueId  );
+			var orderFromDb = Orders.findOne({orgname:orgname, UniqueId: UniqueId});
+			for(var keyOrderFromDb in orderFromDb)
+			{
+				console.log(sessionId + ': orderFromDb: ' + keyOrderFromDb + ' = ' + orderFromDb[keyOrderFromDb]);
+			}
+			OrderNumber 	= orderFromDb.OrderNumber;
+			toStatusCode 	= orderFromDb. StatusCode + 1;
+
+
+		}
+
 		console.log(sessionId + ': update order status: orgname = ' + orgname + ' orderNumber = ' + OrderNumber + ' : UniqueId = ' + UniqueId + ': toStatusCode = ' + toStatusCode);
 		Orders.update ({orgname:orgname, UniqueId: UniqueId, OrderNumber:OrderNumber },{$set: {StatusCode: toStatusCode, Status:statusDescription(toStatusCode)}} );
 
@@ -289,46 +305,55 @@ Orders.after.update (function (userId, doc, fieldNames, modifier, options)
    console.log('Orders.after.update:fieldNames = ' + JSON.stringify(fieldNames, null, 4));
    console.log('Orders.after.update:modifier   = ' + JSON.stringify(modifier, null, 4));
    console.log('Orders.after.update:options    = ' + JSON.stringify(options, null, 4));
+   console.log('fieldNames[0]                  = ' + fieldNames[0]);
 
-   doc.Operation = 'Update';
-    var orderUpdateStatus	= 	{
-  						   		'websheets'	:{},
+   if(fieldNames[0] !== "sheetRowId")
+   {
 
-  							};
+	   doc.Operation = 'Update';
+	    var orderUpdateStatus	= 	{
+	  						   		'websheets'	:{},
+
+	  							};
 
 
-   	try{
-	  		var count = 0;
-	  		orderUpdateStatus.websheets.status 	= STATUS_SUCCESS;
-	  		var response;
-	  		do
-	  		{
-	  			count +=1;
-	  			response = Meteor.call('postWebsheets', doc);
-	  			console.log(doc.sessionId + ": attempted count = " + count );
-	  		}while (count < WEBSHEETS_MAX_RETRY && response.statusCode !== 200)
+	   	try{
+		  		var count = 0;
+		  		orderUpdateStatus.websheets.status 	= STATUS_SUCCESS;
+		  		var response;
+		  		do
+		  		{
+		  			count +=1;
+		  			response = Meteor.call('postWebsheets', doc);
+		  			console.log(doc.sessionId + ": update attempted count = " + count );
+		  		}while (count < WEBSHEETS_MAX_RETRY && response.statusCode !== 200)
 
-	  		if(response.statusCode !== 200)
-	  		{
-	  			console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-	  			orderUpdateStatus.websheets.status 	= STATUS_FAILED;
-	  		}
-	  		else
-	  		{
-	  			orderUpdateStatus.websheets.response  = response ;
-	  			Orders.update({UniqueId:doc.UniqueId},     {$set: {sheetRowId : response.data.sheetRowId}});
-				OrdersMeta.update({UniqueId:doc.UniqueId}, {$set: {sheetRowId : response.data.sheetRowId}});
-	  		}
-	 }catch(e)
-	 {
-	  		console.log(doc.sessionId + ": Caught error on updating the order ststus to websheets fatal error.", e);
-	  		console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-	  		orderUpdateStatus.websheets.status 	= STATUS_FATAL;
-	  		orderUpdateStatus.websheets.error 	= e.toString();
+		  		if(response.statusCode !== 200)
+		  		{
+		  			console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
+		  			orderUpdateStatus.websheets.status 	= STATUS_FAILED;
+		  		}
+		  		else
+		  		{
+		  			orderUpdateStatus.websheets.response  = response ;
+		  			Orders.update({UniqueId:doc.UniqueId},     {$set: {sheetRowId : response.data.sheetRowId}});
+					OrdersMeta.update({UniqueId:doc.UniqueId}, {$set: {sheetRowId : response.data.sheetRowId}});
+		  		}
+		 }catch(e)
+		 {
+		  		console.log(doc.sessionId + ": Caught error on updating the order ststus to websheets fatal error.", e);
+		  		console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
+		  		orderUpdateStatus.websheets.status 	= STATUS_FATAL;
+		  		orderUpdateStatus.websheets.error 	= e.toString();
 
-	 }
-	 console.log(doc.sessionId + ': Order Update Status' +  JSON.stringify(orderUpdateStatus, null, 4))
-	 console.log(doc.sessionId + ': Done updating the order status to websheets');
+		 }
+		 console.log(doc.sessionId + ': Order Update Status' +  JSON.stringify(orderUpdateStatus, null, 4))
+		 console.log(doc.sessionId + ': Done updating the order status to websheets');
+	}
+	else
+	{
+		console.log(doc.sessionId + ': Ignoring update of sheetRowId not posting to websheet')
+	}
 
 
 
@@ -422,7 +447,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 	  		{
 	  			count +=1;
 	  			response = Meteor.call('postWebsheets', doc);
-	  			console.log(doc.sessionId + ": attempted count = " + count );
+	  			console.log(doc.sessionId + ": insert (new order) attempted count = " + count );
 	  		}while (count < WEBSHEETS_MAX_RETRY && response.statusCode !== 200)
 
 	  		if(response.statusCode !== 200)

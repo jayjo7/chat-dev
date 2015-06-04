@@ -1,3 +1,16 @@
+Template.confirmation.events({
+    'click #moveOrderStatus': function(event,tmpl)
+    {
+
+      event.preventDefault();
+      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      console.log('confirmation:moveOrderStatus: In moveOrderStatus event');
+      var sessionId = Session.get('appUUID');
+      Meteor.call('updateOrderStatus', sessionId, orgname,  this.UniqueId)
+
+    }
+});
+
 Template.confirmation.helpers({
   haveETA: function(uniqueId)
   {

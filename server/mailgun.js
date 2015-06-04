@@ -95,7 +95,7 @@ Meteor.methods({
       initializeMailGun(order.orgname);
       var response      = {};
       response.status   = STATUS_SUCCESS;
-      var body          = buildOrderReceivedBody(order);
+      var body;
       var toEmailAddress;
       var subject;
 
@@ -106,6 +106,7 @@ Meteor.methods({
               toEmailAddress      = clientEmailAddress (order.orgname);
               var CLIENT_NAME     = Meteor.call('getSetting','store_name' , order.orgname);
               subject = 'Owner ' +  CLIENT_NAME+': Received Order [' + order.OrderNumber + ']';
+              body          = buildOrderReceivedBody(order, 'osm');
 
               break;
 
@@ -113,12 +114,14 @@ Meteor.methods({
               toEmailAddress      = webmasterEmailAddress (order.orgname);
               var CLIENT_NAME     = Meteor.call('getSetting','store_name' , order.orgname);
               subject = 'Owner ' +  CLIENT_NAME+': Received Order [' + order.OrderNumber + ']';
+              body          = buildOrderReceivedBody(order, 'osm');
 
               break;
 
           default:
             
               subject     = 'Your Order [' + order.OrderNumber + ']';
+              body          = buildOrderReceivedBody(order, 'os');
               toEmailAddress  =  order.CustomerEmail;
 
 
@@ -169,7 +172,7 @@ var initializeMailGun = function(orgname)
 
 
 
-var buildOrderReceivedBody = function(order)
+var buildOrderReceivedBody = function(order, urlPath)
 {
 
     var CLIENT_PHONE_NUMBER   = Meteor.call('getSetting', 'phone_number'  , order.orgname);
@@ -180,7 +183,7 @@ var buildOrderReceivedBody = function(order)
     //console.log('buildOrderReceivedBody: CLIENT_NAME = ' +CLIENT_NAME);    
     var EMAIl_CUSTOM_MESSAGE     = Meteor.call('getSetting','email_custom_message' , order.orgname);
     //console.log('buildOrderReceivedBody: EMAIl_CUSTOM_MESSAGE  = ' +EMAIl_CUSTOM_MESSAGE );    
-    var ORDER_STATUS_URL      = Meteor.absoluteUrl('os', {replaceLocalhost:true}) + "/";
+    var ORDER_STATUS_URL      = Meteor.absoluteUrl(urlPath, {replaceLocalhost:true}) + "/";
     //console.log('buildOrderReceivedBody: ORDER_STATUS_URL = ' +ORDER_STATUS_URL);
   
 	  var body= order.CustomerName + ', Thank you for your order.' +'\n\n' ;
