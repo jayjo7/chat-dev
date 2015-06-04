@@ -1,11 +1,20 @@
-Template.registerHelper('prune', function(string, length, pruneString)
+
+Template.registerHelper('menu',function(categoryMenu)
+{
+    var orgname = Session.get(ORG_NAME_SESSION_KEY);
+    console.log('menu: ' + orgname);
+
+	return Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}});
+
+}),
+
+Template.registerHelper('prune', function(string, length, useWordBoundary)
 {
 	console.log('string = ' + string);
 	console.log('length = ' + length);
-	console.log('pruneString = ' + pruneString);
+	console.log('useWordBoundary = ' + useWordBoundary);
 
-	return string;
-	//return  prune(string, length, pruneString);
+	return string.trunc(length, useWordBoundary);
 
 });
 
@@ -280,4 +289,15 @@ countryCode =  function(orgname)
 	return  Meteor.settings.public[orgname]. countryCode;
 }
 
+String.prototype.trunc = function( n, useWordBoundary)
+{
+         var toLong = this.length >n , s_ = toLong ? this.substr(0,n-1) : this;
+         console.log("this = " + this);
+         console.log("toLong = " + toLong);
+         console.log("s_ = " + s_);
+
+
+         s_ = useWordBoundary && toLong ? s_.substr(0,s_.lastIndexOf(' ')) : s_;
+         return  toLong ? s_ + '&hellip;' : s_;
+      };
 

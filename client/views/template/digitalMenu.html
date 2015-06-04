@@ -31,12 +31,12 @@
             	<div class="tv-category-title">{{Value}}</div>
             </div>
 
-			    		{{#each menuMulti Value }}
+			    		{{#each menu Value }}
 
  
 			    					<div class="tv-itemBlock ">
 
-			    						        <div class="tv-item-Title" >{{Name}}</div>
+			    						        <div class="tv-item-Title" >{{{prune Name 50 false}}}</div>
 			    						      {{#if isSpecial fontWeight}}
         										<div class="tv-special">Special</div>
 								             {{/if}}

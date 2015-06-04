@@ -213,15 +213,6 @@ Template.homePage.helpers({
             return false;
     },
 
-	menu:function(categoryMenu)
-	{
-        var orgname = Session.get(ORG_NAME_SESSION_KEY);
-        console.log('menu: ' + orgname);
-
-		return Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}});
-
-	},
-
     soldOutCss:function(fontLine, fontStyle)
     {
         if('line-through' === fontLine || 'italic' === fontStyle)
