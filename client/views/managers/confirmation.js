@@ -6,7 +6,10 @@ Template.confirmation.events({
       var orgname = Session.get(ORG_NAME_SESSION_KEY);
       console.log('confirmation:moveOrderStatus: In moveOrderStatus event');
       var sessionId = Session.get('appUUID');
-      Meteor.call('updateOrderStatus', sessionId, orgname,  this.UniqueId)
+      var toStatusCode = this.Order.StatusCode + 1;
+
+      //Meteor.call('updateOrderStatus', sessionId, orgname,  this.UniqueId)
+      Meteor.call('updateOrderStatus', sessionId, this.Order.orgname,this.Order.UniqueId, this.Order.OrderNumber, toStatusCode)
 
     }
 });
@@ -20,35 +23,24 @@ Template.confirmation.helpers({
 
   },
 
-	isReady: function(uniqueId)
+	isReady: function(order)
   {
-      console.log('isReady:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
-
-      var order = Orders.findOne({UniqueId:uniqueId, orgname:orgname});
       if(STATE_THREE === order.Status)
         	return true;
       else
         	return false;
   },
 
-  isDelivered: function(uniqueId)
+  isDelivered: function(order)
   {
-      console.log('isDelivered:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
-
-      var order = Orders.findOne({UniqueId:uniqueId, orgname:orgname});
-      if('delivered' === order.Status)
+      if(STATE_FOUR === order.Status)
         	return true;
       else
         	return false;
   },
 
-  isInProcess: function(uniqueId)
+  isInProcess: function(order)
   {
-      console.log('isInProcess:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
-      var order = Orders.findOne({UniqueId:uniqueId, orgname:orgname});
       if( STATE_TWO === order.Status)
         	return true;
       else
@@ -56,47 +48,29 @@ Template.confirmation.helpers({
 
   },
 
-  isInKitchen: function(uniqueId)
+  isInKitchen: function(order)
   {
-      console.log('isInKitchen:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);      
-      var order = Orders.findOne({UniqueId:uniqueId, orgname:orgname});
       if( STATE_TWO === order.Status || STATE_FOUR === order.Status || STATE_THREE === order.Status)
         	return true;
       else
         	return false;
   },
-  isSaleComplete: function(uniqueId)
+  isSaleComplete: function(order)
   { 
-      console.log('isSaleComplete:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);      
-      var order = Orders.findOne({UniqueId:uniqueId, orgname:orgname});
+
       if( STATE_FOUR === order.Status || STATE_THREE === order.Status)
         	return true;
       else
         	return false;
   },
 
-  order: function(uniqueId)
-  {
-      console.log('order:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
-      return Orders.findOne({UniqueId:uniqueId, orgname:orgname});
-  },
 
-  customerName: function(uniqueId)
-  {
-      console.log('customerName:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);      
-      var order = Orders.findOne({UniqueId:uniqueId, orgname:orgname});
-      return order.CustomerName;
-  },
 
-  message: function(uniqueId)
+
+  message: function(order)
 	{
 		  console.log('message:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);      
-      var order = Orders.findOne({UniqueId:uniqueId, orgname:orgname});
+
       var messageKey='message_confirmation';
       if(STATE_THREE === order.Status)
 
@@ -123,14 +97,6 @@ Template.confirmation.helpers({
 
 	},
 
-  orderNumber: function(uniqueId)
-  {  
-      console.log('orderNumber:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);      
-      var order = Orders.findOne({UniqueId:uniqueId, orgname:orgname});
-      return order.OrderNumber;
-
-  },
 
   orderedCart: function(uniqueId)
   {
@@ -185,18 +151,14 @@ Template.confirmation.helpers({
       return '$' + Number(num).toFixed(2);
   },
 
-  haveMessageToKitchen: function(uniqueId)
+  haveMessageToKitchen: function(order)
   {
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
-      var order = Orders.findOne({UniqueId:uniqueId, orgname:orgname});
       return validData(order.MessageToKitchen);
 
   },
 
-  messageToKitchen: function(uniqueId)
+  messageToKitchen: function(order)
   {
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);    
-      var order = Orders.findOne({UniqueId:uniqueId, orgname:orgname});
       return order.MessageToKitchen;
   },
 

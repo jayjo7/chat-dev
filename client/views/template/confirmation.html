@@ -23,15 +23,15 @@
       <center>
         <table cellspacing="0" cellpadding="0" width="100%" class="w320">
           <tr>
-            <td class="header-lg"  style="font-family: 'Rock Salt';"> {{customerName UniqueId}} ,
+            <td class="header-lg"  style="font-family: 'Rock Salt';"> {{Order.CustomerName}} ,
 
-              {{#if isReady UniqueId}}
+              {{#if isReady Order}}
 
                 Your Order is Ready !
 
               {{else}}
 
-                {{#if isDelivered UniqueId}}
+                {{#if isDelivered Order}}
 
                 Your Order has been delivered !
 
@@ -49,7 +49,7 @@
           <tr>
             <td class="free-text">              
 
-              {{#each message UniqueId}}
+              {{#each message Order}}
 
                 {{this}} <br /><br />
 
@@ -62,7 +62,7 @@
               <table cellspacing="0" cellpadding="0" width="100%"  style="border-collapse:separate !important;">
                 <tr>
                   <td class="mini-block">
-                  <span class="header-sm highlight">Your Order # [ {{orderNumber UniqueId}} ]</span>
+                  <span class="header-sm highlight">Your Order # [ {{Order.OrderNumber }} ]</span>
                   <br />  <br /> 
                     <table cellpadding="0" cellspacing="0" width="100%" align="center">
                       <tr>
@@ -75,7 +75,7 @@
                                 <img src="/img/1-on.png"  width='100' alt="Order Placed" /><br />
                                 <b>✓</b><br />Order Placed</td>
 
-                                {{#if isInKitchen UniqueId }}
+                                {{#if isInKitchen Order }}
 
                                        <!-- STEP TWO -->
                                       <td class="step active">
@@ -98,7 +98,7 @@
                                 {{/if}}
 
 
-                                {{#if isSaleComplete UniqueId}}
+                                {{#if isSaleComplete Order}}
 
                                       <td class="step active">
                                       <img src="/img/3-on.png" alt="Ready for Pickup" /><br />
@@ -221,12 +221,12 @@
 
                   <tr>
 
-                          {{#if haveMessageToKitchen UniqueId}} 
+                          {{#if haveMessageToKitchen order}} 
 
                                 <td style="background-color: #ffffff; border-top: 1px solid #cccccc;">
                                 <div>
                                     <span style="color: #4d4d4d; font-weight:bold;">Message to Kitchen:</span> 
-                                        <br /><br/> {{messageToKitchen UniqueId}}
+                                        <br /><br/> {{messageToKitchen Order}}
                                     </div>
                                 </td>
                               {{else}}  
