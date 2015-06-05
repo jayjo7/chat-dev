@@ -10,10 +10,6 @@ Template.registerHelper('menu',function(categoryMenu)
 
 Template.registerHelper('prune', function(string, length, useWordBoundary)
 {
-	console.log('string = ' + string);
-	console.log('length = ' + length);
-	console.log('useWordBoundary = ' + useWordBoundary);
-
 	return string.trunc(length, useWordBoundary);
 
 });
@@ -21,6 +17,32 @@ Template.registerHelper('prune', function(string, length, useWordBoundary)
 Template.registerHelper('newOrderCount', function()
 {
 	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orders = Orders.find({orgname:orgname, StatusCode: 1});
+	orders.observeChanges({
+
+		added: function (id, user){
+
+		},
+
+		addedBefore: function(id, fields, before)
+		{
+
+		},
+
+		changed: function(id, fields)
+		{
+
+		},
+		movedBefore: function(id, before)
+		{
+
+		},
+		removed: function(id)
+		{
+
+		}
+
+	});
 
 	return  Orders.find({orgname:orgname, StatusCode: 1}).count();
 
@@ -292,11 +314,6 @@ countryCode =  function(orgname)
 String.prototype.trunc = function( n, useWordBoundary)
 {
          var toLong = this.length >n , s_ = toLong ? this.substr(0,n-1) : this;
-         console.log("this = " + this);
-         console.log("toLong = " + toLong);
-         console.log("s_ = " + s_);
-
-
          s_ = useWordBoundary && toLong ? s_.substr(0,s_.lastIndexOf(' ')) : s_;
          return  toLong ? s_ + '&hellip;' : s_;
       };
