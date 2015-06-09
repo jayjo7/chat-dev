@@ -17,32 +17,32 @@ Template.registerHelper('prune', function(string, length, useWordBoundary)
 Template.registerHelper('newOrderCount', function()
 {
 	var orgname = Session.get(ORG_NAME_SESSION_KEY);
-	var orders = Orders.find({orgname:orgname, StatusCode: 1});
-	orders.observeChanges({
+	//var orders = Orders.find({orgname:orgname, StatusCode: 1});
+	//orders.observeChanges({
 
-		added: function (id, user){
+	//	added: function (id, user){
 
-		},
+	//	},
 
-		addedBefore: function(id, fields, before)
-		{
+	//	addedBefore: function(id, fields, before)
+	//	{
 
-		},
+	//	},
 
-		changed: function(id, fields)
-		{
+	//	changed: function(id, fields)
+	//	{
 
-		},
-		movedBefore: function(id, before)
-		{
+	//	},
+	//	movedBefore: function(id, before)
+	//	{
 
-		},
-		removed: function(id)
-		{
+	//	},
+	//	removed: function(id)
+	//	{
 
-		}
+	//	}
 
-	});
+	//});
 
 	return  Orders.find({orgname:orgname, StatusCode: 1}).count();
 
