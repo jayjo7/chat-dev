@@ -38,7 +38,7 @@ Meteor.methods({
 					 		if(isEmailMailgun(doc.orgname))
 					 		{
 							 		//Customer Email
-								 	if(doc.CustomerEmail)
+								 	if(doc.CustomerEmail && isEmailCustomer(doc.orgname))
 								 	{
 
 								 		try{
@@ -130,7 +130,7 @@ Meteor.methods({
 						{
 							if (isSmsTwilio(doc.orgname))
 							{
-									if(doc.CustomerPhone)
+									if(doc.CustomerPhone && isSmsCustomer(doc.orgname))
 									{
 										try{
 										 	var response = Meteor.call('smsOrderReady', sessionid, doc, doc.CustomerPhone);
