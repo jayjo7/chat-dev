@@ -338,6 +338,7 @@ Orders.after.update (function (userId, doc, fieldNames, modifier, options)
 		  			orderUpdateStatus.websheets.response  = response ;
 		  			Orders.update({UniqueId:doc.UniqueId},     {$set: {sheetRowId : response.data.sheetRowId}});
 					OrdersMeta.update({UniqueId:doc.UniqueId}, {$set: {sheetRowId : response.data.sheetRowId}});
+					Meteor.call('sendReadyNotification', 'Orders.after.update', doc);
 		  		}
 		 }catch(e)
 		 {

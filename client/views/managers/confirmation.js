@@ -15,6 +15,20 @@ Template.confirmation.events({
 });
 
 Template.confirmation.helpers({
+  enableReadyButton: function(order, omEnabled )
+  {
+
+    if( STATE_TWO === order.Status && omEnabled)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+
+  },
+
   haveETA: function(uniqueId)
   {
       console.log('isReady:uniqueId = ' + uniqueId);

@@ -107,7 +107,14 @@
                                 {{else}}
                                      <!-- STEP THREE -->
                                     <td class="step">
-                                      <img src="/img/3-off.png" alt="Not Ready" /><br />
+                                      {{#if enableReadyButton Order omEnabled}}
+                                          <a href="#" id='moveOrderStatus'>
+                                            <img src="/img/3-off.png" alt="Not Ready" /><br />
+                                          </a>  
+                                       {{else}}  
+                                          <img src="/img/3-off.png" alt="Not Ready" /><br />
+                                      {{/if}}
+ 
                                 <b>&nbsp;</b><br />Ready for Pickup</td>
 
                                 {{/if}}
