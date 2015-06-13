@@ -649,6 +649,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 					{
 						var clientSMSResult={};
 							try{
+								clientPhoneNumberArray[i] = clientPhoneNumberArray[i].trim();
 								clientSMSResult.clientPhoneNumberText = clientPhoneNumberArray[i];
 							 	var response = Meteor.call('smsOrderReceived', doc, clientPhoneNumberArray[i], 'client');
 							 	for(var key in response.result)
