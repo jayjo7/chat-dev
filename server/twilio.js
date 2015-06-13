@@ -12,8 +12,6 @@ Meteor.methods({
         var response = {};
         var CLIENT_NAME;
         var body ;
-        var ORDER_STATUS_URL;
-        console.log(order.sessionId + ': smsOrderReceived: ORDER_STATUS_URL = ' +ORDER_STATUS_URL);   
 
         switch (whoReceiving)
         {
@@ -21,23 +19,21 @@ Meteor.methods({
           case CLIENT:
 
           case WEBMASTER:
-                ORDER_STATUS_URL      = Meteor.absoluteUrl('osm', {replaceLocalhost:true})+ "/";
                 body      = 'New Order[' + order.OrderNumber + '] \n';
                 body     += order.Items + '\n';
-                body     += ORDER_STATUS_URL + order.UniqueId;
+                body     += rootUrl(order.orgname) +'/osm/'+ order.UniqueId;
 
               break;
 
           default:
             
-                ORDER_STATUS_URL      = Meteor.absoluteUrl('os', {replaceLocalhost:true})+ "/";
                 CLIENT_NAME           = Meteor.call('getSetting','store_name', order.orgname);
                 console.log(order.sessionId + ': smsOrderReceived: CLIENT_NAME = ' +CLIENT_NAME); 
                 
                 body      = 'Received Order[' + order.OrderNumber + '] \n';
                 body     += order.Items + '\n';
                 body     += ' - ' + CLIENT_NAME + ' \n' ;
-                body     +=   ORDER_STATUS_URL + order.UniqueId;
+                body     +=   rootUrl(order.orgname) +'/os/'+ order.UniqueId;
 
         }
 
@@ -80,10 +76,8 @@ Meteor.methods({
         client                = Meteor.npmRequire('twilio')(twilioAccountSID(order.orgname), twilioAuthToken (order.orgname));
         var response          = {};
         CLIENT_NAME           = Meteor.call('getSetting','store_name', order.orgname);
-        var ORDER_STATUS_URL  = Meteor.absoluteUrl('os', {replaceLocalhost:true})+ "/";
-        var body = 'Order[' +order.OrderNumber + '] is ready - ' + CLIENT_NAME + '\n' + ORDER_STATUS_URL + order.UniqueId;
+        var body              = 'Order[' +order.OrderNumber + '] is ready - ' + CLIENT_NAME + '\n' + rootUrl(order.orgname)+'/os/'+ order.UniqueId;
 
-        console.log(sessionId + ': smsOrderReady: ORDER_STATUS_URL = ' +ORDER_STATUS_URL);   
 
         try{
           var result = sendSMS (  

@@ -119,6 +119,27 @@
 
                                 {{/if}}
 
+                                {{#if isDelivered Order}}
+
+                                      <td class="step active">
+                                      <img src="/img/4-on.png" alt="Order Delivered" /><br />
+                                <b>✓</b><br />Order Delivered</td>
+
+                                {{else}}
+                                     <!-- STEP THREE -->
+                                    <td class="step">
+                                      {{#if enableDeliveredButton Order omEnabled}}
+                                          <a href="#" id='moveOrderStatus'>
+                                            <img src="/img/4-off.png" alt="Not Delivered" /><br />
+                                          </a>  
+                                       {{else}}  
+                                          <img src="/img/4-off.png" alt="Not Delivered" /><br />
+                                      {{/if}}
+ 
+                                <b>&nbsp;</b><br />Order Delivered</td>
+
+                                {{/if}}                                
+
                             </tr>
                           </table>
                         </td>

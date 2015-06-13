@@ -15,6 +15,20 @@ Template.confirmation.events({
 });
 
 Template.confirmation.helpers({
+
+    enableDeliveredButton: function(order, omEnabled )
+  {
+
+    if( STATE_THREE === order.Status && omEnabled)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+
+  },
   enableReadyButton: function(order, omEnabled )
   {
 

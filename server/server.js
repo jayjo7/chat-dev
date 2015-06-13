@@ -639,24 +639,35 @@ OrdersMeta.after.insert(function (userId, doc) {
 
 				if(isSmsClient(doc.orgname))
 				{
-					var clientPhoneNumberText = Meteor.call('getSetting', 'phone_number_texting', doc.orgname);
-					try{
-					 	var response = Meteor.call('smsOrderReceived', doc, clientPhoneNumberText, 'client');
-					 	for(var key in response.result)
-					 	{
-					 		console.log(key + ' = ' + response.result[key]);
-					 		smsClient[key] = response.result[key];
-					 	}
-
-					}catch (e)
+					console.log(doc.sessionId + ": Start client sms");
+					var clientPhoneNumberText 	= Meteor.call('getSetting', 'phone_number_texting', doc.orgname);
+					console.log(doc.sessionId + " :clientPhoneNumberText  = " + clientPhoneNumberText );
+					var clientPhoneNumberArray	= clientPhoneNumberText.split(',');
+					console.log(doc.sessionId + " : clientPhoneNumberArray.lenght = " + clientPhoneNumberArray.length);
+					var smsResult=[]
+					for (var i =0; i < clientPhoneNumberArray.length; i++)
 					{
-						console.log(doc.sessionId + " :trouble sending sms to Client: " + e);
-						console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
-						smsClient.status 	= STATUS_FATAL;
-						smsClient.error 	= e.toString();
-						
-					}					
+						var clientSMSResult={};
+							try{
+								clientSMSResult.clientPhoneNumberText = clientPhoneNumberArray[i];
+							 	var response = Meteor.call('smsOrderReceived', doc, clientPhoneNumberArray[i], 'client');
+							 	for(var key in response.result)
+							 	{
+							 		console.log(key + ' = ' + response.result[key]);
+							 		clientSMSResult[key] = response.result[key];
+							 	}
 
+							}catch (e)
+							{
+								console.log(doc.sessionId + " :trouble sending sms to Client: " + e);
+								console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
+								clientSMSResult.status 	= STATUS_FATAL;
+								clientSMSResult.error 	= e.toString();
+								
+							}	
+						smsResult.push(clientSMSResult)	;
+					}						
+					smsClient.smsResult = smsResult;
 				}
 				else
 				{
@@ -664,11 +675,12 @@ OrdersMeta.after.insert(function (userId, doc) {
 					smsClient.status 	=	STATUS_NOT_ENABLED;	 	
 					
 				}
-
+				console.log(doc.sessionId + ": Done Client sms");
 				processStatus.sms.smsClient = smsClient;
 
 				if(isSmsWebmaster(doc.orgname))
 				{
+					console.log(doc.sessionId + ": Start webmaster sms");
 
 					try{
 					 	var response = Meteor.call('smsOrderReceived', doc, webmasterPhoneNumberText(doc.orgname),WEBMASTER);
@@ -694,6 +706,7 @@ OrdersMeta.after.insert(function (userId, doc) {
 					smsWebmaster.status 	=	STATUS_NOT_ENABLED;	 	
 					
 				}
+				console.log(doc.sessionId + ": Done Webmaster sms");
 				processStatus.sms.smsWebmaster = smsWebmaster;
 		}
 		else

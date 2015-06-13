@@ -1,4 +1,9 @@
 // Items that need to be move to config file
+rootUrl                 = function(orgname)
+                          {
+                            return Meteor.settings.private[orgname].rootUrl;
+                          };
+                          
 isPaymentEnabled        = function(orgname)
                           {
                             if('ENABLED' === Meteor.settings.public[orgname].onlinePayment.toUpperCase())
@@ -376,7 +381,7 @@ Meteor.methods({
 
   getLocalTime:function(orgname)
   {
-      //console.log('getLocalTime: orgname = ' + orgname );
+
       return moment().utcOffset(gmtOffset(orgname)).format('MM/DD/YYYY hh:mm:ss A');
 
   }

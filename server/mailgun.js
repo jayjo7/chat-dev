@@ -105,24 +105,24 @@ Meteor.methods({
           case CLIENT:
               toEmailAddress      = clientEmailAddress (order.orgname);
               var CLIENT_NAME     = Meteor.call('getSetting','store_name' , order.orgname);
-              subject = 'Owner ' +  CLIENT_NAME+': Received Order [' + order.OrderNumber + ']';
-              body          = buildOrderReceivedBody(order, 'osm');
+              subject             = 'Owner ' +  CLIENT_NAME+': Received Order [' + order.OrderNumber + ']';
+              body                = buildOrderReceivedBody(order, 'osm');
 
               break;
 
           case WEBMASTER:
               toEmailAddress      = webmasterEmailAddress (order.orgname);
               var CLIENT_NAME     = Meteor.call('getSetting','store_name' , order.orgname);
-              subject = 'Owner ' +  CLIENT_NAME+': Received Order [' + order.OrderNumber + ']';
-              body          = buildOrderReceivedBody(order, 'osm');
+              subject             = 'Owner ' +  CLIENT_NAME+': Received Order [' + order.OrderNumber + ']';
+              body                = buildOrderReceivedBody(order, 'osm');
 
               break;
 
           default:
             
-              subject     = 'Your Order [' + order.OrderNumber + ']';
-              body          = buildOrderReceivedBody(order, 'os');
-              toEmailAddress  =  order.CustomerEmail;
+              subject             = 'Your Order [' + order.OrderNumber + ']';
+              body                = buildOrderReceivedBody(order, 'os');
+              toEmailAddress      =  order.CustomerEmail;
 
 
       }
@@ -183,8 +183,6 @@ var buildOrderReceivedBody = function(order, urlPath)
     //console.log('buildOrderReceivedBody: CLIENT_NAME = ' +CLIENT_NAME);    
     var EMAIl_CUSTOM_MESSAGE     = Meteor.call('getSetting','email_custom_message' , order.orgname);
     //console.log('buildOrderReceivedBody: EMAIl_CUSTOM_MESSAGE  = ' +EMAIl_CUSTOM_MESSAGE );    
-    var ORDER_STATUS_URL      = Meteor.absoluteUrl(urlPath, {replaceLocalhost:true}) + "/";
-    //console.log('buildOrderReceivedBody: ORDER_STATUS_URL = ' +ORDER_STATUS_URL);
   
 	  var body= order.CustomerName + ', Thank you for your order.' +'\n\n' ;
 
@@ -218,7 +216,7 @@ var buildOrderReceivedBody = function(order, urlPath)
       body = body + "\n\n";
       
       body = body + 'Check status at: \n';
-      body = body + ORDER_STATUS_URL+ order.UniqueId;
+      body = body + rootUrl(order.orgname) + '/'+ urlPath +'/'+ order.UniqueId;
 
 
       if(EMAIl_CUSTOM_MESSAGE)
@@ -227,6 +225,7 @@ var buildOrderReceivedBody = function(order, urlPath)
       }
       
       body = body + '\n\n' + 'Auto generated, please do not reply to this email. If needed please email ' + clientEmailAddress(order.orgname);
+      body = body + '\n\n' +'--------------- Powered by http://websheets.io ---------------';
       console.log(order.sessionId + ' :buildOrderReceivedBody:body = ' + body);
       return body;
 
@@ -244,8 +243,6 @@ var buildOrderReadyBody = function(sessionId,order)
     //console.log('buildOrderReceivedBody: CLIENT_NAME = ' +CLIENT_NAME);    
     var EMAIl_CUSTOM_MESSAGE     = Meteor.call('getSetting','email_custom_message' , order.orgname);
     //console.log('buildOrderReceivedBody: EMAIl_CUSTOM_MESSAGE  = ' +EMAIl_CUSTOM_MESSAGE );    
-    var ORDER_STATUS_URL      = Meteor.absoluteUrl('os', {replaceLocalhost:true}) + "/";
-    //console.log('buildOrderReceivedBody: ORDER_STATUS_URL = ' +ORDER_STATUS_URL);
 
           var body= 'Your order #  [' + order.OrderNumber + '] is ready to be picked up any time now -' +'\n\n' ;
           //body = body + 'Received at : ' + order.TimeOrderReceived+ '\n\n';
@@ -268,13 +265,14 @@ var buildOrderReadyBody = function(sessionId,order)
            body = body + "\n\n";
         
           body = body + 'Check the current status at:\n';
-          body = body +  ORDER_STATUS_URL + order.UniqueId;
+          body = body +  rootUrl(order.orgname) + '/os/' + order.UniqueId;
       
        if(EMAIl_CUSTOM_MESSAGE)
       {
         body = body + '\n\n\n' + EMAIl_CUSTOM_MESSAGE;
       }
       body = body + '\n\n' + 'Auto generated, please do not reply to this email. If needed please email ' + clientEmailAddress(order.orgname);
+      body = body + '\n\n' +'--------------- Powered by http://websheets.io ---------------';
       console.log(sessionId + ' :buildOrderReceivedBody:body = ' + body);
       return body;
 
