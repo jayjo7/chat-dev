@@ -225,7 +225,7 @@ var buildOrderReceivedBody = function(order, urlPath)
       }
       
       body = body + '\n\n' + 'Auto generated, please do not reply to this email. If needed please email ' + clientEmailAddress(order.orgname);
-      body = body + '\n\n' +'--------------- Powered by http://websheets.io ---------------';
+      body = body + '\n\n' +'Powered by http://websheets.io';
       console.log(order.sessionId + ' :buildOrderReceivedBody:body = ' + body);
       return body;
 
@@ -272,7 +272,7 @@ var buildOrderReadyBody = function(sessionId,order)
         body = body + '\n\n\n' + EMAIl_CUSTOM_MESSAGE;
       }
       body = body + '\n\n' + 'Auto generated, please do not reply to this email. If needed please email ' + clientEmailAddress(order.orgname);
-      body = body + '\n\n' +'--------------- Powered by http://websheets.io ---------------';
+      body = body + '\n\n' +'Powered by http://websheets.io';
       console.log(sessionId + ' :buildOrderReceivedBody:body = ' + body);
       return body;
 

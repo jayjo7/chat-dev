@@ -140,6 +140,7 @@ Meteor.methods({
 			order.CustomerPhone 	= contactInfo.phoneNumber;
 			order.CustomerEmail 	= contactInfo.email;
 			order.MessageToKitchen 	= contactInfo.messageToKitchen;
+			order.osmLink			= rootUrl(order.orgname) +'/osm/'+ order.UniqueId;;
 
 			var itemString='';
 			var items=[];
