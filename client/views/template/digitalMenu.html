@@ -1,66 +1,32 @@
 <template name="digitalMenu">
 
-<div class="tv-body" >
+<div class="DMbody" >
 
-<div class="tv-OverallContainer">	
-
-<div class="tv-MainHeader">
-    <div class="tv-MainHeaderLeft" align="left">{{getSettings 'dm_left_message'}}</div>
-    <div class="tv-MainHeaderCenter" align="center">
-
-    	{{getSettings 'dm_title'}}
-
-    </div>
-    <div class="tv-MainHeaderRight" align="right">{{getSettings 'dm_right_message'}}</div>
-    <div class="TV-notification">{{newOrderCount}}</div>
-  </div>
-  <hr>
-
-
-  <!--MENU--> 
-
-   {{#each getSettingsMulti "category_menu"}}
-
-   		{{#if isMenuAvailable Value}}	
-
-
-  <!--CATEGORY-->
-		<div class="tv-CategoryBlock">
-            <div class="tv-CategoryHeader" align="center">
-            	<div class="tv-category-title">{{Value}}</div>
-            </div>
-
-			    		{{#each menu Value }}
-
- 
-			    					<div class="tv-itemBlock ">
-
-			    						        <div class="tv-item-Title" >{{{prune Name 50 false}}}</div>
-			    						      {{#if isSpecial fontWeight}}
-        										<div class="tv-special">Special</div>
-								             {{/if}}
-        										<div align="center" class="tv-item-Price"> {{currency Charge}}</div>
-      								</div>
-
-
-
-
-
-			      		{{/each}}
-			     </div>
-			 
-			  <!--//CATEGORY--> 
-
-
-  		{{/if}}
-
-  {{/each}}
+<div class="container-fluid">
+  <h1 align="center" class="DM-StoreName"><strong>Chowpaaty Chaat </strong></h1>
   
+     {{#each getSettingsMulti "category_menu"}}
 
-  <!--//MENU--> 
-  
+      {{#if isMenuAvailable Value}} 
+
+        <div class="DMCategory">
+          <h4 align="center" class="DMTitle">{{Value}}  </h4>
+           <div>
+
+            {{{getFormatedMenu Value}}}
+
+          </div>
+       </div>
+
+      {{/if}}
+
+      {{/each}}
+
+
+
+<div align="center" style=" font-size: 2em; color: #8E0002; font-style: italic; font-weight: 400;" >Powered by  Websheets&#8482;</div>
+
 </div>
-<div align="center" class="tv-item-Title" style="font-color:white">Powered by Websheets&#8482;</div>
 </div>
 
 

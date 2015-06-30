@@ -311,10 +311,33 @@ countryCode =  function(orgname)
 	return  Meteor.settings.public[orgname]. countryCode;
 }
 
+currencyFormat = function(num)
+{
+	return '$' + Number(num).toFixed(2);
+}
+
+isSpecial = function(fontWeight)
+{
+	 if('bold' === fontWeight)
+            return true;
+     else
+            return false;
+
+}
+
+isItemAvailable = function(fontLine)
+{
+		if('line-through' === fontLine)
+			return  false;
+		else
+			return true;
+	
+}
+
 String.prototype.trunc = function( n, useWordBoundary)
 {
          var toLong = this.length >n , s_ = toLong ? this.substr(0,n-1) : this;
          s_ = useWordBoundary && toLong ? s_.substr(0,s_.lastIndexOf(' ')) : s_;
          return  toLong ? s_ + '&hellip;' : s_;
-      };
+};
 
