@@ -18,7 +18,7 @@ Template.digitalMenu.helpers({
 				htmlString += '<div class="row DMmenuitem">';
 			}
 
-			htmlString += '<div class="col-xs-3 DMitem" align="right">' + menu.Name ;
+			htmlString += '<div class="col-xs-3 DMitem" align="right">' + s(menu.Name).trim().titleize().value() ;
 			if(isSpecial(menu.fontWeight))
 			{
 				htmlString += '&nbsp;<span class="label  label-success">Special</span>';
