@@ -72,14 +72,14 @@
 
                               <!-- STEP ONE -->
                               <td class="step active">
-                                <img src="/img/1-on.png"  width='100' alt="Order Placed" /><br />
+                                <img src="/img/confirmation/1-on.png"  width='100' alt="Order Placed" /><br />
                                 <b>✓</b><br />Order Placed</td>
 
                                 {{#if isInKitchen Order }}
 
                                        <!-- STEP TWO -->
                                       <td class="step active">
-                                        <img src="/img/2-on.png" alt="In Kitchen" /><br />
+                                        <img src="/img/confirmation/2-on.png" alt="In Kitchen" /><br />
                                 <b>✓</b><br />In Kitchen</td>
                                 {{else}}
 
@@ -87,10 +87,10 @@
                                       <td class="step ">
                                         {{#if omEnabled}}
                                             <a href="#" id='moveOrderStatus'>
-                                              <img src="/img/2-off.png" alt="In Kitchen" />
+                                              <img src="/img/confirmation/2-off.png" alt="In Kitchen" />
                                             </a>
                                         {{else}}
-                                             <img src="/img/2-off.png" alt="In Kitchen" />
+                                             <img src="/img/confirmation/2-off.png" alt="In Kitchen" />
                                         {{/if}}
 
                                         <br />
@@ -101,7 +101,7 @@
                                 {{#if isSaleComplete Order}}
 
                                       <td class="step active">
-                                      <img src="/img/3-on.png" alt="Ready for Pickup" /><br />
+                                      <img src="/img/confirmation/3-on.png" alt="Ready for Pickup" /><br />
                                 <b>✓</b><br />Ready for Pickup</td>
 
                                 {{else}}
@@ -109,10 +109,10 @@
                                     <td class="step">
                                       {{#if enableReadyButton Order omEnabled}}
                                           <a href="#" id='moveOrderStatus'>
-                                            <img src="/img/3-off.png" alt="Not Ready" /><br />
+                                            <img src="/img/confirmation/3-off.png" alt="Not Ready" /><br />
                                           </a>  
                                        {{else}}  
-                                          <img src="/img/3-off.png" alt="Not Ready" /><br />
+                                          <img src="/img/confirmation/3-off.png" alt="Not Ready" /><br />
                                       {{/if}}
  
                                 <b>&nbsp;</b><br />Ready for Pickup</td>
@@ -122,7 +122,7 @@
                                 {{#if isDelivered Order}}
 
                                       <td class="step active">
-                                      <img src="/img/4-on.png" alt="Order Delivered" /><br />
+                                      <img src="/img/confirmation/4-on.png" alt="Order Delivered" /><br />
                                 <b>✓</b><br />Order Delivered</td>
 
                                 {{else}}
@@ -130,10 +130,10 @@
                                     <td class="step">
                                       {{#if enableDeliveredButton Order omEnabled}}
                                           <a href="#" id='moveOrderStatus'>
-                                            <img src="/img/4-off.png" alt="Not Delivered" /><br />
+                                            <img src="/img/confirmation/4-off.png" alt="Not Delivered" /><br />
                                           </a>  
                                        {{else}}  
-                                          <img src="/img/4-off.png" alt="Not Delivered" /><br />
+                                          <img src="/img/confirmation/4-off.png" alt="Not Delivered" /><br />
                                       {{/if}}
  
                                 <b>&nbsp;</b><br />Order Delivered</td>
