@@ -61,8 +61,9 @@ Meteor.methods({
 										{
 											console.log(sessionid+ ":sendReadyNotification: trouble sending email: " + e);
 											console.log(sessionid+ ":sendReadyNotification: Jay Todo: Send Email Notification to Webmaster and Owner");
-											emailCustomer.status 	= websheets.public.status.FATAL;
-											emailCustomer.error 	= e.toString();
+											emailCustomer.status 		= websheets.public.status.FATAL;
+											emailCustomer.error 		= e.toString();
+											emailCustomer.errorStack	= e.stack;	
 											
 										}
 
@@ -70,7 +71,7 @@ Meteor.methods({
 								 	else
 								 	{
 								 		console.log(sessionid+ ':sendReadyNotification: customer opt not receive email')
-								 		emailCustomer.status 	=	websheets.public.status.NOT_ENABLED;
+								 		emailCustomer.status 	=	websheets.public.status.ENABLED;
 
 								 	}
 
@@ -95,9 +96,10 @@ Meteor.methods({
 										{
 											console.log(sessionid+ ":sendReadyNotification: trouble sending email: " + e);
 											console.log(sessionid+ ":sendReadyNotification: Jay Todo: Send Email Notification to Webmaster and Owner");
-											emailWebmaster.status 	= websheets.public.status.FATAL;
-											emailWebmaster.error 	= e.toString();
-											
+											emailWebmaster.status 		= websheets.public.status.FATAL;
+											emailWebmaster.error 		= e.toString();
+										    emailWebmaster.errorStack	= e.stack;	
+
 										}
 
 								 	}
@@ -119,7 +121,7 @@ Meteor.methods({
 						else
 						{
 						 	console.log(sessionid+ ':sendReadyNotification:  Email is not enabled for this client')
-					 		readyNotificationStatus.email.status 	=	websheets.public.status.NOT_ENABLED;
+					 		readyNotificationStatus.email.status 	=	websheets.public.status.ENABLED;
 
 						}
 
@@ -144,16 +146,16 @@ Meteor.methods({
 										{
 											console.log(sessionid+ ':sendReadyNotification: trouble sending sms to customer: ' + e);
 											console.log(sessionid+ ':sendReadyNotification: Jay Todo: Send Email Notification to Webmaster and Owner');
-											smsCustomer.status 	= websheets.public.status.FATAL;
-											smsCustomer.error 	= e.toString();
-											
+											smsCustomer.status 		= websheets.public.status.FATAL;
+											smsCustomer.error 		= e.toString();
+											smsCustomer.errorStack 	= e.stack;
 										}
 
 									}
 									else
 									{
 										console.log(sessionid+ ':sendReadyNotification: customer opt not receive sms')
-								 		smsCustomer.status 	=	websheets.public.status.NOT_ENABLED;	
+								 		smsCustomer.status 	=	websheets.public.status.ENABLED;	
 
 									} 
 									readyNotificationStatus.sms.smsCustomer = smsCustomer;
@@ -174,7 +176,8 @@ Meteor.methods({
 											console.log(sessionid+ ':sendReadyNotification: trouble sending sms to Webmaster: ' + e);
 											console.log(sessionid+ ':sendReadyNotification: Jay Todo: Send Email Notification to Webmaster and Owner');
 											smsWebmaster.status 	= websheets.public.status.FATAL;
-											smsWebmaster.error 	= e.toString();
+											smsWebmaster.error 		= e.toString();
+											smsWebmaster.errorStack	= e.stack;
 											
 										}					
 
@@ -182,7 +185,7 @@ Meteor.methods({
 									else
 									{
 										console.log(sessionid+ ':sendReadyNotification: Not configured to send email to the Webmaster')
-										smsWebmaster.status 	=	websheets.public.status.NOT_ENABLED;	 	
+										smsWebmaster.status 	=	websheets.public.status.ENABLED;	 	
 										
 									}
 									readyNotificationStatus.sms.smsWebmaster = smsWebmaster;
@@ -200,7 +203,7 @@ Meteor.methods({
 						else
 						{
 							console.log(sessionid+ ':sendReadyNotification: SMS is not enabled for this client')
-					 		readyNotificationStatus.sms.status 	=	websheets.public.status.NOT_ENABLED;
+					 		readyNotificationStatus.sms.status 	=	websheets.public.status.ENABLED;
 						}
 
 					 	console.log(sessionid+ ": Done sending order ready sms");	

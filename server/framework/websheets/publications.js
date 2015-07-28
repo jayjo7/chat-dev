@@ -1,3 +1,9 @@
+Meteor.publish ( 'dmMetatData', function (orgname)
+{
+
+	return DmMetatData.find();
+});
+
 Meteor.publish('menu', function(orgname)
 {
 	return Menu.find({orgname:orgname});

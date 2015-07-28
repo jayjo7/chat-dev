@@ -2,8 +2,6 @@ Menu = new Mongo.Collection('menu');
 
 Orders = new Mongo.Collection('orders');
 
-OrdersMeta = new Mongo.Collection('ordersMeta');
-
 Cart = new Mongo.Collection('cart');
 
 CartItems = new Mongo.Collection('cartitems');

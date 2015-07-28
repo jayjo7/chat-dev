@@ -1,32 +1,32 @@
 <template name="digitalMenu">
 
-<div class="DMbody" >
+<div class="DMOuterCointainer" >
 
-<div class="container-fluid">
-  <h1 align="center" class="DM-StoreName"><strong>Chowpaaty Chaat </strong></h1>
-  
-     {{#each getSettingsMulti "category_menu"}}
+    <div class="container-fluid"> 
+      <!--<div class="row">
+        <div class="col-sm-4"><div align="center" class="DMHeader"><br/>Order Online & get 10% OFF<br/>www.chowpaatychaat.com</div></div>
+        <div class="col-sm-4"><div align="center" class="DM-StoreName">Welcome to Chowpaaty Chaat</div></div>
+        <div class="col-sm-4"><div align="center" class="DMHeader"><br/>Coming Soon!<br/>South Indian Dishes!!</div></div>
+      </div>--> 
 
-      {{#if isMenuAvailable Value}} 
-
-        <div class="DMCategory">
-          <h4 align="center" class="DMTitle">{{Value}}  </h4>
-           <div>
-
-            {{{getFormatedMenu Value}}}
-
-          </div>
-       </div>
-
-      {{/if}}
-
-      {{/each}}
+          {{#each getDMCategoryToBeDisplayed pageNumber}}
 
 
 
-<div align="center" style=" font-size: 2em; color: #8E0002; font-style: italic; font-weight: 400;" >Powered by  Websheets&#8482;</div>
+                  <div class="DMCategory">
+                    <h4 align="center" class="DMTitle">{{name}}  </h4>
+                     <div>
+                      {{{getFormatedMenu name allowedCount}}}
 
-</div>
+                    </div>
+                 </div>
+
+
+          {{/each}}
+      
+    </div>
+
+    <div align="center" class="DMFooter">Powered by Websheets&#8482;</div>
 </div>
 
 

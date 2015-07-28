@@ -102,7 +102,7 @@ Meteor.methods({
       switch (whoReceiving)
       {
 
-          case CLIENT:
+          case websheets.private.generic.CLIENT:
               toEmailAddress      = clientEmailAddress (order.orgname);
               var CLIENT_NAME     = Meteor.call('getSetting','store_name' , order.orgname);
               subject             = 'Owner ' +  CLIENT_NAME+': Received Order [' + order.OrderNumber + ']';
@@ -110,7 +110,7 @@ Meteor.methods({
 
               break;
 
-          case WEBMASTER:
+          case websheets.private.generic.WEBMASTER:
               toEmailAddress      = webmasterEmailAddress (order.orgname);
               var CLIENT_NAME     = Meteor.call('getSetting','store_name' , order.orgname);
               subject             = 'Owner ' +  CLIENT_NAME+': Received Order [' + order.OrderNumber + ']';
@@ -145,7 +145,7 @@ Meteor.methods({
         {
           console.log('emailOrderReceived: Trouble sending email to the customer' + e);
           var result ={};
-          result.status = websheets.public.status.FATAL;
+          result.status = STATUS_FATAL;
           result.error = e.toString();
           response.result = result;
         }

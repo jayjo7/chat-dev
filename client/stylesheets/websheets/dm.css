@@ -1,0 +1,68 @@
+.DMOuterCointainer{
+	font-family: Montserrat, Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif !important;
+	height:100vh;
+	background: #fca402;
+	background: -moz-linear-gradient(top, #fca402 0%, #f1da36 30%, #f1da36 30%, #f9f339 46%, #f1da36 74%, #f1da36 74%, #fc7b02 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fca402), color-stop(30%, #f1da36), color-stop(30%, #f1da36), color-stop(46%, #f9f339), color-stop(74%, #f1da36), color-stop(74%, #f1da36), color-stop(100%, #fc7b02));
+	background: -webkit-linear-gradient(top, #fca402 0%, #f1da36 30%, #f1da36 30%, #f9f339 46%, #f1da36 74%, #f1da36 74%, #fc7b02 100%);
+	background: -o-linear-gradient(top, #fca402 0%, #f1da36 30%, #f1da36 30%, #f9f339 46%, #f1da36 74%, #f1da36 74%, #fc7b02 100%);
+	background: -ms-linear-gradient(top, #fca402 0%, #f1da36 30%, #f1da36 30%, #f9f339 46%, #f1da36 74%, #f1da36 74%, #fc7b02 100%);
+	background: linear-gradient(to bottom, #fca402 0%, #f1da36 30%, #f1da36 30%, #f9f339 46%, #f1da36 74%, #f1da36 74%, #fc7b02 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fca402', endColorstr='#fc7b02', GradientType=0 );
+
+}
+.DMmenuitem {
+	padding-top: 15px;
+	font-size: 2em;
+}
+.DMprice {
+	font-size: 1.1em;
+	font-style: italic;
+	font-weight: 900;
+	text-shadow: 1px 1px 1px gold;
+}
+.DMitem {
+	font-weight: 900;
+	font-size: 1.1em;
+	text-shadow: 2px 2px 2px gold;
+}
+.DMTitle {
+	font-size: 2em;
+	padding: 5px;
+	background-color: red;
+	color: white;
+	text-transform: uppercase;
+	border-bottom: solid 2px rgba(0,0,0,0.50);
+	text-shadow: 2px 2px 2px black;
+
+}
+.DM-StoreName {
+	font: 35px 'Roboto';
+	text-transform: uppercase;
+	background-color: rgba(255,152,0,.10);
+	font-weight: 500;
+	line-height: 60px;
+	border-radius: 50px;
+	height: 120px;
+	line-height: 50px;
+	text-shadow: 2px 2px black;
+}
+.DMCategory {
+	padding-bottom: 25px;
+}
+.DMHeader {
+	background-color: rgba(198,0,3,0.80);
+	color: gold;
+	height: 120px;
+	font-size: 2em;
+	text-shadow: 2px 2px black;
+}
+
+.DMFooter {
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    font-size: 2em
+}

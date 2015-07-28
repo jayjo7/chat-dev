@@ -19,7 +19,6 @@ Meteor.methods({
           case websheets.private.generic.CLIENT:
 
           case websheets.private.generic.WEBMASTER:
-          
                 body      = 'New Order[' + order.OrderNumber + '] \n';
                 body     += order.Items + '\n';
                 body     += rootUrl(order.orgname) +'/osm/'+ order.UniqueId;
@@ -153,7 +152,7 @@ var sendSMS = function (sessionId, orderNumber, toPhoneNumber, bodyMessage, orgn
 
                               if(error)
                               {
-                                result.status     = websheets.public.status.FAILED;
+                                result.status     = websheets.public.status.STATUS_FAILED;
                                 result.error      = error;
 
                                 for(var key in error)

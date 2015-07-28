@@ -1,3 +1,4 @@
+
 // Items that need to be move to config file
 rootUrl                 = function(orgname)
                           {
@@ -332,7 +333,7 @@ statusDescription = function (StatusCode)
 
       case websheets.public.orderStateCode.THREE:
 
-          return websheets.public.orderState.HREE;
+          return websheets.public.orderState.THREE;
           break;
 
       case websheets.public.orderStateCode.FOUR:
