@@ -5,7 +5,7 @@ Meteor.methods({
 		console.log(sessionid +':sendReadyNotification: doc.UniqueId= ' + doc.UniqueId);
 
 
-			if(doc.StatusCode == STATE_CODE_THREE)
+			if(doc.StatusCode == websheets.public.orderStateCode.THREE)
 			{
 				try
 				{
@@ -14,8 +14,8 @@ Meteor.methods({
 
 					if( ! ordersMeta.readyNotificationStatus || 
 						  (
-						  	ordersMeta.readyNotificationStatus.email.emailCustomer.status !== STATUS_SUCCESS &&
-						  	ordersMeta.readyNotificationStatus.sms.smsCustomer.status     !== STATUS_SUCCESS
+						  	ordersMeta.readyNotificationStatus.email.emailCustomer.status !== websheets.public.status.SUCCESS &&
+						  	ordersMeta.readyNotificationStatus.sms.smsCustomer.status     !== websheets.public.status.SUCCESS
 						  )
 					  )
 					{
@@ -33,7 +33,7 @@ Meteor.methods({
 						 //Start Sending Email
 					 	if(isEmailEnabled(doc.orgname))
 					 	{
-					 		readyNotificationStatus.email.status = STATUS_ENABLED;
+					 		readyNotificationStatus.email.status = websheets.public.status.ENABLED;
 
 					 		if(isEmailMailgun(doc.orgname))
 					 		{
@@ -42,7 +42,7 @@ Meteor.methods({
 								 	{
 
 								 		try{
-										 	var response = Meteor.call('emailOrderReady',sessionid, doc, CUSTOMER);
+										 	var response = Meteor.call('emailOrderReady',sessionid, doc, websheets.private.generic.CUSTOMER);
 										    console.log(JSON.stringify(response, null, 4));
 
 										 	for(var key in response)
@@ -52,7 +52,7 @@ Meteor.methods({
 
 										 	if(response.result.error)
 					            			{
-					            				emailCustomer.status 	= STATUS_FAILED;
+					            				emailCustomer.status 	= websheets.public.status.FAILED;
 					                            emailCustomer.error 	= response.result.error.statusCode;
 					            			}
 
@@ -61,7 +61,7 @@ Meteor.methods({
 										{
 											console.log(sessionid+ ":sendReadyNotification: trouble sending email: " + e);
 											console.log(sessionid+ ":sendReadyNotification: Jay Todo: Send Email Notification to Webmaster and Owner");
-											emailCustomer.status 	= STATUS_FATAL;
+											emailCustomer.status 	= websheets.public.status.FATAL;
 											emailCustomer.error 	= e.toString();
 											
 										}
@@ -70,7 +70,7 @@ Meteor.methods({
 								 	else
 								 	{
 								 		console.log(sessionid+ ':sendReadyNotification: customer opt not receive email')
-								 		emailCustomer.status 	=	STATUS_NOT_ENABLED;
+								 		emailCustomer.status 	=	websheets.public.status.NOT_ENABLED;
 
 								 	}
 
@@ -80,14 +80,14 @@ Meteor.methods({
 								 	if(isEmailWebmaster(doc.orgname))
 								 	{
 								 		try{
-										 	var response = Meteor.call('emailOrderReady', sessionid, doc, WEBMASTER);
+										 	var response = Meteor.call('emailOrderReady', sessionid, doc, websheets.private.generic.WEBMASTER);
 										 	for(var key in response)
 										 	{
 										 		emailWebmaster [key] = response[key];
 										 	}
 										 	if(response.result.error)
 					            			{
-					            				emailWebmaster.status 	= STATUS_FAILED;
+					            				emailWebmaster.status 	= websheets.public.status.FAILED;
 					                            emailWebmaster.error 	= response.result.error.statusCode;
 					            			}
 
@@ -95,7 +95,7 @@ Meteor.methods({
 										{
 											console.log(sessionid+ ":sendReadyNotification: trouble sending email: " + e);
 											console.log(sessionid+ ":sendReadyNotification: Jay Todo: Send Email Notification to Webmaster and Owner");
-											emailWebmaster.status 	= STATUS_FATAL;
+											emailWebmaster.status 	= websheets.public.status.FATAL;
 											emailWebmaster.error 	= e.toString();
 											
 										}
@@ -104,14 +104,14 @@ Meteor.methods({
 								 	else
 								 	{
 								 		console.log(sessionid+ ':sendReadyNotification:  Not configured to send email to the Webmaster')
-								 		emailWebmaster.status 	=	STATUS_NOT_ENABLED;	
+								 		emailWebmaster.status 	=	websheets.public.status.ENABLED;	
 								 	}	
 								 	readyNotificationStatus.email.emailWebmaster = emailWebmaster;
 						 	}
 						 	else
 						 	{
 						 		console.log(sessionid+ ": Client is configured for sending email, but no vendor api enabled - Fatal");
-								readyNotificationStatus.email.status 	= STATUS_FATAL;
+								readyNotificationStatus.email.status 	= websheets.public.status.FATAL;
 								readyNotificationStatus.email.error 	= 'Client is configured for sending email, but no vendor api enabled - Fatal'
 
 						 	}
@@ -119,7 +119,7 @@ Meteor.methods({
 						else
 						{
 						 	console.log(sessionid+ ':sendReadyNotification:  Email is not enabled for this client')
-					 		readyNotificationStatus.email.status 	=	STATUS_NOT_ENABLED;
+					 		readyNotificationStatus.email.status 	=	websheets.public.status.NOT_ENABLED;
 
 						}
 
@@ -144,7 +144,7 @@ Meteor.methods({
 										{
 											console.log(sessionid+ ':sendReadyNotification: trouble sending sms to customer: ' + e);
 											console.log(sessionid+ ':sendReadyNotification: Jay Todo: Send Email Notification to Webmaster and Owner');
-											smsCustomer.status 	= STATUS_FATAL;
+											smsCustomer.status 	= websheets.public.status.FATAL;
 											smsCustomer.error 	= e.toString();
 											
 										}
@@ -153,7 +153,7 @@ Meteor.methods({
 									else
 									{
 										console.log(sessionid+ ':sendReadyNotification: customer opt not receive sms')
-								 		smsCustomer.status 	=	STATUS_NOT_ENABLED;	
+								 		smsCustomer.status 	=	websheets.public.status.NOT_ENABLED;	
 
 									} 
 									readyNotificationStatus.sms.smsCustomer = smsCustomer;
@@ -162,7 +162,7 @@ Meteor.methods({
 									{
 
 										try{
-										 	var response = Meteor.call('smsOrderReady', sessionid,  doc, webmasterPhoneNumberText(doc.orgname), WEBMASTER);
+										 	var response = Meteor.call('smsOrderReady', sessionid,  doc, webmasterPhoneNumberText(doc.orgname), websheets.private.generic.WEBMASTER);
 										 	for(var key in response.result)
 										 	{
 										 		console.log(key + ' = ' + response.result[key]);
@@ -173,7 +173,7 @@ Meteor.methods({
 										{
 											console.log(sessionid+ ':sendReadyNotification: trouble sending sms to Webmaster: ' + e);
 											console.log(sessionid+ ':sendReadyNotification: Jay Todo: Send Email Notification to Webmaster and Owner');
-											smsWebmaster.status 	= STATUS_FATAL;
+											smsWebmaster.status 	= websheets.public.status.FATAL;
 											smsWebmaster.error 	= e.toString();
 											
 										}					
@@ -182,7 +182,7 @@ Meteor.methods({
 									else
 									{
 										console.log(sessionid+ ':sendReadyNotification: Not configured to send email to the Webmaster')
-										smsWebmaster.status 	=	STATUS_NOT_ENABLED;	 	
+										smsWebmaster.status 	=	websheets.public.status.NOT_ENABLED;	 	
 										
 									}
 									readyNotificationStatus.sms.smsWebmaster = smsWebmaster;
@@ -191,7 +191,7 @@ Meteor.methods({
 							{
 
 								console.log(sessionid+ ':sendReadyNotification: Client is configured for sending sms, but no vendor api enabled - Fatal');
-								readyNotificationStatus.sms.status 	= STATUS_FATAL;
+								readyNotificationStatus.sms.status 	= websheets.public.status.FATAL;
 								readyNotificationStatus.sms.error 	= 'Client is configured for sending sms, but no vendor api enabled - Fatal'
 
 							}
@@ -200,7 +200,7 @@ Meteor.methods({
 						else
 						{
 							console.log(sessionid+ ':sendReadyNotification: SMS is not enabled for this client')
-					 		readyNotificationStatus.sms.status 	=	STATUS_NOT_ENABLED;
+					 		readyNotificationStatus.sms.status 	=	websheets.public.status.NOT_ENABLED;
 						}
 
 					 	console.log(sessionid+ ": Done sending order ready sms");	

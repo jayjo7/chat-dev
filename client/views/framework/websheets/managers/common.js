@@ -1,22 +1,98 @@
+Template.registerHelper('getSelectedItemSize', function(cartItem)
+    {
+        var htmlString ='';
+
+        switch (cartItem.itemSize)
+        {
+            case websheets.public.size.SMALL:
+
+                htmlString = '<span class="badge progress-bar-success">' +  websheets.public.size.SMALL + '</span>';
+
+                break;
+
+            case websheets.public.size.MEDIUM:
+
+                  htmlString ='<span class="badge progress-bar-info">' + websheets.public.size.MEDIUM + '</span>';
+                break;
+
+            case  websheets.public.size.LARGE:
+
+               htmlString = '<span class="badge progress-bar-warning">' + websheets.public.size.LARGE +'</span>';
+               break;
+
+            case websheets.public.size.EXTRALARGE:
+
+                htmlString = '<span class="badge progress-bar-danger">'+ websheets.public.size.EXTRALARGE + '</span>';
+        }
+        return htmlString;
+
+    });
+
+Template.registerHelper('getSelectedSpiceLevel', function(cartItem)
+    {
+        var htmlString ='';
+
+        switch (cartItem.spiceLevel)
+        {
+            case websheets.public.spicy.MILD:
+
+                htmlString = '<span class="label label-success">' +  websheets.public.spicy.MILD + '</span>';
+
+                break;
+
+            case websheets.public.spicy.NORMAL:
+
+                  htmlString ='<span class="label label-warning">' + websheets.public.spicy.NORMAL + '</span>';
+                break;
+
+            case websheets.public.spicy.SPICY:
+
+                htmlString = '<span class="label label-danger">'+ websheets.public.spicy.SPICY+ '</span>';
+        }
+        return htmlString;
+
+    });
+
+Template.registerHelper('hasValue', function(key)
+{
+	var menu = Session.get(websheets.public.generic.MENU_OBJECT_SESSION_KEY);
+	console.log('hasValue: menu      = '  + menu);
+	console.log('hasValue: given key =' + key);
+	var value = menu[key];
+	console.log('hasValue: value = ' + value);
+	//value = value.trim();
+	console.log('hasValue: value = ' + value);
+
+	if(value)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+});
 
 Template.registerHelper('menu',function(categoryMenu)
 {
-    var orgname = Session.get(ORG_NAME_SESSION_KEY);
+    var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
     console.log('menu: ' + orgname);
 
 	return Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}});
 
-}),
+});
 
 Template.registerHelper('prune', function(string, length, useWordBoundary)
 {
+	string = string.trim();
 	return string.trunc(length, useWordBoundary);
 
 });
 
 Template.registerHelper('newOrderCount', function()
 {
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 	//var orders = Orders.find({orgname:orgname, StatusCode: 1});
 	//orders.observeChanges({
 
@@ -50,7 +126,7 @@ Template.registerHelper('newOrderCount', function()
 
 Template.registerHelper('getOrders', function(StatusCode)
 {
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	console.log('getOrders:StatusCode = ' +StatusCode);
 	return  Orders.find({orgname:orgname,StatusCode: StatusCode});
@@ -60,7 +136,7 @@ Template.registerHelper('getOrders', function(StatusCode)
 
 Template.registerHelper('getSettings', function(key)
 {
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	//console.log('getSettings:key = ' + key)
 	var result = Settings.findOne({$and : [{Key: key}, {orgname:orgname},{Value : {"$exists" : true, "$ne" : ""}}]});
@@ -72,7 +148,7 @@ Template.registerHelper('getSettings', function(key)
 Template.registerHelper('getSettingsArray', function(key)
 {
 	//console.log('getSettingsArray:key = ' + key)
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	var Settings = Content.findOne({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]})
 
@@ -91,11 +167,11 @@ Template.registerHelper('getSettingsArray', function(key)
 
 Template.registerHelper('getSettingsMulti', function(key)
 {
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
-	//console.log('getSettingsMulti:key = ' + key)
+	console.log('getSettingsMulti:key = ' + key)
 	var result = Settings.find({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]},{sort:{sheetRowId: 1}});
-		//console.log('getSettingsMulti:Value = ' + result.Value)
+	console.log('getSettingsMulti:Value = ' + result.Value)
 
 	return result
 });
@@ -103,7 +179,7 @@ Template.registerHelper('getSettingsMulti', function(key)
 
 Template.registerHelper('getContent', function(key)
 {
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	//console.log('getContent:key = ' + key)
 	var result = Content.findOne({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
@@ -114,7 +190,7 @@ Template.registerHelper('getContent', function(key)
 
 Template.registerHelper('getContentArray', function(key)
 {
-		var orgname = Session.get(ORG_NAME_SESSION_KEY);
+		var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	//console.log('getContentArray:key = ' + key)
 
@@ -137,7 +213,7 @@ Template.registerHelper('showCart', function()
 {
 
 	    	var  sessid = Session.get('appUUID');
-            var orgname = Session.get(ORG_NAME_SESSION_KEY);
+            var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
             //console.log("shopCart:sessid =  " +sessid);
 
@@ -158,7 +234,7 @@ Template.registerHelper('showCart', function()
 
 Template.registerHelper('isMenuAvailable', function(categoryMenu)
 {
-	    var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	    var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
         //console.log('isMenuAvailable:categoryMenu = ' + categoryMenu)
 		var menuCount = Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]}).count();
@@ -171,7 +247,7 @@ Template.registerHelper('isMenuAvailable', function(categoryMenu)
 
 Template.registerHelper('menuMulti', function(categoryMenu)
 {
-	    var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	    var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 
 		return Menu.find({$and : [{Category: categoryMenu}, {orgname:orgname}, {Name : {"$exists" : true, "$ne" : ""}}]});
@@ -225,7 +301,7 @@ Template.registerHelper('soldOut', function(fontLine)
 
 Template.registerHelper('isPaymentEnabled', function(){
 
-	    var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	    var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	    console.log('Meteor.settings.public[orgname].onlinePayment = ' + Meteor.settings.public[orgname].onlinePayment);
 
@@ -243,7 +319,7 @@ Template.registerHelper('isPaymentEnabled', function(){
 
 Template.registerHelper('imageFormatter', function(){
 
-	var orgname = Session.get(ORG_NAME_SESSION_KEY);
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
 	return Meteor.settings.public[orgname].imageFormatter;
 
@@ -316,6 +392,12 @@ currencyFormat = function(num)
 	return '$' + Number(num).toFixed(2);
 }
 
+
+addToCartToggle=function(orgname)
+{
+	return Meteor.settings.public[orgname]. addToCartToggle;
+}
+
 isSpecial = function(fontWeight)
 {
 	 if('bold' === fontWeight)
@@ -334,10 +416,40 @@ isItemAvailable = function(fontLine)
 	
 }
 
+prune =  function(string, length, useWordBoundary)
+{
+	string = string.trim();
+	return string.trunc(length, useWordBoundary);
+
+}
+
 String.prototype.trunc = function( n, useWordBoundary)
 {
          var toLong = this.length >n , s_ = toLong ? this.substr(0,n-1) : this;
          s_ = useWordBoundary && toLong ? s_.substr(0,s_.lastIndexOf(' ')) : s_;
          return  toLong ? s_ + '&hellip;' : s_;
 };
+
+
+getDmCountColumn = function()
+{
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
+
+	var key = websheets.public.generic.DM_COUNT_COLUMN;
+	var result = Content.findOne({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
+	return result.Value
+
+
+}
+
+getDmCountPage = function()
+{
+	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
+
+	var key = websheets.public.generic.DM_COUNT_PAGE
+	var result = Content.findOne({$and : [{Key: key}, {orgname:orgname}, {Value : {"$exists" : true, "$ne" : ""}}]});
+	return result.Value
+
+
+}
 

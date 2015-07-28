@@ -13,7 +13,7 @@ if(Meteor.isServer) {
 		{
 			action: function()
 			{
-				return {result:{ statusCode:'200', status:STATUS_SUCCESS, data:'sheetSync' }}
+				return {result:{ statusCode:'200', status:websheets.public.status.SUCCESS, data:'sheetSync' }}
 			
 			}
 		},
@@ -44,7 +44,7 @@ if(Meteor.isServer) {
 						console.log(sessionid + ': sheetSync: Number of records received = ' + data.length);
 						var result 			={};
 						result.worksheet 	= key;
-						result.status 		= STATUS_SUCCESS;	
+						result.status 		= websheets.public.status.SUCCESS;	
 						
 						for (i=0; i<data.length; i++)
 						{
@@ -60,7 +60,7 @@ if(Meteor.isServer) {
 
 						   			if (err) 
           							{ 
-									   		result.status 		=  STATUS_FAILED;
+									   		result.status 		=  websheets.public.status.FAILED;
 											result.error		=  err;
           							}  
           							else
@@ -75,7 +75,7 @@ if(Meteor.isServer) {
 						   		}));
 						   	}catch(e)
 						   	{
-						   		result.status 		=  STATUS_FAILED;
+						   		result.status 		=  websheets.public.status.FAILED;
 								result.error		=  e;
 						   	}
 						}	
@@ -83,7 +83,7 @@ if(Meteor.isServer) {
 					}	
 
 					return  { result: { statusCode 	: 200,
-										status 		: STATUS_SUCCESS,
+										status 		: websheets.public.status.SUCCESS,
 										data 		: collectiveResult,
 										message 	: sessionid + ': sheetSync: Processed Sucessfully, investigate the result for individual result'
 										}
@@ -93,7 +93,7 @@ if(Meteor.isServer) {
 				else
 				{
 					return { result: { 	statusCode 	:  401,
-										status 		:  STATUS_FAILED,
+										status 		:  websheets.public.status.FAILED,
 										message 	:  sessionid + ': sheetSync: The request body is empty'
 									 }
 							}
@@ -111,7 +111,7 @@ if(Meteor.isServer) {
 		{
 			action: function()
 			{
-				return {result:{ statusCode:'200', status:STATUS_SUCCESS, data:'sheetSyncFull' }}
+				return {result:{ statusCode:'200', status:websheets.public.status.SUCCESS, data:'sheetSyncFull' }}
 			}
 		},
 
@@ -136,7 +136,7 @@ if(Meteor.isServer) {
 					{
 						var result 		 	={};
 						result.worksheet 	= key;
-						result.status 		= STATUS_SUCCESS;	
+						result.status 		= websheets.public.status.SUCCESS;	
 						var data= bodyJason[key];
 						console.log(sessionid + ': data[0].orgname = ' + data[0].orgname);
 
@@ -147,7 +147,7 @@ if(Meteor.isServer) {
 							if(err)
 							{
 								console.log(sessionid + ': sheetSyncFull: Trouble reteriving the data from mongodb :key = '+ key + ' : orgname = ' + data[0].orgname); 
-								result.status 		= STATUS_FAILED;	
+								result.status 		= websheets.public.status.FAILED;	
 								result.message      = sessionid + ': sheetSyncFull: Trouble reteriving the data from mongodb :key = ' + key + ' : orgname = ' + data[0].orgname
 								result.error		= err;
 							}
@@ -195,7 +195,7 @@ if(Meteor.isServer) {
 						    		{
 						    			console.log (sessionid + ': sheetSyncFull: Trouble deleting the record with UniqueId : ' + dataFromDb[keyFromDB][UNIQUE_ID_NAME]);
 						    			console.log (sessionid + ': error = ' + err);
-										result.status 		= STATUS_FAILED;	
+										result.status 		= websheets.public.status.FAILED;	
 										result.message      = sessionid + ': sheetSyncFull: Trouble deleting the record with UniqueId : ' + dataFromDb[keyFromDB][UNIQUE_ID_NAME];
 										result.data         = dataFromDb[keyFromDB];
 										result.error		= err;
@@ -222,7 +222,7 @@ if(Meteor.isServer) {
 				          				if (err) 
 				          				{ 
 						    				console.log (sessionid + ': sheetSyncFull: Trouble upserting the record with UniqueId : ' + data[i][UNIQUE_ID_NAME]);
-											result.status 		= STATUS_FAILED;	
+											result.status 		= websheets.public.status.FAILED;	
 											result.message      = sessionid + ': sheetSyncFull: Trouble upserting the record with UniqueId : ' + data[i][UNIQUE_ID_NAME];
 											result.data         = data[i][UNIQUE_ID_NAME]
 											result.error		= err;				          					
@@ -232,7 +232,7 @@ if(Meteor.isServer) {
           							    {
           									result.action 		= 'upsert';
 											result.receiveddata =  data[i];
-											if( ORDERS === key.toUpperCase())
+											if( websheets.private.generic.ORDERS === key.toUpperCase())
 											{
 												Meteor.call('sendReadyNotification', sessionid, doc);
 											}
@@ -250,7 +250,7 @@ if(Meteor.isServer) {
 					}
 
 					return  { result: { statusCode 	: 200,
-										status 		: STATUS_SUCCESS,
+										status 		: websheets.public.status.SUCCESS,
 										data 		: collectiveResult,
 										message 	: sessionid + ': sheetSyncFull: Processed Sucessfully, investigate the result for individual result'
 										}
@@ -262,7 +262,7 @@ if(Meteor.isServer) {
 				{
 
 					return { result: { 	statusCode 	:  401,
-										status 		:  STATUS_FAILED,
+										status 		:  websheets.public.status.FAILED,
 										message 	: sessionid + ': sheetSyncFull: The request body is empty'
 									 }
 							}

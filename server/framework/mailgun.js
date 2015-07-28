@@ -8,7 +8,7 @@ Meteor.methods({
 
       initializeMailGun(order.orgname);
       var response      = {};
-      response.status   = STATUS_SUCCESS;
+      response.status   = websheets.public.status.SUCCESS;
       var body          = buildOrderReadyBody(sessionId, order);
       var toEmailAddress;
       var subject     = 'Your Order [' + order.OrderNumber  + '] is ready.';
@@ -16,7 +16,7 @@ Meteor.methods({
       switch (whoReceiving)
       {
 
-          case WEBMASTER:
+          case websheets.private.generic.WEBMASTER:
                 toEmailAddress      = webmasterEmailAddress (order.orgname);
                 break;
 
@@ -45,7 +45,7 @@ Meteor.methods({
         {
           console.log(sessionId + ': emailOrderReady: Trouble sending email to the customer' + e);
           var result ={};
-          result.status = STATUS_FATAL;
+          result.status = websheets.public.status.FATAL;
           result.error = e.toString();
           response.result = result;
         }
@@ -59,7 +59,7 @@ Meteor.methods({
     {
         initializeMailGun(order.orgname);
         var response      =   {};
-        response.status   =   STATUS_SUCCESS;
+        response.status   =   websheets.public.status.SUCCESS;
         var CLIENT_NAME   =   Meteor.call('getSetting','store_name', order.orgname);
         var subject       =   'Credit Card declined - ' + CLIENT_NAME ; 
         var body          =   Meteor.call('getSetting','order_status_alert_message' , order.orgname) + '\n\n' + buildOrderReceivedBody(order);
@@ -81,7 +81,7 @@ Meteor.methods({
         {
           console.log('sendCCAuthFailedNotification: Trouble sending email to the customer' + e);
           var result ={};
-          result.status = STATUS_FATAL;
+          result.status = websheets.public.status.FATAL;
           result.error = e.toString();
           response.result = result;
         }
@@ -94,7 +94,7 @@ Meteor.methods({
 
       initializeMailGun(order.orgname);
       var response      = {};
-      response.status   = STATUS_SUCCESS;
+      response.status   = websheets.public.status.SUCCESS;
       var body;
       var toEmailAddress;
       var subject;
@@ -145,7 +145,7 @@ Meteor.methods({
         {
           console.log('emailOrderReceived: Trouble sending email to the customer' + e);
           var result ={};
-          result.status = STATUS_FATAL;
+          result.status = websheets.public.status.FATAL;
           result.error = e.toString();
           response.result = result;
         }

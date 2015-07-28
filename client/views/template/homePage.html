@@ -57,28 +57,28 @@
                             {{#if isItemInCart UniqueId }}
 
                                  {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
-                                       <button type="button" class="btn btn btn-sm pull-right  btn-ordered removecart" title="Remove from Cart" style="color:white;font-weight: bold;" ><span  id="removeCartSpan" class="glyphicon glyphicon-ok"></span> &nbsp; {{currency Charge}} </button>
+                                       <button type="button" class="btn btn btn-sm pull-right  btn-ordered removecart" title="Remove from Cart" style="color:white;font-weight: bold;" ><span  id="removeCartSpan" class="glyphicon glyphicon-ok"></span> &nbsp; {{currency Price}} </button>
                                     {{else}}
                                     
-                                      <button class="btn btn btn-sm pull-right" title="Not taking Order"> &nbsp; {{currency Charge}}</button>
+                                      <button class="btn btn btn-sm pull-right" title="Not taking Order"> &nbsp; {{currency Price}}</button>
                                  {{/if}}  
                             {{else}}     
 
                                 {{#if isTakingOnlineOrder isNotTakingOnlineOrder isStoreClosed}}
 
-                                     <button class="btn btn-success btn-sm pull-right addcart" style="color:white;font-weight: bold;" title="Add to Cart"><span class="glyphicon glyphicon-shopping-cart" id="addCartSpan"></span> &nbsp; {{currency Charge}}</button>
+                                     <button class="btn btn-success btn-sm pull-right addcart" style="color:white;font-weight: bold;" title="Add to Cart"><span class="glyphicon glyphicon-shopping-cart" id="addCartSpan"></span> &nbsp; {{currency Price}}</button>
                                   {{else}}   
-                                      <button class="btn btn btn-sm pull-right" title="Not taking Order"> &nbsp; {{currency Charge}}</button>
+                                      <button class="btn btn btn-sm pull-right" title="Not taking Order"> &nbsp; {{currency Price}}</button>
                                  {{/if}}       
                                {{/if}}   
 
 
                        {{else}}
-                       <span class="pull-right" style="font-size: 12px; font-weight: bold" >Sold Out &nbsp;{{currency Charge}} </span>
+                       <span class="pull-right" style="font-size: 12px; font-weight: bold" >Sold Out &nbsp;{{currency Price}} </span>
 
                        {{/if}}
                      {{else}}  
-                       <span class="pull-right" style="font-size: 12px; font-weight: bold" >{{currency Charge}} </span>
+                       <span class="pull-right" style="font-size: 12px; font-weight: bold" >{{currency Price}} </span>
 
                      {{/if}}
 

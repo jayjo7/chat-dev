@@ -15,8 +15,9 @@ Content = new  Mongo.Collection('Content');
 
 Settings = new  Mongo.Collection('Settings');
 
-AppSettings = new  Mongo.Collection('AppSettings');
 
 OrderedItems = new Mongo.Collection('ordereditems');
 
 PaymentInfo = new Mongo.Collection('paymentInfo');
+
+DmMetatData = new Mongo.Collection('dmMetatData');

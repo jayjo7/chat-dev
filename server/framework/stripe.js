@@ -50,7 +50,7 @@ Meteor.methods({
 
 							if(error)
 							{
-                result.status = STATUS_FAILED;
+                result.status = websheets.public.status.FAILED;
 								result.error= error;
 
 								for(var key in error)

@@ -3,7 +3,7 @@ Template.confirmation.events({
     {
 
       event.preventDefault();
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
       console.log('confirmation:moveOrderStatus: In moveOrderStatus event');
       var sessionId = Session.get('appUUID');
       var toStatusCode = this.Order.StatusCode + 1;
@@ -19,7 +19,7 @@ Template.confirmation.helpers({
     enableDeliveredButton: function(order, omEnabled )
   {
 
-    if( STATE_THREE === order.Status && omEnabled)
+    if( websheets.public.orderState.THREE === order.Status && omEnabled)
     {
       return true;
     }
@@ -32,7 +32,7 @@ Template.confirmation.helpers({
   enableReadyButton: function(order, omEnabled )
   {
 
-    if( STATE_TWO === order.Status && omEnabled)
+    if( websheets.public.orderState.TWO === order.Status && omEnabled)
     {
       return true;
     }
@@ -46,14 +46,14 @@ Template.confirmation.helpers({
   haveETA: function(uniqueId)
   {
       console.log('isReady:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
       
 
   },
 
 	isReady: function(order)
   {
-      if(STATE_THREE === order.Status)
+      if(websheets.public.orderState.THREE === order.Status)
         	return true;
       else
         	return false;
@@ -61,7 +61,7 @@ Template.confirmation.helpers({
 
   isDelivered: function(order)
   {
-      if(STATE_FOUR === order.Status)
+      if(websheets.public.orderState.FOUR === order.Status)
         	return true;
       else
         	return false;
@@ -69,7 +69,7 @@ Template.confirmation.helpers({
 
   isInProcess: function(order)
   {
-      if( STATE_TWO === order.Status)
+      if( websheets.public.orderState.TWO === order.Status)
         	return true;
       else
         	return false;
@@ -78,7 +78,9 @@ Template.confirmation.helpers({
 
   isInKitchen: function(order)
   {
-      if( STATE_TWO === order.Status || STATE_FOUR === order.Status || STATE_THREE === order.Status)
+      if(    websheets.public.orderState.TWO      === order.Status 
+          || websheets.public.orderState.FOUR     === order.Status 
+          || websheets.public.orderState.THREE    === order.Status)
         	return true;
       else
         	return false;
@@ -86,7 +88,8 @@ Template.confirmation.helpers({
   isSaleComplete: function(order)
   { 
 
-      if( STATE_FOUR === order.Status || STATE_THREE === order.Status)
+      if(     websheets.public.orderState.FOUR  === order.Status 
+          ||  websheets.public.orderState.THREE === order.Status)
         	return true;
       else
         	return false;
@@ -100,11 +103,11 @@ Template.confirmation.helpers({
 		  console.log('message:uniqueId = ' + uniqueId);
 
       var messageKey='message_confirmation';
-      if(STATE_THREE === order.Status)
+      if(websheets.public.orderState.THREE === order.Status)
 
           messageKey = 'message_ready';
       else
-		  if(STATE_FOUR === order.Status)
+		  if(websheets.public.orderState.FOUR === order.Status)
 
         messageKey = 'message_delivered';
 
@@ -128,7 +131,7 @@ Template.confirmation.helpers({
 
   orderedCart: function(uniqueId)
   {
-    var orgname = Session.get(ORG_NAME_SESSION_KEY);
+    var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
     return OrderedItems.find({UniqueId:uniqueId, orgname:orgname});
   },
@@ -136,7 +139,7 @@ Template.confirmation.helpers({
   haveTax:function(uniqueId)
   {
       console.log('haveTax:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return validData(orderMeta.tax);
@@ -145,14 +148,14 @@ Template.confirmation.helpers({
 
   getDiscount:function(uniqueId)
   {
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return '$'+Number(orderMeta.discount).toFixed(2);
   },
 
   getSubTotal:function(uniqueId)
 	{
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
 		  return '$'+Number(orderMeta.SubTotal).toFixed(2);
@@ -160,7 +163,7 @@ Template.confirmation.helpers({
     
   getTax:function(uniqueId)
   {
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return '$'+Number(orderMeta.tax).toFixed(2);
@@ -168,7 +171,7 @@ Template.confirmation.helpers({
 
   getTotal:function(uniqueId)
 	{
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
 
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return '$'+Number(orderMeta.Total).toFixed(2);
@@ -193,7 +196,7 @@ Template.confirmation.helpers({
   haveDiscount:function(uniqueId)
   {
       console.log('haveDiscount:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);      
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);      
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return validData(orderMeta.discount);
 
@@ -202,7 +205,7 @@ Template.confirmation.helpers({
   showSubTotal:function(uniqueId)
   {
       console.log('showSubTotal:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);      
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);      
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       if(orderMeta.tax || orderMeta.discount)
         return true;
@@ -213,7 +216,7 @@ Template.confirmation.helpers({
   getPaymentOption:function(uniqueId)
   {
       console.log('getPaymentOption:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);      
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);      
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return orderMeta.Payment;
 
@@ -221,7 +224,7 @@ Template.confirmation.helpers({
 
   isOrderStatusAlert:function(uniqueId)
   {
-      var orgname = Session.get(ORG_NAME_SESSION_KEY);  
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);  
       console.log('isOrderStatusAlert:uniqueId = ' + uniqueId);
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       if(orderMeta.orderStatusAlert)
@@ -237,7 +240,7 @@ Template.confirmation.helpers({
   getOrderStatusAlert:function(uniqueId)
   {
       console.log('getOrderStatusAlert:uniqueId = ' + uniqueId);
-      var orgname = Session.get(ORG_NAME_SESSION_KEY); 
+      var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY); 
       var orderMeta = OrdersMeta.findOne({UniqueId:uniqueId, orgname:orgname});
       return orderMeta.orderStatusAlert;
   }
