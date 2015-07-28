@@ -921,8 +921,6 @@ OrdersMeta.after.insert(function (userId, doc) {
     	var dm_count_page 	= Settings.findOne({'Key':'dm_count_page', 		orgname:doc.orgname});
     	var dm_count_column = Settings.findOne({'Key':'dm_count_column', 	orgname:doc.orgname});
     	console.log(hookSessionId + ': preProcessDmMetaData: totalMenuCount 	= ' + totalMenuCount.Value);
-    	console.log(hookSessionId + ': preProcessDmMetaData: dm_count_page 		= ' + dm_count_page.Value);
-		console.log(hookSessionId + ': preProcessDmMetaData: dm_count_column 	= ' + dm_count_column.Value);
 
     	var result 			= Settings.find({$and : [{Key: "category_menu"}, {orgname:doc.orgname}, {menuItemCount : {"$exists" : true, "$ne" : 0}}]},{sort:{sheetRowId: 1}}).fetch();
     	console.log(hookSessionId + ': preProcessDmMetaData: Total Valid Categories count (result.length)	= ' + result.length);
@@ -930,24 +928,41 @@ OrdersMeta.after.insert(function (userId, doc) {
 
     	var capacityLevel = websheets.public.generic.DM_MAX_COUNT_PAGE_ONE;
 
-    	if( ! dm_count_column)
+
+
+    	if( dm_count_page)
+    	{
+    		dm_count_page 	= dm_count_page.Value;
+			console.log(hookSessionId + ': preProcessDmMetaData: dm_count_page	= ' + dm_count_page);
+
+    	}
+    	else
+    	{
+    		dm_count_page = 3; //default three column
+    		console.log(hookSessionId + ': preProcessDmMetaData: using default value for dm_count_page = ' + dm_count_page);
+
+    	}
+
+
+    	if( dm_count_column)
+    	{
+    		dm_count_column 	= dm_count_column.Value;
+			console.log(hookSessionId + ': preProcessDmMetaData: dm_count_column	= ' + dm_count_column);
+
+    	}
+    	else
     	{
     		dm_count_column = 3; //default three column
-    		console.log(hookSessionId + ': preProcessDmMetaData: using default value for dm_count_column');
+    		console.log(hookSessionId + ': preProcessDmMetaData: using default value for dm_count_column = ' + dm_count_column);
 
     	}
+    	
 
-    	if( ! dm_count_page)
-    	{
-    		dm_count_page= 3; //default three column
-    		console.log(hookSessionId + ': preProcessDmMetaData: using default value for dm_count_page');
 
-    	}
-
-    	var totalIncludingSpaceForCatagory 	= Number(totalMenuCount.Value) + result.length * Number (dm_count_column.Value); 
+    	var totalIncludingSpaceForCatagory 	= Number(totalMenuCount.Value) + result.length * Number (dm_count_column); 
     	console.log(hookSessionId + ': preProcessDmMetaData: totalIncludingSpaceForCatagory 	= ' + totalIncludingSpaceForCatagory);
 
-    	var pageCapacity 					= Math.round( Number(totalIncludingSpaceForCatagory)/Number(dm_count_page.Value));
+    	var pageCapacity 					= Math.round( Number(totalIncludingSpaceForCatagory)/Number(dm_count_page));
      	console.log(hookSessionId + ': preProcessDmMetaData: pageCapacity = ' +  pageCapacity);
 
 
