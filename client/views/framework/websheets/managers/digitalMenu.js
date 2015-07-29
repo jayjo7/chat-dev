@@ -9,7 +9,7 @@ Template.digitalMenu.helpers({
 
 
 
-	getFormatedMenu:function(categoryMenu, allowedCount)
+	getFormatedMenu:function(categoryMenu, allowedCount, partial, startFrom)
 	{
 
     	var orgname = Session.get(websheets.public.generic.ORG_NAME_SESSION_KEY);
@@ -26,13 +26,28 @@ Template.digitalMenu.helpers({
         var countTobeDisplayed = menus.length;
         console.log('menus = ' + menus);
 
-        var menusLenght = menus.length
+        var menusLength = menus.length
+        var i =0;
         if (allowedCount)
         {
-        	menusLenght = allowedCount;
+        	switch (partial) {
+
+        		case websheets.private.generic.FIRST:
+        			menusLength = allowedCount;
+
+        		break;
+
+        		case  websheets.private.generic.SECOND:
+        			i = startFrom;
+
+        		break;
+
+        	}
+
+        	
 
         }
-		for(var i =0; i < menusLenght;  i++)
+		for(; i < menusLength;  i++)
 		{
 				count +=1;
 				console.log('menus['+ i + '] = ' + JSON.stringify(menus[i], null, 4));

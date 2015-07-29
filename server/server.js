@@ -938,7 +938,7 @@ OrdersMeta.after.insert(function (userId, doc) {
     	}
     	else
     	{
-    		dm_count_page = 3; //default three column
+    		dm_count_page = websheets.public.generic.DM_COUNT_PAGE_VALUE; //default three column
     		console.log(hookSessionId + ': preProcessDmMetaData: using default value for dm_count_page = ' + dm_count_page);
 
     	}
@@ -952,7 +952,7 @@ OrdersMeta.after.insert(function (userId, doc) {
     	}
     	else
     	{
-    		dm_count_column = 3; //default three column
+    		dm_count_column = websheets.public.generic.DM_COUNT_COLUMN_VALUE; //default three column
     		console.log(hookSessionId + ': preProcessDmMetaData: using default value for dm_count_column = ' + dm_count_column);
 
     	}
@@ -960,12 +960,30 @@ OrdersMeta.after.insert(function (userId, doc) {
 
 
     	var totalIncludingSpaceForCatagory 	= Number(totalMenuCount.Value) + result.length * Number (dm_count_column); 
+    	for(var i =0; i < result.length;  i++)
+    	{
+
+    		var lastLineCount 		= result[i].menuItemCount % websheets.public.generic.DM_COUNT_COLUMN_VALUE;
+    		console.log(hookSessionId + ': preProcessDmMetaData: lastLineCount = ' + lastLineCount);
+    		var adjustPerLineCount = 0;
+    		if(lastLineCount > 0)
+    		{
+    			adjustPerLineCount 			= dm_count_column - lastLineCount;
+    			console.log(hookSessionId + ': preProcessDmMetaData: adjustPerLineCount = ' + adjustPerLineCount);
+    			totalIncludingSpaceForCatagory += adjustPerLineCount;
+    		}
+
+    	}
     	console.log(hookSessionId + ': preProcessDmMetaData: totalIncludingSpaceForCatagory 	= ' + totalIncludingSpaceForCatagory);
 
     	var pageCapacity 					= Math.round( Number(totalIncludingSpaceForCatagory)/Number(dm_count_page));
      	console.log(hookSessionId + ': preProcessDmMetaData: pageCapacity = ' +  pageCapacity);
 
-
+     	if(pageCapacity <=  websheets.public.generic.DM_MAX_COUNT_PAGE_ONE)
+     	{
+     		console.log(hookSessionId + ': Working with first level  (default) page capacity');
+     	}
+     	else
      	if(pageCapacity > websheets.public.generic.DM_MAX_COUNT_PAGE_ONE &&  pageCapacity <= websheets.public.generic.DM_MAX_COUNT_PAGE_TWO)
      	{
      		console.log(hookSessionId + ': Working with second level page capacity');
@@ -1005,8 +1023,8 @@ OrdersMeta.after.insert(function (userId, doc) {
     		var adjustPerLineCount = 0;
     		if(lastLineCount > 0)
     		{
-    			adjustPerLineCount 	= websheets.public.generic.DM_COUNT_PAGE_VALUE - lastLineCount;
-    			console.log(hookSessionId + ': preProcessDmMetaData: adjustPerLineCount = ' + adjustPerLineCount);
+    			adjustPerLineCount 			= dm_count_column - lastLineCount;
+    			console.log(hookSessionId 	+ ': preProcessDmMetaData: adjustPerLineCount = ' + adjustPerLineCount);
     	    }
     		count += adjustPerLineCount;
 
@@ -1029,14 +1047,15 @@ OrdersMeta.after.insert(function (userId, doc) {
     			if(allowedCount > 0)
     			{
     				insertDmCategoryArrayFlag = false;
-	    			dmCategoryArray.push({'name': result[i].Value , 'partialFirst': true, 'allowedCount': allowedCount, 'actualCount':result[i].menuItemCount});
-	    			DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, category:dmCategoryArray}, {upsert: true});
+	    			dmCategoryArray.push({'name': result[i].Value , 'partial': websheets.private.generic.FIRST, 'allowedCount': allowedCount, 'actualCount':result[i].menuItemCount});
+	    			DmMetatData.update ({pageNumber:pageCount}, {pageNumber:pageCount, capacityLevel:capacityLevel, category:dmCategoryArray}, {upsert: true});
 					console.log(hookSessionId + ': preProcessDmMetaData : DmMetaDataOject (Greater than pageCapacity) = ' + JSON.stringify(dmCategoryArray , null, 4))
 
 	    			dmCategoryArray 	=[];
 	    			var carryOverCount  = result[i].menuItemCount - allowedCount;
 	    			console.log(hookSessionId + ': carryOverCount = ' + carryOverCount );
-	    			dmCategoryArray.push({'name': result[i].Value, 'partialSecond': true, 'allowedCount': carryOverCount, 'actualCount':result[i].menuItemCount });
+	    			
+	    			dmCategoryArray.push({'name': result[i].Value, 'partial': websheets.private.generic.SECOND, 'allowedCount': carryOverCount, 'startFrom': allowedCount, 'actualCount':result[i].menuItemCount });
 
 	    			pageCount 			+= 1;
 	    			count 				= carryOverCount;
@@ -1081,10 +1100,4 @@ OrdersMeta.after.insert(function (userId, doc) {
 
 
     	}
-
-    	
-
-
-
     }
-
