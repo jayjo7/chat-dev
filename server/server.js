@@ -1044,6 +1044,19 @@ OrdersMeta.after.insert(function (userId, doc) {
     			var allowedCount 	= result[i].menuItemCount - difference;
     			console.log(hookSessionId + ': allowedCount = ' + allowedCount);
 
+
+    		var inPageLastLineCount 		= allowedCount % websheets.public.generic.DM_COUNT_COLUMN_VALUE;
+    		console.log(hookSessionId + ': preProcessDmMetaData: inPageLastLineCount  = ' + inPageLastLineCount );
+    		var inPageAdjustPerLineCount  = 0;
+    		if(inPageLastLineCount > 0)
+    		{
+    			inPageAdjustPerLineCount 			= dm_count_column - inPageLastLineCount;
+    			console.log(hookSessionId + ': preProcessDmMetaData: inPageAdjustPerLineCount  = ' + inPageAdjustPerLineCount );
+    			allowedCount += inPageAdjustPerLineCount ;
+    		}
+
+
+
     			if(allowedCount > 0)
     			{
     				insertDmCategoryArrayFlag = false;
