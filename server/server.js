@@ -745,8 +745,11 @@ OrdersMeta.after.insert(function (userId, doc) {
 				if(isSmsClient(doc.orgname))
 				{
 					console.log(doc.sessionId + ": Start client sms");
-					var clientPhoneNumberText 	= Meteor.call('getSetting', 'phone_number_texting', doc.orgname);
+					//var clientPhoneNumberText 	= Meteor.call('getSetting', 'phone_number_texting', doc.orgname);
+					var clientPhoneNumberText  = getSetting ('phone_number_texting', doc.orgname);
 					console.log(doc.sessionId + " :clientPhoneNumberText  = " + clientPhoneNumberText );
+					console.log(doc.sessionId + " : typeof clientPhoneNumberText  = " + typeof clientPhoneNumberText );
+
 					var clientPhoneNumberArray	= clientPhoneNumberText.split(',');
 					console.log(doc.sessionId + " : clientPhoneNumberArray.lenght = " + clientPhoneNumberArray.length);
 					var smsResult=[]

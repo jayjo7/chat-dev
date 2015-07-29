@@ -342,7 +342,27 @@ statusDescription = function (StatusCode)
         break;
   }
 
-}                       
+}      
+
+
+  getSetting = function(key, orgname)
+  {
+      //console.log('getSetting: Key = ' + key );
+      //console.log('getSetting: orgname = ' + orgname );
+
+      var settings = Settings.findOne({Key: key, orgname:orgname});
+      if(settings)
+      {
+        //console.log('getSetting: value = ' + settings.Value );
+        return settings.Value;
+      }
+      else
+      {
+        return;
+      }
+  }
+
+
 
 Meteor.methods({
 
