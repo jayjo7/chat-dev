@@ -750,6 +750,12 @@ OrdersMeta.after.insert(function (userId, doc) {
 					console.log(doc.sessionId + " :clientPhoneNumberText  = " + clientPhoneNumberText );
 					console.log(doc.sessionId + " : typeof clientPhoneNumberText  = " + typeof clientPhoneNumberText );
 
+					if(typeof clientPhoneNumberText !== 'string')
+					{
+						clientPhoneNumberText = String(clientPhoneNumberText);
+
+					}
+
 					var clientPhoneNumberArray	= clientPhoneNumberText.split(',');
 					console.log(doc.sessionId + " : clientPhoneNumberArray.lenght = " + clientPhoneNumberArray.length);
 					var smsResult=[]
