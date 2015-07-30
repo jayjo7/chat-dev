@@ -290,8 +290,8 @@ Meteor.methods({
             var sale_discountValue 	= Number(sale_discount);
             order.taxValue      	= taxValue;
             order.saleDiscountValue = sale_discountValue;            
-            console.log(sessionId + ' :tax = ' + taxValue );
-            console.log(sessionId + ' :discount = ' + sale_discountValue );
+            console.log(sessionId + ' :tax ( Tax from sheet )			= ' + taxValue );
+            console.log(sessionId + ' :discount ( Discount from sheet )	= ' + sale_discountValue );
 
 
 
@@ -314,14 +314,14 @@ Meteor.methods({
             else
             if (sale_discountValue <=  0 && taxValue > 0)
             {
-                 order.tax 		= order.subtotal * taxValue;
-                 order.total 	= Number((order.subtotal + order.tax).toFixed(2));
+                 order.tax 		= order.SubTotal* taxValue;
+                 order.Total 	= Number((order.SubTotal + order.tax).toFixed(2));
 
 
             } 
             else
             {
-               order.total = Number((order.subtotal ).toFixed(2));
+               	order.Total = Number((order.SubTotal).toFixed(2));
 
             }
 
@@ -338,7 +338,7 @@ Meteor.methods({
 
             }	
 
-            console.log(sessionId + " : Here is the completed Order Object" + JSON.stringify(order, null, 4));
+            console.log(sessionId + " : Here is the completed Order Object: " + JSON.stringify(order, null, 4));
 
             try{
 
