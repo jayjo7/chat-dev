@@ -255,7 +255,9 @@ Meteor.methods({
         				"qty"  						: cartitems.qty,
 						"itemSize"					: cartitems.itemSize,  			
         				"spiceLevel" 				: cartitems.spiceLevel,
-						"messageToKitchenByItem" 	: cartitems.messageToKitchenByItem
+						"messageToKitchenByItem" 	: cartitems.messageToKitchenByItem,
+						"price"						: cartitems.Price
+
 				});
 
 				cartitems.UniqueId = order.UniqueId;
@@ -457,8 +459,10 @@ OrdersMeta.after.insert(function (userId, doc) {
   	var processStatus	= 	{
   								'payment'	:{},
   						   		'websheets'	:{},
+   						   		'printer'	:{}, 						   		
   						   		'email'		:{},
   						   		'sms'		:{}
+
 
   							};
 
@@ -534,7 +538,7 @@ OrdersMeta.after.insert(function (userId, doc) {
  	//End CC Auth and Charge
 
 
-    //Start Sending the Websheets
+    //Start Sending to the Websheets 
 	try{
 	  		var count = 0;
 	  		processStatus.websheets.status 	= websheets.public.status.SUCCESS;
@@ -567,7 +571,53 @@ OrdersMeta.after.insert(function (userId, doc) {
 
 	 }
 	 console.log(doc.sessionId + ': Done posting to websheets');
-	 //End Sending the Websheets
+	 //End Sending to the Websheets
+
+
+
+    //Start Sending to Printer
+    if( isPrinterEnabled(doc.orgname))
+    {
+		try{
+		  		var count = 0;
+		  		processStatus.printer.status 	= websheets.public.status.SUCCESS;
+		  		var response;
+		  		do
+		  		{
+		  			count +=1;
+		  			response = Meteor.call('postWebsheetsPrint', doc);
+		  			console.log(doc.sessionId + ": Posting to Printer server (new order) attempted count = " + count );
+		  		}while (count < websheets.private.generic.WEBSHEETS_MAX_RETRY && response.statusCode !== 200)
+
+		  		if(response.statusCode !== 200)
+		  		{
+		  			console.log(doc.sessionId + ": Jay Todo: (Printer Failed) Send Email Notification to Webmaster and Owner");
+		  			processStatus.printer.status 	= websheets.public.status.FAILED;
+		  			processStatus.printer.response  = response ;
+
+		  		}
+		  		else
+		  		{
+		  			processStatus.printer.response  = response ;
+		  		}
+		 }catch(e)
+		 {
+		  		console.log(doc.sessionId + ": Caught error on posting printer server fatal error.", e);
+		  		console.log(doc.sessionId + ": Jay Todo: Send Email Notification to Webmaster and Owner");
+		  		processStatus.printer.status 		= websheets.public.status.FATAL;
+		  		processStatus.printer.error 		= e.toString();
+		  		processStatus.printer.errorStack 	= e.stack;
+
+		 }
+		 console.log(doc.sessionId + ': Done posting to printer server');
+	}
+	else
+	{
+	 	console.log(doc.sessionId + ': Printer is not enabled for this client')
+ 		processStatus.printer.status 	=	websheets.public.status.NOT_ENABLED;
+
+	}
+	 //End Sending to Printer	 
 
 	 //Start Sending Email
  	if(isEmailEnabled(doc.orgname))

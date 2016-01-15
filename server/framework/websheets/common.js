@@ -295,7 +295,48 @@ isPrinterEnabled		    = function(orgname)
                             {
                               return false;
                             }
-                          };            
+                          };   
+
+websheetsprintApiUrl   = function(orgname)  
+                          {
+
+                              return Meteor.settings.private[orgname].websheetsprint.apiUrl;
+
+                          };     
+
+websheetsprintApiKey   = function(orgname)  
+                          {
+
+                              return Meteor.settings.private[orgname].websheetsprint.apiKey;
+
+                          }; 
+
+websheetsprintUserName   = function(orgname)  
+                          {
+
+                              return Meteor.settings.private[orgname].websheetsprint.userName;
+
+                          };    
+
+websheetsprintDeviceName   = function(orgname)  
+                          {
+
+                              return Meteor.settings.private[orgname].websheetsprint.deviceName;
+
+                          };   
+websheetsprintOperation   = function(orgname)  
+                          {
+
+                              return Meteor.settings.private[orgname].websheetsprint.operation;
+
+                          };
+
+websheetsprintMode  = function(orgname)  
+                          {
+
+                              return Meteor.settings.private[orgname].websheetsprint.mode;
+
+                          };                                    
 
 gmtOffset              = function(orgname)
                           {
